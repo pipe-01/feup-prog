@@ -15,11 +15,44 @@
 using namespace std;
 
 
-void draw_menu(){
+
+int draw_menu(){
+    int cmenu;
+
+
     cout << "-----------------ROBOTS GAME-----------------" << endl;
     cout << "                 1) Rules                 " << endl;
     cout << "                 2) Play                 " << endl;
     cout << "                 0) Exit                 " << endl;
+
+
+     while(1){
+        cin >> cmenu;
+
+        if(cin.fail()){
+
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "You have entered an invalid input" << endl;
+
+            if(cin.eof()){
+                exit(0);
+            }
+
+        } else if( cmenu == 1){
+            return 1;
+
+        } else if(cmenu == 2){
+            return 2;
+
+        } else if( cmenu == 0){
+            return 0;
+        }
+        else{
+            cout << "Enter a valid number! (0,1,2)" << endl;
+        }
+    }
+    return -1;
 }
 
 bool file_exists(string file_name){
@@ -77,9 +110,7 @@ int play_game(){
                 create_file(file_name);
                 file_name.clear();
             } else {
-
-                cout << "Maze already exists" << endl;
-                break;
+                return 1;
             }
 
         } else if(maze_value >= 10 && maze_value <= 99){
@@ -92,8 +123,7 @@ int play_game(){
                 file_name.clear();
             } else {
 
-                cout << "Maze already exists" << endl;
-                break;
+                return 1;
             }
 
         } else if(maze_value == 0){
@@ -101,51 +131,43 @@ int play_game(){
             cout << "\033[2J\033[1;1H";
             return 0;
 
+        } else{
+            cout << "Enter a valid number between 0 and 99" << endl;
         }
     }
-    return 1;
+    return -1;
 }
 
 int main(){
-    int cmenu;
 
-    draw_menu();
+    int menu = draw_menu();
+    int aux;
 
+    switch (menu){
+    case 1:
 
-    while(1){
-        cin >> cmenu;
+        cout << "RULES" << endl;
+        break;
 
-        if(cin.fail()){
+    case 2:
 
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "You have entered wrong input" << endl;
+        aux = play_game();
 
-            if(cin.eof()){
-                exit(0);
-            }
-
-        } else if( cmenu == 1){
-            cout << "RULES" << endl;
+        if(aux == 0){
+            draw_menu();
+        } else if(aux == 1){
+            cout << " MAZE FILE FOUND!" << endl;
             break;
-
-        } else if(cmenu == 2){
-
-            int aux = play_game();
-
-            if(aux == 0){
-                draw_menu();
-                cout << "TEST";
-            } else if(aux == 1){
-                cout << " MAZE FILE FOUND!" << endl;
-                break;
             }
 
-        } else if( cmenu == 0){
-            cout << "Exit" << endl;
-            exit(0);
-        }
+        break;
+
+    case 0:
+
+        cout << "Exit" << endl;
+        exit(0);
+
     }
-        
+
     return 0;
 }
