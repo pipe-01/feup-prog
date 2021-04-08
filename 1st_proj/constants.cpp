@@ -1,0 +1,5 @@
+#define FENCE "*"
+#define DEADROBOT "r"
+#define LIVEROBOT "R"
+#define DEADHUMAN "h"
+#define LIVEHUMAN "H"
