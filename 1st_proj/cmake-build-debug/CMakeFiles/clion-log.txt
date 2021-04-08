@@ -1,0 +1,4 @@
+/snap/clion/149/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/juan/Documents/FEUP/2-Ano/2-Sem/PROG/project/feup-prog/1st_proj
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/juan/Documents/FEUP/2-Ano/2-Sem/PROG/project/feup-prog/1st_proj/cmake-build-debug
