@@ -156,27 +156,43 @@ void read_file(string &file_name, vector<vector<char>> &tiles)
         {
             tiles[i].resize(columns);
         }
-        //while(file.eof())
-        for (size_t i = 0; i < rows; i++)
-        {
-            for (size_t j = 0; j < columns; j++)
-            {
-                file.get(now);
-                cout << now;
-                if (LIVEHUMAN == now)
-                {
-                    playerX = i;
-                    playerY = j;
+        while(getline(file, line)){
+            vector<char> row;
+
+            for (char &c : line){
+                if(c != '\0'){
+                    row.push_back(c);
                 }
-                else if(LIVEHUMAN == now){
-                    Robot r1 = Robot(i,j);
-                    robots.push_back(r1);
-                }
-                tiles[i][j]=now;
-                vec[i][j] = now;
             }
+            vec.push_back(row);
+
+            for (vector<char> &aux : vec){
+                for (char &c : row){
+                    cout << c << ' ';
+                } 
+            }
+            cout << endl;
         }
-        aux = vec;
+        //while(file.eof())
+        // for (size_t i = 0; i < rows; i++)
+        // {
+        //     for (size_t j = 0; j < columns; j++)
+        //     {
+        //         file.get(now);
+        //         cout << now;
+        //         if (LIVEHUMAN == now)
+        //         {
+        //             playerX = i;
+        //             playerY = j;
+        //         }
+        //         else if(LIVEHUMAN == now){
+        //             Robot r1 = Robot(i,j);
+        //             robots.push_back(r1);
+        //         }
+        //         tiles[i][j]=now;
+        //         vec[i][j] = now;
+        //     }
+        // }
     }
     file.close();
     //printBoard(aux);
