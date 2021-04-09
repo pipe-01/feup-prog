@@ -121,11 +121,25 @@ bool file_exists(const string &file_name)
 }
 
 
+void printBoard(vector<vector<char>> tiles){
+    cout << "Current Board Status" << endl;
+    for (size_t i = 0; i < tiles.size(); i++)
+    {
+        for (size_t j = 0; j < tiles[0].size(); j++)
+        {
+            cout << tiles[i][j];
+        }
+        cout << endl;
+        
+    }
+}
+
 void read_file(string &file_name, vector<vector<char>> &tiles)
 {
     int rows, columns;
     char useless;
     ifstream file(file_name);
+    vector<vector<char>> aux;
 
     if (!file)
     {
@@ -136,17 +150,19 @@ void read_file(string &file_name, vector<vector<char>> &tiles)
         string line;
         char now = '\0';
         file >> rows >> useless >> columns;
+        vector<vector<char>> vec (rows, vector<char> (columns));
         tiles.resize(rows);
         for (size_t i = 0; i < rows; i++)
         {
             tiles[i].resize(columns);
         }
-        
+        //while(file.eof())
         for (size_t i = 0; i < rows; i++)
         {
             for (size_t j = 0; j < columns; j++)
             {
                 file.get(now);
+                cout << now;
                 if (LIVEHUMAN == now)
                 {
                     playerX = i;
@@ -157,10 +173,13 @@ void read_file(string &file_name, vector<vector<char>> &tiles)
                     robots.push_back(r1);
                 }
                 tiles[i][j]=now;
+                vec[i][j] = now;
             }
         }
+        aux = vec;
     }
     file.close();
+    //printBoard(aux);
 }
 
 int read_game(bool &menu, vector<vector<char>> &tiles)
@@ -260,19 +279,6 @@ void create_file(string file_name)
     file.close();
 }
 
-void printBoard(vector<vector<char>> tiles){
-    cout << "Current Board Status" << endl;
-    for (size_t i = 0; i < tiles.size(); i++)
-    {
-        for (size_t j = 0; j < tiles[0].size(); j++)
-        {
-            cout << tiles[i][j];
-        }
-        cout << endl;
-        
-    }
-}
-
 void printRules(){
     char any;
     cout << "                                ___       __      \n"
@@ -334,6 +340,7 @@ int main()
         {
             exits = false;
             menu = false;
+            printExit();
             exit(0);
         }
     }
