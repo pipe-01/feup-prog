@@ -16,14 +16,15 @@
 #include <string>
 #include <unistd.h>
 #include <vector>
+#include <string.h>
 
 using namespace std;
+
+
 
 unsigned robotCounterId = 1; //sequential identification number
 bool playerIsAlive = true; //Player's values are easily accessible
 int playerX = -1, playerY = -1; //(Same as above)
-
-vector<Robot> robots; //Accessed several times
 
 struct Robot
 {
@@ -33,6 +34,10 @@ struct Robot
     void killRobot(){alive = false;}
     Robot(){};
 };
+
+vector<Robot> robots; //Accessed several times
+
+
 int draw_menu(bool &rules, bool &play, bool &exits)
 {
     int cmenu;
@@ -79,6 +84,61 @@ int draw_menu(bool &rules, bool &play, bool &exits)
         }
     }
     return 0;
+}
+
+//check if a file exists
+bool file_exists(const string &file_name)
+{
+    ifstream file(file_name);
+
+    if (!file)
+    {
+        return false;
+    }
+    else
+        return true;
+}
+
+
+void read_file(string &file_name, vector<vector<char>> &tiles)
+{
+    int rows, columns;
+    char useless;
+    ifstream file(file_name);
+
+    if (!file)
+    {
+        cout << "Can't open file" << endl;
+    }
+    else
+    {
+        string line;
+        char now;
+        file >> rows >> useless >> columns;
+        tiles.resize(rows);
+        for (size_t i = 0; i < rows; i++)
+        {
+            tiles[i].resize(columns);
+        }
+        
+        for (size_t i = 0; i < rows; i++)
+        {
+            for (size_t j = 0; j < columns; j++)
+            {
+                file.get(now);
+                if (now == char(LIVEROBOT))
+                {
+                    playerX = i;
+                    playerY = j;
+                }
+                else if(now == char(LIVEROBOT)){
+                    robots.push_back(new Robot());
+                }
+                tiles[i][j]=now;
+            }
+        }
+    }
+    file.close();
 }
 
 int read_game(bool &menu, vector<vector<char>> &tiles)
@@ -163,17 +223,6 @@ int read_game(bool &menu, vector<vector<char>> &tiles)
     return -1;
 }
 
-bool file_exists(const string &file_name)
-{
-    ifstream file(file_name);
-
-    if (!file)
-    {
-        return false;
-    }
-    else
-        return true;
-}
 
 //create file with name file_name
 void create_file(string file_name)
@@ -185,47 +234,6 @@ void create_file(string file_name)
     {
         cout << "Error to open file!" << endl;
         return;
-    }
-    file.close();
-}
-
-void read_file(string &file_name, vector<vector<char>> &tiles)
-{
-    int rows, columns;
-    char useless;
-    ifstream file(file_name);
-
-    if (!file)
-    {
-        cout << "Can't open file" << endl;
-    }
-    else
-    {
-        string line;
-        char now;
-        file >> rows >> useless >> columns;
-        tiles.resize(rows);
-        for (size_t i = 0; i < rows; i++)
-        {
-            tiles[i].resize(columns);
-        }
-        
-        for (size_t i = 0; i < rows; i++)
-        {
-            for (size_t j = 0; j < columns; j++)
-            {
-                file.get(now);
-                if (now == char(LIVEHUMAN))
-                {
-                    playerX = i;
-                    playerY = j;
-                }
-                else if(now == char(LIVEROBOT)){
-                    robots.push_back(new Robot());
-                }
-                tiles[i][j]=now;
-            }
-        }
     }
     file.close();
 }
