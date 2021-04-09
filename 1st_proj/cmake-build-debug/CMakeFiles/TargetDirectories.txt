@@ -1,3 +1,0 @@
-/home/juan/Documents/FEUP/2-Ano/2-Sem/PROG/project/feup-prog/1st_proj/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/juan/Documents/FEUP/2-Ano/2-Sem/PROG/project/feup-prog/1st_proj/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/juan/Documents/FEUP/2-Ano/2-Sem/PROG/project/feup-prog/1st_proj/cmake-build-debug/CMakeFiles/1st_project.dir
