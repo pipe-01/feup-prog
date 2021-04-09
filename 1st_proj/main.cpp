@@ -1,8 +1,8 @@
-/**#define FENCE (char)"*"
-#define DEADROBOT "r"
-#define LIVEROBOT "R"
-#define DEADHUMAN "h"
-#define LIVEHUMAN int("H")**/
+#define FENCE '*'
+#define DEADROBOT 'r'
+#define LIVEROBOT 'R'
+#define DEADHUMAN 'h'
+#define LIVEHUMAN 'H'
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
@@ -19,11 +19,6 @@
 #include <string.h>
 
 using namespace std;
-const char FENCE = '*';
-const char DEADROBOT = 'r';
-const char LIVEROBOT = 'R';
-const char DEADHUMAN  = 'h';
-const char LIVEHUMAN = 'H';
 
 unsigned robotCounterId = 1; //sequential identification number
 bool playerIsAlive = true; //Player's values are easily accessible
