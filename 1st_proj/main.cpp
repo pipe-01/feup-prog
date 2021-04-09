@@ -24,6 +24,12 @@ unsigned robotCounterId = 1; //sequential identification number
 bool playerIsAlive = true; //Player's values are easily accessible
 int playerX = -1, playerY = -1; //(Same as above)
 
+void wait() {
+    cout << "\n\tPress ENTER key to continue....";
+    getchar();
+    getchar();
+}
+
 struct Robot
 {
     int x, y;
@@ -267,6 +273,40 @@ void printBoard(vector<vector<char>> tiles){
     }
 }
 
+void printRules(){
+    char any;
+    cout << "                                ___       __      \n"
+            "                               / _ \\__ __/ /__ ___\n"
+            "                              / , _/ // / / -_|_-<\n"
+            "                             /_/|_|\\_,_/_/\\__/___/\n"
+            "                                                  " << endl;
+    cout << "H = human, R = Robot, * = Fence/Post\n"
+            "1) Main Goal of the Game: Survive the Robots & Electrical Posts/Fences\n"
+            "2) Win is achieved if no robots are alive\n"
+            "3) Dead robots remain in their last position (thus can not move through them)\n"
+            "4) For every move, robots move one tile closer to your character (H)\n"
+            "5) Death can be by collision with robots or fences/posts\n"
+            "6) Robots also die from collisions between each other (only one robot is placed in the place of death)\n"
+            "7) Times are recorded and stored in a text file\n"
+            "Controls are as follows: \n"
+            "\tA/a = Left\n"
+            "\tW/w = Up\n"
+            "\tD/d = Right\n"
+            "\tX/x = Down\n"
+            "\tS/s = No movement\n"
+            "\t0 = Exit Game\n";
+    wait();
+}
+
+void printExit(){
+    cout << " ____                                  _       _            _ \n"
+            "/ ___|  ___  ___   _   _  ___  _   _  | | __ _| |_ ___ _ __| |\n"
+            "\\___ \\ / _ \\/ _ \\ | | | |/ _ \\| | | | | |/ _` | __/ _ \\ '__| |\n"
+            " ___) |  __/  __/ | |_| | (_) | |_| | | | (_| | ||  __/ |  |_|\n"
+            "|____/ \\___|\\___|  \\__, |\\___/ \\__,_| |_|\\__,_|\\__\\___|_|  (_)\n"
+            "                   |___/                                      " << endl;
+}
+
 int main()
 {
     bool menu = true, play = false, rules = false, exits = false;
@@ -286,19 +326,12 @@ int main()
 
         if (rules)
         { //Por fazer
-            cout << "RULES" << endl;
+            printRules();
             rules = false;
-            sleep(10);
         }
 
         if (exits)
         {
-            cout << " ____                                  _       _            _ \n"
-                    "/ ___|  ___  ___   _   _  ___  _   _  | | __ _| |_ ___ _ __| |\n"
-                    "\\___ \\ / _ \\/ _ \\ | | | |/ _ \\| | | | | |/ _` | __/ _ \\ '__| |\n"
-                    " ___) |  __/  __/ | |_| | (_) | |_| | | | (_| | ||  __/ |  |_|\n"
-                    "|____/ \\___|\\___|  \\__, |\\___/ \\__,_| |_|\\__,_|\\__\\___|_|  (_)\n"
-                    "                   |___/                                      " << endl;
             exits = false;
             menu = false;
             exit(0);
