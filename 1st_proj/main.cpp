@@ -1,8 +1,8 @@
-#define FENCE "*"
+/**#define FENCE (char)"*"
 #define DEADROBOT "r"
 #define LIVEROBOT "R"
 #define DEADHUMAN "h"
-#define LIVEHUMAN "H"
+#define LIVEHUMAN int("H")**/
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
@@ -19,8 +19,11 @@
 #include <string.h>
 
 using namespace std;
-
-
+const char FENCE = '*';
+const char DEADROBOT = 'r';
+const char LIVEROBOT = 'R';
+const char DEADHUMAN  = 'h';
+const char LIVEHUMAN = 'H';
 
 unsigned robotCounterId = 1; //sequential identification number
 bool playerIsAlive = true; //Player's values are easily accessible
@@ -28,11 +31,12 @@ int playerX = -1, playerY = -1; //(Same as above)
 
 struct Robot
 {
+    int x, y;
     int id = robotCounterId++;
     bool alive = true;
     int getState(){return alive;}
     void killRobot(){alive = false;}
-    Robot(){};
+    Robot(int i, int j){x = i; y = j;};
 };
 
 vector<Robot> robots; //Accessed several times
@@ -113,7 +117,7 @@ void read_file(string &file_name, vector<vector<char>> &tiles)
     else
     {
         string line;
-        char now;
+        char now = '\0';
         file >> rows >> useless >> columns;
         tiles.resize(rows);
         for (size_t i = 0; i < rows; i++)
@@ -126,13 +130,14 @@ void read_file(string &file_name, vector<vector<char>> &tiles)
             for (size_t j = 0; j < columns; j++)
             {
                 file.get(now);
-                if (now == char(LIVEROBOT))
+                if (LIVEHUMAN == now)
                 {
                     playerX = i;
                     playerY = j;
                 }
-                else if(now == char(LIVEROBOT)){
-                    robots.push_back(new Robot());
+                else if(LIVEHUMAN == now){
+                    Robot r1 = Robot(i,j);
+                    robots.push_back(r1);
                 }
                 tiles[i][j]=now;
             }
