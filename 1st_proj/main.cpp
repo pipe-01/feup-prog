@@ -21,8 +21,11 @@
 using namespace std;
 
 unsigned robotCounterId = 1; //sequential identification number
-bool playerIsAlive = true; //Player's values are easily accessible
-int playerX = -1, playerY = -1; //(Same as above)
+
+struct Player{
+    int x, y;
+    bool isAlive;
+};
 
 void wait() {
     cout << "\n\tPress ENTER key to continue....";
@@ -121,16 +124,18 @@ bool file_exists(const string &file_name)
 }
 
 
-void printBoard(vector<vector<char>> tiles){
-    cout << "Current Board Status" << endl;
+void drawMaze(vector<vector<char>> tiles){
+
+    //clear terminal
+    cout << "\033[2J\033[1;1H";
+
     for (size_t i = 0; i < tiles.size(); i++)
     {
-        for (size_t j = 0; j < tiles[0].size(); j++)
+        for (size_t j = 0; j < tiles[i].size(); j++)
         {
             cout << tiles[i][j];
         }
         cout << endl;
-        
     }
 }
 
@@ -138,8 +143,9 @@ void read_file(string &file_name, vector<vector<char>> &tiles)
 {
     int rows, columns;
     char useless;
+    string line;
     ifstream file(file_name);
-    vector<vector<char>> aux;
+    struct Player player;
 
     if (!file)
     {
@@ -147,58 +153,32 @@ void read_file(string &file_name, vector<vector<char>> &tiles)
     }
     else
     {
-        string line;
-        char now = '\0';
         file >> rows >> useless >> columns;
-        vector<vector<char>> vec (rows, vector<char> (columns));
-        tiles.resize(rows);
-        for (size_t i = 0; i < rows; i++)
-        {
-            tiles[i].resize(columns);
-        }
-        while(getline(file, line)){
-            vector<char> row;
+        //clear buffer
+        file.ignore(256, '\n');
+        vector<vector<char>> tiles (rows, vector<char> (columns));
 
-            for (char &c : line){
-                if(c != '\0'){
-                    row.push_back(c);
+        for (int i = 0; i < rows; i++){
+            getline(file, line);
+                for (int j = 0; j < columns; j++){
+                    tiles[i][j] = line[j];
+                    if(line[j] == LIVEHUMAN){
+                        player.x = j;
+                        player.y = i;
+                        cout << "Player position :" << player.x << ' ' << player.y << endl;
+                    } else if(line[j] == LIVEROBOT){
+                        Robot r1 = Robot(j, i);
+                        robots.push_back(r1);
+                        cout << "Robot position :" << j << ' ' << i << endl;
+                    }
                 }
-            }
-            vec.push_back(row);
-
-            for (vector<char> &aux : vec){
-                for (char &c : row){
-                    cout << c << ' ';
-                } 
-            }
-            cout << endl;
         }
-        //while(file.eof())
-        // for (size_t i = 0; i < rows; i++)
-        // {
-        //     for (size_t j = 0; j < columns; j++)
-        //     {
-        //         file.get(now);
-        //         cout << now;
-        //         if (LIVEHUMAN == now)
-        //         {
-        //             playerX = i;
-        //             playerY = j;
-        //         }
-        //         else if(LIVEHUMAN == now){
-        //             Robot r1 = Robot(i,j);
-        //             robots.push_back(r1);
-        //         }
-        //         tiles[i][j]=now;
-        //         vec[i][j] = now;
-        //     }
-        // }
+        drawMaze(tiles);
     }
     file.close();
-    //printBoard(aux);
 }
 
-int read_game(bool &menu, vector<vector<char>> &tiles)
+int read_game(bool &menu, vector<vector<char>> &tiles, struct Player &player)
 {
     int maze_value;
     string file_name;
@@ -295,7 +275,16 @@ void create_file(string file_name)
     file.close();
 }
 
+
+void playGame(struct Player &player){
+    player.isAlive = false;
+}
+
 void printRules(){
+
+    //clear terminal
+    cout << "\033[2J\033[1;1H";
+
     char any;
     cout << "                                ___       __      \n"
             "                               / _ \\__ __/ /__ ___\n"
@@ -318,9 +307,16 @@ void printRules(){
             "\tS/s = No movement\n"
             "\t0 = Exit Game\n";
     wait();
+
+    //clear terminal
+    cout << "\033[2J\033[1;1H";
 }
 
 void printExit(){
+
+    //clear terminal
+    cout << "\033[2J\033[1;1H";
+
     cout << " ____                                  _       _            _ \n"
             "/ ___|  ___  ___   _   _  ___  _   _  | | __ _| |_ ___ _ __| |\n"
             "\\___ \\ / _ \\/ _ \\ | | | |/ _ \\| | | | | |/ _` | __/ _ \\ '__| |\n"
@@ -333,6 +329,8 @@ int main()
 {
     bool menu = true, play = false, rules = false, exits = false;
     vector<vector<char>> tiles;
+    struct Player player;
+    player.isAlive = true;
 
     while (menu)
     {
@@ -342,8 +340,11 @@ int main()
         if (play)
         {
             cout << "Playing game" << endl;
-            read_game(menu, tiles);
+            read_game(menu, tiles, player);
             play = false;
+            while(player.isAlive){
+                playGame(player);
+            }
         }
 
         if (rules)
