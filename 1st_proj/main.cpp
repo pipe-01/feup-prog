@@ -39,16 +39,18 @@ struct Robot
 
 vector<Robot> robots; //Accessed several times
 
-void printBoard(vector<vector<char>> board){
-    cout << "\033[2J\033[1;1H"; 
-    for (size_t i = 0; i < board.size(); i++){
-        for (size_t j = 0; j < board[0].size(); j++){
-           cout << board[i][j];
-        }
-        
-    }
-    cout << endl;
-}
+// void printBoard(vector<vector<char>> board){
+//     //clear terminal
+//     cout << "\033[2J\033[1;1H"; 
+
+
+//     for (size_t i = 0; i < board.size(); i++){
+//         for (size_t j = 0; j < board[0].size(); j++){
+//            cout << board[i][j];
+//         }
+//     }
+//     cout << endl;
+// }
 
 void wait() {
     cout << "\n\tPress ENTER key to continue....";
@@ -167,7 +169,12 @@ void read_file(string &file_name, vector<vector<char>> &tiles)
         file >> rows >> useless >> columns;
         //clear buffer
         file.ignore(256, '\n');
-        vector<vector<char>> tiles (rows, vector<char> (columns));
+
+        tiles.resize(rows);
+        for (int i = 0; i < tiles.size(); i++){
+            tiles[i].resize(columns);
+        }
+        
 
         for (int i = 0; i < rows; i++){
             getline(file, line);
@@ -284,12 +291,21 @@ void create_file(string file_name)
     file.close();
 }
 
+
+bool checkCollision(vector<vector<char>> &tiles, int oldpos_x, int oldpos_y, int newpos_x, int newpos_y){
+
+    if(tiles[newpos_x][newpos_y] == '*' || tiles[newpos_x][newpos_y] == 'R'){
+        return true;
+    }
+    return false;
+}
+
 void movePlayer(vector<vector<char>> &tiles, struct Player &player){
     char move;
 
     while(1){
 
-        cout << "Enter the movement that you want :" << endl;
+        cout << "Enter movement player: ";
         cin >> move;
 
         if (cin.fail()){
@@ -303,35 +319,53 @@ void movePlayer(vector<vector<char>> &tiles, struct Player &player){
             }
         }
         else if(move == 'A' || move == 'a'){
+            // if(checkCollision(tiles, player.x, player.y, player.x--, player.y)){
+            //     player.isAlive = false;
+            // }
             player.x--;
+            break;
         }
         else if(move == 'D' || move == 'd'){
+            // if(checkCollision(tiles, player.x, player.y, player.x++, player.y)){
+            //     player.isAlive = false;
+            // }
             player.x++;
+            break;
         }
         else if(move == 'W' || move == 'w'){
             player.y--;
+            break;
         }
         else if(move == 'X' || move == 'x'){
             player.y++;
+            break;
         }
         else if(move == 'Z' || move == 'z'){
             player.x--;
             player.y++;
+            break;
         }
         else if(move == 'Q' || move == 'q'){
             player.x--;
             player.y--;
+            break;
         }
         else if(move == 'E' || move == 'e'){
             player.x++;
             player.y--;
+            break;
         }
         else if(move == 'C' || move == 'c'){
             player.x++;
             player.y++;
-        }
-        else if(move == '0' ){
             break;
+        }
+        else if(move == 'S' || move == 's'){
+            player.isAlive = false;
+            break;
+        }
+        else{
+            cout << "Enter a valid input!" << endl;
         }
     }
 }
@@ -339,8 +373,8 @@ void movePlayer(vector<vector<char>> &tiles, struct Player &player){
 
 void playGame(vector<vector<char>> &tiles, struct Player &player){  
     while(player.isAlive){
-        movePlayer(tiles, player);
         drawMaze(tiles);
+        movePlayer(tiles, player);
     }
 }
 
@@ -410,7 +444,6 @@ int main()
             cout << "Playing game" << endl;
             read_game(menu, tiles, player);
             play = false;
-            printBoard(tiles);
             playGame(tiles, player);
         }
 
