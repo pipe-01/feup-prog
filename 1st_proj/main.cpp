@@ -39,6 +39,17 @@ struct Robot
 
 vector<Robot> robots; //Accessed several times
 
+void printBoard(vector<vector<char>> board){
+    cout << "\033[2J\033[1;1H"; 
+    for (size_t i = 0; i < board.size(); i++){
+        for (size_t j = 0; j < board[0].size(); j++){
+           cout << board[i][j];
+        }
+        
+    }
+    cout << endl;
+}
+
 void wait() {
     cout << "\n\tPress ENTER key to continue....";
     getchar();
@@ -230,7 +241,6 @@ int read_game(bool &menu, vector<vector<char>> &tiles, struct Player &player)
 
             aux = to_string(maze_value);
             file_name = file_name + aux + ".TXT";
-
             if (file_exists(file_name))
             {
                 cout << "File exists" << endl;
@@ -327,7 +337,7 @@ void movePlayer(vector<vector<char>> &tiles, struct Player &player){
 }
 
 
-void playGame(vector<vector<char>> &tiles, struct Player &player){
+void playGame(vector<vector<char>> &tiles, struct Player &player){  
     while(player.isAlive){
         movePlayer(tiles, player);
         drawMaze(tiles);
@@ -400,6 +410,7 @@ int main()
             cout << "Playing game" << endl;
             read_game(menu, tiles, player);
             play = false;
+            printBoard(tiles);
             playGame(tiles, player);
         }
 
