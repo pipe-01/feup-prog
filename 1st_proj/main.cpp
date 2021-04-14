@@ -32,7 +32,6 @@ struct Robot
     int x, y;
     int id = robotCounterId++;
     bool alive = true;
-    int getState(){return alive;}
     void killRobot(){alive = false;}
     Robot(int i, int j){x = i; y = j;};
 };
@@ -216,13 +215,12 @@ void drawMaze(vector<vector<char>> tiles){
     }
 }
 
-void read_file(string &file_name, vector<vector<char>> &tiles)
+void read_file(string &file_name, vector<vector<char>> &tiles, struct Player &player)
 {
     int rows, columns;
     char useless;
     string line;
     ifstream file(file_name);
-    struct Player player;
 
     if (!file)
     {
@@ -259,7 +257,7 @@ void read_file(string &file_name, vector<vector<char>> &tiles)
     file.close();
 }
 
-int read_game(bool &menu, vector<vector<char>> &tiles, Player &player)
+int read_game(bool &menu, vector<vector<char>> &tiles, struct Player &player)
 {
     int maze_value;
     string file_name;
@@ -297,7 +295,7 @@ int read_game(bool &menu, vector<vector<char>> &tiles, Player &player)
             if (file_exists(file_name))
             {
                 cout << "File exists" << endl;
-                read_file(file_name, tiles);
+                read_file(file_name, tiles, player);
                 file_name.clear();
                 menu = false;
                 break;
@@ -315,7 +313,7 @@ int read_game(bool &menu, vector<vector<char>> &tiles, Player &player)
             if (file_exists(file_name))
             {
                 cout << "File exists" << endl;
-                read_file(file_name, tiles);
+                read_file(file_name, tiles,player);
                 file_name.clear();
                 menu = false;
                 break;
@@ -355,22 +353,22 @@ void create_file(string file_name)
     file.close();
 }
 
-void placePlayer(vector<vector<char>> &tiles, Player player, int prevX, int prevY){
-    tiles[player.x][player.y] = LIVEHUMAN;
-    tiles[prevX][prevY] = ' ';
+void placePlayer(vector<vector<char>> &tiles, struct Player player, int prevX, int prevY){
+    tiles[player.y][player.x] = LIVEHUMAN;
+    tiles[prevY][prevX] = ' ';
 }
 
 //0 -> Collides and Kills player
 //1 -> Collides against dead robot (survives)
 //2 -> Valid
-char checkCollision(vector<vector<char>> &tiles, Player &player){
-    if(tiles[player.x][player.y] != ' '){
-        if(tiles[player.x][player.y] == '*'){
+char checkCollision(vector<vector<char>> &tiles, struct Player &player){
+    if(tiles[player.y][player.x] != ' '){
+        if(tiles[player.y][player.x] == '*'){
             player.isAlive = false;
             return '0';
         }
         else{
-            if(tiles[player.x][player.y] == DEADROBOT){
+            if(tiles[player.y][player.x] == DEADROBOT){
                 printDeadRobotCollision();
                 return '1';
             }
@@ -385,7 +383,7 @@ char checkCollision(vector<vector<char>> &tiles, Player &player){
     }
 }
 
-void movePlayer(vector<vector<char>> &tiles, Player &player){
+void movePlayer(vector<vector<char>> &tiles, struct Player &player){
     int prevX = player.x, prevY = player.y;
     char move, coll;
 
@@ -443,7 +441,7 @@ void movePlayer(vector<vector<char>> &tiles, Player &player){
 
         }
         else if(move == 'S' || move == 's'){
-
+            break;
         }
         else if(move == '0'){
             player.isAlive = false;
