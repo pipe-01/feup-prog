@@ -279,7 +279,7 @@ void movePlayer(vector<vector<char>> &tiles, struct Player &player){
 
     while(1){
 
-        cout << "Enter the movement that you want :";
+        cout << "Enter the movement that you want :" << endl;
         cin >> move;
 
         if (cin.fail()){
@@ -320,6 +320,9 @@ void movePlayer(vector<vector<char>> &tiles, struct Player &player){
             player.x++;
             player.y++;
         }
+        else if(move == '0' ){
+            break;
+        }
     }
 }
 
@@ -356,6 +359,10 @@ void printRules(){
             "\tD/d = Right\n"
             "\tX/x = Down\n"
             "\tS/s = No movement\n"
+            "\tQ/q = Up-left\n"
+            "\tE/e = Up-right\n"
+            "\tZ/z = Down-left\n"
+            "\tC/c = Down-right\n"
             "\t0 = Exit Game\n";
     wait();
 
