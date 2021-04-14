@@ -27,12 +27,6 @@ struct Player{
     bool isAlive;
 };
 
-void wait() {
-    cout << "\n\tPress ENTER key to continue....";
-    getchar();
-    getchar();
-}
-
 struct Robot
 {
     int x, y;
@@ -44,6 +38,12 @@ struct Robot
 };
 
 vector<Robot> robots; //Accessed several times
+
+void wait() {
+    cout << "\n\tPress ENTER key to continue....";
+    getchar();
+    getchar();
+}
 
 
 int draw_menu(bool &rules, bool &play, bool &exits)
@@ -173,7 +173,6 @@ void read_file(string &file_name, vector<vector<char>> &tiles)
                     }
                 }
         }
-        drawMaze(tiles);
     }
     file.close();
 }
@@ -275,9 +274,61 @@ void create_file(string file_name)
     file.close();
 }
 
+void movePlayer(vector<vector<char>> &tiles, struct Player &player){
+    char move;
 
-void playGame(struct Player &player){
-    player.isAlive = false;
+    while(1){
+
+        cout << "Enter the movement that you want :";
+        cin >> move;
+
+        if (cin.fail()){
+
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "You have entered wrong input" << endl;
+
+            if (cin.eof()){
+                exit(0);
+            }
+        }
+        else if(move == 'A' || move == 'a'){
+            player.x--;
+        }
+        else if(move == 'D' || move == 'd'){
+            player.x++;
+        }
+        else if(move == 'W' || move == 'w'){
+            player.y--;
+        }
+        else if(move == 'X' || move == 'x'){
+            player.y++;
+        }
+        else if(move == 'Z' || move == 'z'){
+            player.x--;
+            player.y++;
+        }
+        else if(move == 'Q' || move == 'q'){
+            player.x--;
+            player.y--;
+        }
+        else if(move == 'E' || move == 'e'){
+            player.x++;
+            player.y--;
+        }
+        else if(move == 'C' || move == 'c'){
+            player.x++;
+            player.y++;
+        }
+    }
+}
+
+
+void playGame(vector<vector<char>> &tiles, struct Player &player){
+    while(player.isAlive){
+        movePlayer(tiles, player);
+        drawMaze(tiles);
+    }
 }
 
 void printRules(){
@@ -342,9 +393,7 @@ int main()
             cout << "Playing game" << endl;
             read_game(menu, tiles, player);
             play = false;
-            while(player.isAlive){
-                playGame(player);
-            }
+            playGame(tiles, player);
         }
 
         if (rules)
