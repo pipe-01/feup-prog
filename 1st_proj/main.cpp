@@ -301,15 +301,9 @@ void movePlayer(vector<vector<char>> &tiles, struct Player &player){
             }
         }
         else if(move == 'A' || move == 'a'){
-            // if(checkCollision(tiles, player.x, player.y, player.x--, player.y)){
-            //     player.isAlive = false;
-            // }
             player.x--;
         }
         else if(move == 'D' || move == 'd'){
-            // if(checkCollision(tiles, player.x, player.y, player.x++, player.y)){
-            //     player.isAlive = false;
-            // }
             player.x++;
 
         }
@@ -319,22 +313,18 @@ void movePlayer(vector<vector<char>> &tiles, struct Player &player){
         }
         else if(move == 'X' || move == 'x'){
             player.y++;
-            break;
         }
         else if(move == 'Z' || move == 'z'){
             player.x--;
             player.y++;
-            break;
         }
         else if(move == 'Q' || move == 'q'){
             player.x--;
             player.y--;
-            break;
         }
         else if(move == 'E' || move == 'e'){
             player.x++;
             player.y--;
-            break;
         }
         else if(move == 'C' || move == 'c'){
             player.x++;
