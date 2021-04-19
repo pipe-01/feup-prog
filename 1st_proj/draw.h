@@ -8,3 +8,5 @@ void printRules();
 void printDeadRobotCollision();
 void printExit();
 void printInvalidChar();
+void printRobotVictory();
+void printHumanVictory();
