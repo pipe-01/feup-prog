@@ -1,15 +1,10 @@
 #include <iostream>
 #include <cstdlib>
-#include <iomanip>
 #include <limits>
 #include <algorithm>
-#include <limits>
-#include <stdio.h>
 #include <fstream>
 #include <string>
-#include <unistd.h>
 #include <vector>
-#include <string.h>
 #include "draw.h"
 #include "readwrite.h"
 #include "constants.h"
@@ -284,7 +279,7 @@ void attackRobots(vector<vector<char>> &tiles,struct Player &player){
             else if(tiles[r.y][r.x] == FENCE || tiles[r.y][r.x] == LIVEROBOT || tiles[r.y][r.x] == DEADROBOT){
                 tiles[r.y][r.x] = DEADROBOT;
                 tiles[prevY][prevX] = ' ';
-                r.alive = false;
+                r.killRobot();
             }
             else if(tiles[r.y][r.x] == LIVEHUMAN){
                 tiles[prevY][prevX] = LIVEROBOT;
