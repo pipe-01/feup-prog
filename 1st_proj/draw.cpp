@@ -1,3 +1,4 @@
+#include <vector>
 #include "draw.h"
 
 
@@ -104,4 +105,86 @@ void printInvalidChar(){
             "| _|| ' \\  _/ -_) '_| / _` | \\ V / _` | | / _` | | | ' \\| '_ \\ || |  _|_|\n"
             "|___|_||_\\__\\___|_|   \\__,_|  \\_/\\__,_|_|_\\__,_| |_|_||_| .__/\\_,_|\\__(_)\n"
             "                                                        |_|              " << endl;
+}
+
+void printRobotVictory(){
+    cout << " ___     _         _        _                  __      __        \n"
+            "| _ \\___| |__  ___| |_ ___ | |_  __ ___ _____  \\ \\    / /__ _ _  \n"
+            "|   / _ \\ '_ \\/ _ \\  _(_-< | ' \\/ _` \\ V / -_)  \\ \\/\\/ / _ \\ ' \\ \n"
+            "|_|_\\___/_.__/\\___/\\__/__/ |_||_\\__,_|\\_/\\___|   \\_/\\_/\\___/_||_|\n"
+            "                                                                 ";
+}
+
+void printHumanVictory(){
+    cout << "__   __          _                  __      __        \n"
+            "\\ \\ / /__ _  _  | |_  __ ___ _____  \\ \\    / /__ _ _  \n"
+            " \\ V / _ \\ || | | ' \\/ _` \\ V / -_)  \\ \\/\\/ / _ \\ ' \\ \n"
+            "  |_|\\___/\\_,_| |_||_\\__,_|\\_/\\___|   \\_/\\_/\\___/_||_|\n"
+            "                                                      ";
+}
+int draw_menu(bool &rules, bool &play, bool &exits)
+{
+    int cmenu;
+
+    printMenuBanner();
+    while (1)
+    {
+        cin >> cmenu;
+
+        if (cin.fail())
+        {
+
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "You have entered an invalid input" << endl;
+
+            if (cin.eof())
+            {
+                exit(0);
+            }
+        }
+        else if (cmenu == 1)
+        {
+            rules = true;
+            break;
+        }
+        else if (cmenu == 2)
+        {
+            play = true;
+            break;
+        }
+        else if (cmenu == 0)
+        {
+            exits = true;
+            break;
+        }
+        else
+        {
+            cout << "Enter a valid number! (0,1,2)" << endl;
+        }
+    }
+    return 0;
+}
+
+void drawMaze(std::vector<std::vector<char>> tiles){
+
+    //clear terminal
+
+    for (size_t i = 0; i < tiles.size(); i++)
+    {
+        for (size_t j = 0; j < tiles[i].size(); j++)
+        {
+            cout << tiles[i][j];
+        }
+        cout << endl;
+    }
+}
+
+void printBeginGame(){
+    cout << "\033[2J\033[1;1H";
+    cout << "      __       __    __  __         _____                 __            _    \n"
+            "     / /  ___ / /_  / /_/ /  ___   / ___/__ ___ _  ___   / /  ___ ___ _(_)__ \n"
+            "    / /__/ -_) __/ / __/ _ \\/ -_) / (_ / _ `/  ' \\/ -_) / _ \\/ -_) _ `/ / _ \\\n"
+            "   /____/\\__/\\__/  \\__/_//_/\\__/  \\___/\\_,_/_/_/_/\\__/ /_.__/\\__/\\_, /_/_//_/\n"
+            "                                                                /___/        " << endl;
 }

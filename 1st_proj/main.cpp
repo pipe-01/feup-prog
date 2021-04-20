@@ -1,23 +1,13 @@
-#define FENCE '*'
-#define DEADROBOT 'r'
-#define LIVEROBOT 'R'
-#define DEADHUMAN 'h'
-#define LIVEHUMAN 'H'
 #include <iostream>
-#include <ctime>
 #include <cstdlib>
-#include <iomanip>
 #include <limits>
-#include <ios>
 #include <algorithm>
-#include <limits>
-#include <stdio.h>
 #include <fstream>
 #include <string>
-#include <unistd.h>
 #include <vector>
-#include <string.h>
 #include "draw.h"
+#include "readwrite.h"
+#include "constants.h"
 
 using namespace std;
 
@@ -25,7 +15,7 @@ unsigned robotCounterId = 1; //sequential identification number
 
 struct Player{
     int x, y;
-    bool isAlive;
+    bool isAlive = false;
 };
 
 struct Robot
@@ -39,81 +29,25 @@ struct Robot
 
 vector<Robot> robots; //Accessed several times
 
-
-
-int draw_menu(bool &rules, bool &play, bool &exits)
-{
-    int cmenu;
-
-    printMenuBanner();
-    while (1)
-    {
-        cin >> cmenu;
-
-        if (cin.fail())
-        {
-
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "You have entered an invalid input" << endl;
-
-            if (cin.eof())
-            {
-                exit(0);
-            }
-        }
-        else if (cmenu == 1)
-        {
-            rules = true;
-            break;
-        }
-        else if (cmenu == 2)
-        {
-            play = true;
-            break;
-        }
-        else if (cmenu == 0)
-        {
-            exits = true;
-            break;
-        }
-        else
-        {
-            cout << "Enter a valid number! (0,1,2)" << endl;
+/**
+ * @param Player
+ * @return 0 if games has not ended, 1 if human won, 2 if robots won
+ */
+bool checkWin(Player p){
+    for(Robot r: robots){
+        if(r.alive){
+            return false;
         }
     }
-    return 0;
+    return true;
 }
-
-//check if a file exists
-bool file_exists(const string &file_name)
-{
-    ifstream file(file_name);
-
-    if (!file)
-    {
-        return false;
-    }
-    else
-        return true;
-}
-
-
-void drawMaze(vector<vector<char>> tiles){
-
-    //clear terminal
-    cout << "\033[2J\033[1;1H";
-
-    for (size_t i = 0; i < tiles.size(); i++)
-    {
-        for (size_t j = 0; j < tiles[i].size(); j++)
-        {
-            cout << tiles[i][j];
-        }
-        cout << endl;
-    }
-}
-
+/**
+ * @param file_name
+ * @param tiles
+ * @param player
+ * @brief Inserts values of file into a 2-D vector, in case of:
+ * Robot - inserts it in robots. Player - changes it's values of x and y
+ */
 void read_file(string &file_name, vector<vector<char>> &tiles, struct Player &player)
 {
     int rows, columns;
@@ -135,19 +69,27 @@ void read_file(string &file_name, vector<vector<char>> &tiles, struct Player &pl
         for (int i = 0; i < tiles.size(); i++){
             tiles[i].resize(columns);
         }
-
+        bool onePlayer = false;
         for (int i = 0; i < rows; i++){
             getline(file, line);
             for (int j = 0; j < columns; j++){
                 tiles[i][j] = line[j];
-                if(line[j] == LIVEHUMAN){
+                if(line[j] == LIVEHUMAN && !onePlayer){
                     player.x = j;
                     player.y = i;
+                    player.isAlive = true;
                     cout << "Player position :" << player.x << ' ' << player.y << endl;
-                } else if(line[j] == LIVEROBOT){
+                    onePlayer = true;
+                }
+                else if(line[j] == LIVEROBOT){
                     Robot r1 = Robot(j, i);
                     robots.push_back(r1);
                     cout << "Robot position :" << j << ' ' << i << endl;
+                }
+                else if(line[j] == DEADROBOT){
+                    Robot r1 = Robot(j, i);
+                    r1.alive = false;
+                    robots.push_back(r1);
                 }
             }
         }
@@ -155,7 +97,23 @@ void read_file(string &file_name, vector<vector<char>> &tiles, struct Player &pl
     file.close();
 }
 
-int read_game(bool &menu, vector<vector<char>> &tiles, struct Player &player)
+/**
+ * @brief for debug initially but actually really useful to help player move
+ */
+void printRobotsPos(){
+    for(Robot r: robots){
+        cout << "\nRobot position : " << r.x << ' ' << r.y << endl;
+        string alive = r.alive?"alive":"dead";
+        cout << "This robot is " << alive << endl;
+    }
+}
+/**
+ * @param menu
+ * @param tiles
+ * @param player
+ * @brief Verifies if file exists and calls read_file function
+ */
+void read_game(bool &menu, vector<vector<char>> &tiles, struct Player &player)
 {
     int maze_value;
     string file_name;
@@ -226,17 +184,17 @@ int read_game(bool &menu, vector<vector<char>> &tiles, struct Player &player)
             //clear terminal
             cout << "\033[2J\033[1;1H";
             menu = true;
-            return 0;
+            return;
         }
         else
         {
             cout << "Enter a valid number between 0 and 99" << endl;
         }
     }
-    return -1;
+    return;
 }
 
-
+/**
 //create file with name file_name
 void create_file(string file_name)
 {
@@ -250,6 +208,7 @@ void create_file(string file_name)
     }
     file.close();
 }
+**/
 
 void placePlayer(vector<vector<char>> &tiles, struct Player player, int prevX, int prevY){
     tiles[player.y][player.x] = LIVEHUMAN;
@@ -261,7 +220,7 @@ void placePlayer(vector<vector<char>> &tiles, struct Player player, int prevX, i
 //2 -> Valid
 char checkCollision(vector<vector<char>> &tiles, struct Player &player){
     if(tiles[player.y][player.x] != ' '){
-        if(tiles[player.y][player.x] == '*'){
+        if(tiles[player.y][player.x] == '*' || tiles[player.y][player.x] == LIVEROBOT){
             player.isAlive = false;
             return '0';
         }
@@ -280,15 +239,71 @@ char checkCollision(vector<vector<char>> &tiles, struct Player &player){
         return '2';
     }
 }
+Robot moveRobots(Robot r, Player p){
+    int varX = r.x-p.x, varY= r.y-p.y;
+    if(varX > 0){
+        r.x--;
+    } else if(varX < 0){
+        r.x++;
+    }
+    if(varY > 0){
+        r.y--;
+    } else if(varY < 0) {
+        r.y++;
+    }
+    return r;
+}
+/**
+ * @param tiles
+ * @param player
+ * @brief
+ */
+void attackRobots(vector<vector<char>> &tiles,struct Player &player){
+    int prevX, prevY;
+    for (Robot &r: robots){
+        if(!r.alive){
+            continue;
+        }
+        else{
+            prevX = r.x, prevY = r.y;
+            if(tiles[prevY][prevX] == LIVEHUMAN){
+                tiles[prevY][prevX] = LIVEROBOT;
+                tiles[r.y][r.x] = DEADHUMAN;
+                player.isAlive = false;
+            }
+            r = moveRobots(r,player);
+            if(tiles[r.y][r.x] == ' '){
+                tiles[prevY][prevX] = ' ';
+                tiles[r.y][r.x] = LIVEROBOT;
+            }
+            else if(tiles[r.y][r.x] == FENCE || tiles[r.y][r.x] == LIVEROBOT || tiles[r.y][r.x] == DEADROBOT){
+                tiles[r.y][r.x] = DEADROBOT;
+                tiles[prevY][prevX] = ' ';
+                r.killRobot();
+            }
+            else if(tiles[r.y][r.x] == LIVEHUMAN){
+                tiles[prevY][prevX] = LIVEROBOT;
+                tiles[r.y][r.x] = DEADHUMAN;
+                player.isAlive = false;
+            }
+        }
 
+    }
+}
+/**
+ *
+ * @param tiles
+ * @param player
+ * @brief Receives a movement, verifies if valid, then alters the players position accordingly. Finally
+ * moves the live robots according to the players movement.
+ */
 void movePlayer(vector<vector<char>> &tiles, struct Player &player){
     int prevX = player.x, prevY = player.y;
     char move, coll;
 
     while(1){
-        cout << "Enter movement player: ";
+        cout << "\nEnter movement player: ";
         cin >> move;
-
 
         if (cin.fail()){
 
@@ -300,50 +315,45 @@ void movePlayer(vector<vector<char>> &tiles, struct Player &player){
                 exit(0);
             }
         }
-        else if(move == 'A' || move == 'a'){
-            player.x--;
+        switch (toupper(move))
+        {
+            case 'A':
+                player.x--;
+                break;
+            case 'D':
+                player.x++;
+                break;
+            case 'W':
+                player.y--;
+                break;
+            case 'X':
+                player.y++;
+                break;
+            case 'Z':
+                player.x--;
+                player.y++;
+                break;
+            case 'Q':
+                player.x--;
+                player.y--;
+                break;
+            case 'E':
+                player.x++;
+                player.y--;
+                break;
+            case 'C':
+                player.x++;
+                player.y++;
+                break;
+            case 'S':
+                break;
+            case '0':
+                player.isAlive = false;
+                break;
+            default:
+                printInvalidChar();
+                continue;
         }
-        else if(move == 'D' || move == 'd'){
-            player.x++;
-
-        }
-        else if(move == 'W' || move == 'w'){
-            player.y--;
-
-        }
-        else if(move == 'X' || move == 'x'){
-            player.y++;
-        }
-        else if(move == 'Z' || move == 'z'){
-            player.x--;
-            player.y++;
-        }
-        else if(move == 'Q' || move == 'q'){
-            player.x--;
-            player.y--;
-
-        }
-        else if(move == 'E' || move == 'e'){
-            player.x++;
-            player.y--;
-        }
-        else if(move == 'C' || move == 'c'){
-            player.x++;
-            player.y++;
-
-        }
-        else if(move == 'S' || move == 's'){
-            break;
-        }
-        else if(move == '0'){
-            player.isAlive = false;
-        }
-        else{
-            printInvalidChar();
-            continue;
-        }
-        //Basicamente esta parte aqui primeiro verifica se ha algum tipo de colisão e se sim, qual. Depois
-        //Posiciona o jogador na posição nova caso não exista nenhum tipo de colisão
         coll = checkCollision(tiles,player);
         if(coll == '2'){
             placePlayer(tiles,player,prevX, prevY);
@@ -352,6 +362,12 @@ void movePlayer(vector<vector<char>> &tiles, struct Player &player){
             player.x = prevX;
             player.y = prevY;
         }
+        else {
+            printRobotVictory();
+            break;
+        }
+        attackRobots(tiles,player);
+        printRobotsPos();
         break;
     }
 }
@@ -360,6 +376,10 @@ void movePlayer(vector<vector<char>> &tiles, struct Player &player){
 void playGame(vector<vector<char>> &tiles, struct Player &player){
     while(player.isAlive){
         drawMaze(tiles);
+        if(checkWin(player)){
+            printHumanVictory();
+            break;
+        }
         movePlayer(tiles, player);
     }
 }
@@ -378,9 +398,8 @@ int main()
 
         if (play)
         {
-            cout << "Playing game" << endl;
+            printBeginGame();
             read_game(menu, tiles, player);
-            //Depois desta função o valor de player.x e player.y não é alterado
             play = false;
             playGame(tiles, player);
         }
