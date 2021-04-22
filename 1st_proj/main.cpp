@@ -5,6 +5,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <chrono>
 #include "draw.h"
 #include "readwrite.h"
 #include "constants.h"
@@ -113,10 +114,11 @@ void printRobotsPos(){
  * @param player
  * @brief Verifies if file exists and calls read_file function
  */
-void read_game(bool &menu, vector<vector<char>> &tiles, struct Player &player)
+string read_game(bool &menu, vector<vector<char>> &tiles, struct Player &player)
 {
+
     int maze_value;
-    string file_name;
+    string file_name, write_name;
     string aux;
 
     //clear terminal
@@ -146,6 +148,7 @@ void read_game(bool &menu, vector<vector<char>> &tiles, struct Player &player)
         {
 
             aux = to_string(maze_value);
+            write_name = file_name + "0"+ aux + "_WINNERS.TXT" ;
             file_name = file_name + "0" + aux + ".TXT";
 
             if (file_exists(file_name))
@@ -165,7 +168,9 @@ void read_game(bool &menu, vector<vector<char>> &tiles, struct Player &player)
         {
 
             aux = to_string(maze_value);
+            write_name = file_name + aux + "_WINNERS.TXT" ;
             file_name = file_name + aux + ".TXT";
+
             if (file_exists(file_name))
             {
                 cout << "File exists" << endl;
@@ -184,14 +189,14 @@ void read_game(bool &menu, vector<vector<char>> &tiles, struct Player &player)
             //clear terminal
             cout << "\033[2J\033[1;1H";
             menu = true;
-            return;
+            return write_name;
         }
         else
         {
             cout << "Enter a valid number between 0 and 99" << endl;
         }
     }
-    return;
+    return write_name;
 }
 
 /**
@@ -390,6 +395,8 @@ int main()
     vector<vector<char>> tiles;
     struct Player player;
     player.isAlive = true;
+    string writeName, playerName;
+    float time;
 
     while (menu)
     {
@@ -399,9 +406,18 @@ int main()
         if (play)
         {
             printBeginGame();
-            read_game(menu, tiles, player);
+            writeName = read_game(menu, tiles, player);
             play = false;
+            auto start = chrono::steady_clock::now();
             playGame(tiles, player);
+            auto end = chrono::steady_clock::now();
+            if(player.isAlive) {
+                cout << "\nWhat is your name?" << endl; cin >> playerName;
+                ofstream write;
+                write.open(writeName,fstream::app);
+                write << "Name: "<<  playerName << " Time: " << chrono::duration_cast<chrono::seconds>(end - start).count() << endl;
+                write.close();
+            }
         }
 
         if (rules)
