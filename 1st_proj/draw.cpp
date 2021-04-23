@@ -1,38 +1,43 @@
 #include <vector>
 #include "draw.h"
 
-
-void printMenuBanner(){
+void printMenuBanner()
+{
     cout << "                   ___       __        __    _____              \n"
             "                  / _ \\___  / /  ___  / /_  / ___/__ ___ _  ___ \n"
             "                 / , _/ _ \\/ _ \\/ _ \\/ __/ / (_ / _ `/  ' \\/ -_)\n"
             "                /_/|_|\\___/_.__/\\___/\\__/  \\___/\\_,_/_/_/_/\\__/ \n"
-            "                                                                " << endl;
+            "                                                                "
+         << endl;
     cout << " ___    ___      _        \n"
             "/ \\ \\  | _ \\_  _| |___ ___\n"
             "| || | |   / || | / -_|_-<\n"
             "|_|| | |_|_\\\\_,_|_\\___/__/\n"
-            "  /_/  " << endl;
+            "  /_/  "
+         << endl;
     cout << " _____    ___ _           \n"
             "|_  ) \\  | _ \\ |__ _ _  _ \n"
             " / / | | |  _/ / _` | || |\n"
             "/___|| | |_| |_\\__,_|\\_, |\n"
-            "    /_/              |__/ " << endl;
+            "    /_/              |__/ "
+         << endl;
     cout << "  ____    ___     _ _   \n"
             " /  \\ \\  | __|_ _(_) |_ \n"
             "| () | | | _|\\ \\ / |  _|\n"
             " \\__/| | |___/_\\_\\_|\\__|\n"
-            "    /_/ " << endl;
+            "    /_/ "
+         << endl;
 }
 
-void wait() {
+void wait()
+{
     cout << "\n\tPress ENTER key to continue....";
     getchar();
     getchar();
 }
 
-
-void printRules(){
+void printRules()
+{
 
     //clear terminal
     cout << "\033[2J\033[1;1H";
@@ -42,7 +47,8 @@ void printRules(){
             "                               / _ \\__ __/ /__ ___\n"
             "                              / , _/ // / / -_|_-<\n"
             "                             /_/|_|\\_,_/_/\\__/___/\n"
-            "                                                  " << endl;
+            "                                                  "
+         << endl;
     cout << "H = human, R = Robot, * = Fence/Post\n"
             "1) Main Goal of the Game: Survive the Robots & Electrical Posts/Fences\n"
             "2) Win is achieved if no robots are alive\n"
@@ -68,7 +74,8 @@ void printRules(){
     cout << "\033[2J\033[1;1H";
 }
 
-void printDeadRobotCollision(){
+void printDeadRobotCollision()
+{
     cout << "  ___     _ _ _    _                           _         _   \n"
             " / __|___| | (_)__(_)___ _ _    __ _ __ _ __ _(_)_ _  __| |_ \n"
             "| (__/ _ \\ | | (_-< / _ \\ ' \\  / _` / _` / _` | | ' \\(_-<  _|\n"
@@ -83,10 +90,12 @@ void printDeadRobotCollision(){
             " __ _ __ _ __ _(_)_ _  \n"
             "/ _` / _` / _` | | ' \\ \n"
             "\\__,_\\__, \\__,_|_|_||_|\n"
-            "     |___/            " << endl;
+            "     |___/            "
+         << endl;
 }
 
-void printExit(){
+void printExit()
+{
 
     //clear terminal
     cout << "\033[2J\033[1;1H";
@@ -96,18 +105,22 @@ void printExit(){
             "\\___ \\ / _ \\/ _ \\ | | | |/ _ \\| | | | | |/ _` | __/ _ \\ '__| |\n"
             " ___) |  __/  __/ | |_| | (_) | |_| | | | (_| | ||  __/ |  |_|\n"
             "|____/ \\___|\\___|  \\__, |\\___/ \\__,_| |_|\\__,_|\\__\\___|_|  (_)\n"
-            "                   |___/                                      " << endl;
+            "                   |___/                                      "
+         << endl;
 }
 
-void printInvalidChar(){
+void printInvalidChar()
+{
     cout << " ___     _                             _ _    _   _                _   _ \n"
             "| __|_ _| |_ ___ _ _   __ _  __ ____ _| (_)__| | (_)_ _  _ __ _  _| |_| |\n"
             "| _|| ' \\  _/ -_) '_| / _` | \\ V / _` | | / _` | | | ' \\| '_ \\ || |  _|_|\n"
             "|___|_||_\\__\\___|_|   \\__,_|  \\_/\\__,_|_|_\\__,_| |_|_||_| .__/\\_,_|\\__(_)\n"
-            "                                                        |_|              " << endl;
+            "                                                        |_|              "
+         << endl;
 }
 
-void printRobotVictory(){
+void printRobotVictory()
+{
     cout << " ___     _         _        _                  __      __        \n"
             "| _ \\___| |__  ___| |_ ___ | |_  __ ___ _____  \\ \\    / /__ _ _  \n"
             "|   / _ \\ '_ \\/ _ \\  _(_-< | ' \\/ _` \\ V / -_)  \\ \\/\\/ / _ \\ ' \\ \n"
@@ -115,7 +128,8 @@ void printRobotVictory(){
             "                                                                 ";
 }
 
-void printHumanVictory(){
+void printHumanVictory()
+{
     cout << "__   __          _                  __      __        \n"
             "\\ \\ / /__ _  _  | |_  __ ___ _____  \\ \\    / /__ _ _  \n"
             " \\ V / _ \\ || | | ' \\/ _` \\ V / -_)  \\ \\/\\/ / _ \\ ' \\ \n"
@@ -166,7 +180,8 @@ int draw_menu(bool &rules, bool &play, bool &exits)
     return 0;
 }
 
-void drawMaze(std::vector<std::vector<char>> tiles){
+void drawMaze(std::vector<std::vector<char>> tiles)
+{
 
     //clear terminal
 
@@ -180,11 +195,13 @@ void drawMaze(std::vector<std::vector<char>> tiles){
     }
 }
 
-void printBeginGame(){
+void printBeginGame()
+{
     cout << "\033[2J\033[1;1H";
     cout << "      __       __    __  __         _____                 __            _    \n"
             "     / /  ___ / /_  / /_/ /  ___   / ___/__ ___ _  ___   / /  ___ ___ _(_)__ \n"
             "    / /__/ -_) __/ / __/ _ \\/ -_) / (_ / _ `/  ' \\/ -_) / _ \\/ -_) _ `/ / _ \\\n"
             "   /____/\\__/\\__/  \\__/_//_/\\__/  \\___/\\_,_/_/_/_/\\__/ /_.__/\\__/\\_, /_/_//_/\n"
-            "                                                                /___/        " << endl;
+            "                                                                /___/        "
+         << endl;
 }
