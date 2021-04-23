@@ -17,7 +17,9 @@ unsigned robotCounterId = 1; //sequential identification number
 struct Player{
     int x, y;
     bool isAlive = false;
+    int time;
 };
+
 
 struct Robot
 {
@@ -411,12 +413,10 @@ int main()
             auto start = chrono::steady_clock::now();
             playGame(tiles, player);
             auto end = chrono::steady_clock::now();
+            player.time = chrono::duration_cast<chrono::seconds>(end - start).count();
             if(player.isAlive) {
-                cout << "\nWhat is your name?" << endl; cin >> playerName;
-                ofstream write;
-                write.open(writeName,fstream::app);
-                write << "Name: "<<  playerName << " Time: " << chrono::duration_cast<chrono::seconds>(end - start).count() << endl;
-                write.close();
+                if(writeResults(writeName,chrono::duration_cast<chrono::seconds>(end - start).count()))
+                    cout << "\nvalores foram escritos\n";
             }
         }
 

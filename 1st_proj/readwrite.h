@@ -6,3 +6,4 @@
 using namespace std;
 
 bool file_exists(const string &file_name);
+bool writeResults(string filename, int time);
