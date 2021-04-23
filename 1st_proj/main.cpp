@@ -272,7 +272,7 @@ char checkCollision(vector<vector<char>> &tiles, struct Player &player)
         return '2';
     }
 }
-Robot moveRobots(Robot r, Player p)
+Robot moveRobots(Robot r, const Player p)
 {
     int varX = r.x - p.x, varY = r.y - p.y;
     if (varX > 0)
@@ -471,8 +471,7 @@ int main()
             player.time = chrono::duration_cast<chrono::seconds>(end - start).count();
             if (player.isAlive)
             {
-                if (writeResults(writeName, chrono::duration_cast<chrono::seconds>(end - start).count()))
-                    cout << "\nvalores foram escritos\n";
+                writeResults(writeName, chrono::duration_cast<chrono::seconds>(end - start).count());
             }
         }
 

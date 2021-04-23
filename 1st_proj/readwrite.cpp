@@ -3,8 +3,14 @@
 #include <sys/stat.h>
 #include <cstring>
 #include "readwrite.h"
-
-bool file_exists(const string &name)
+/**
+ * @brief Checks if file exists
+ * 
+ * @param name 
+ * @return true - exists
+ * @return false - does not exit
+ */
+bool fileExists(const string &name)
 {
     fstream file(name);
     if (!file)
@@ -13,14 +19,21 @@ bool file_exists(const string &name)
     }
     return 1;
 }
-
-bool writeResults(string writeName, int time)
+/**
+ * @brief 
+ * 
+ * @param writeName 
+ * @param time 
+ * @return true 
+ * @return false 
+ */
+void writeResults(string writeName, int time)
 {
     char playerName[15];
     cout << "\nWhat is your name?" << endl;
     cin >> playerName;
     ofstream write;
-    if (!file_exists(writeName))
+    if (!fileExists(writeName))
     {
         write.open(writeName, fstream::app);
         write << "Player\t\t "
@@ -48,5 +61,4 @@ bool writeResults(string writeName, int time)
         write << " - " << time << endl;
     }
     write.close();
-    return true;
 }
