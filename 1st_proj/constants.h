@@ -6,3 +6,4 @@
 #define LIVEROBOT 'R'
 #define DEADHUMAN 'h'
 #define LIVEHUMAN 'H'
+#define LIMIT 19

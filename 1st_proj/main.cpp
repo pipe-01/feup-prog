@@ -33,7 +33,6 @@ struct Robot
     int x, y;
     int id;
     bool alive = true;
-    void killRobot() { alive = false; }
     Robot(int i, int j)
     {
         x = i;
@@ -326,7 +325,7 @@ void attackRobots(vector<vector<char>> &tiles, struct Player &player)
             {
                 tiles[r.y][r.x] = DEADROBOT;
                 tiles[prevY][prevX] = ' ';
-                r.killRobot();
+                r.alive = false;
             }
             else if (tiles[r.y][r.x] == LIVEHUMAN)
             {
@@ -454,6 +453,7 @@ int main()
     player.isAlive = true;
     string writeName, playerName;
     float time;
+    vector<Score> scores;
 
     while (menu)
     {
@@ -471,7 +471,7 @@ int main()
             player.time = chrono::duration_cast<chrono::seconds>(end - start).count();
             if (player.isAlive)
             {
-                writeResults(writeName, chrono::duration_cast<chrono::seconds>(end - start).count());
+                writeResults(writeName, chrono::duration_cast<chrono::seconds>(end - start).count(), scores);
             }
         }
 

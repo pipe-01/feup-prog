@@ -4,6 +4,7 @@
 #include <cstring>
 #include <stdio.h>
 #include <string.h>
+#include <algorithm>
 #include "readwrite.h"
 /**
  * @brief Checks if file exists
@@ -21,6 +22,16 @@ bool fileExists(const string &name)
     }
     return 1;
 }
+
+bool compareTime(const Score &a, const Score &b){
+    return a.time < b.time;
+}
+
+void vectorSort(vector<Score> &scores){
+
+    sort(scores.begin(), scores.end(), compareTime);
+}
+
 /**
  * @brief 
  * 
@@ -29,20 +40,26 @@ bool fileExists(const string &name)
  * @return true 
  * @return false 
  */
-void writeResults(string writeName, int time)
+void writeResults(string writeName, int time, vector<Score> &scores)
 {
     string playerName;
     cout << "Enter player name: " << endl;
+    //clear buffer
     cin.ignore();
     getline(cin,playerName);
     playerName.resize(15,' ');
+
+    Score p1 = Score(playerName, time);
+    scores.push_back(p1);
+    vectorSort(scores);
+
     ofstream write;
     if (!fileExists(writeName))
     {
         write.open(writeName, fstream::app);
         write << "Player\t\t "
               << "- Time" << endl;
-        for (int i = 0; i < 19; i++)
+        for (int i = 0; i < LIMIT; i++)
         {
             write << "-";
         }
@@ -58,4 +75,8 @@ void writeResults(string writeName, int time)
         write << " - " << time << endl;
     }
     write.close();
+
+    for (int i = 0; i < scores.size(); i++){
+        cout << "Name :" << scores[i].name << " Time " << scores[i].time << endl; 
+    }
 }
