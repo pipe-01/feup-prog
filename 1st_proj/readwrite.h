@@ -5,5 +5,5 @@
 
 using namespace std;
 
-bool file_exists(const string &file_name);
+bool fileExists(const string &file_name);
 void writeResults(string writeName,const int time);

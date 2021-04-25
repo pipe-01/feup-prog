@@ -176,7 +176,7 @@ string read_game(bool &menu, vector<vector<char>> &tiles, struct Player &player)
             write_name = file_name + "0" + aux + "_WINNERS.TXT";
             file_name = file_name + "0" + aux + ".TXT";
 
-            if (file_exists(file_name))
+            if (fileExists(file_name))
             {
                 cout << "File exists" << endl;
                 read_file(file_name, tiles, player);
@@ -196,7 +196,7 @@ string read_game(bool &menu, vector<vector<char>> &tiles, struct Player &player)
             write_name = file_name + aux + "_WINNERS.TXT";
             file_name = file_name + aux + ".TXT";
 
-            if (file_exists(file_name))
+            if (fileExists(file_name))
             {
                 cout << "File exists" << endl;
                 read_file(file_name, tiles, player);
