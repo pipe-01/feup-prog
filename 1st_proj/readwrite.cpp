@@ -31,10 +31,11 @@ bool fileExists(const string &name)
  */
 void writeResults(string writeName, int time)
 {
-    char playerName[16];
-    printf("Enter name: ");
-    scanf ("%[^\n]s", playerName);
-    printf("%s", playerName);
+    string playerName;
+    cout << "Enter player name: " << endl;
+    cin.ignore();
+    getline(cin,playerName);
+    playerName.resize(15,' ');
     ofstream write;
     if (!fileExists(writeName))
     {
@@ -47,20 +48,13 @@ void writeResults(string writeName, int time)
         }
         write << endl;
         write << playerName;
-        for (int i = 0; i < 15 - strlen(playerName); i++)
-        {
-            write << ' ';
-        }
+        
         write << " - " << time << endl;
     }
     else
     {
         write.open(writeName, fstream::app);
         write << playerName;
-        for (int i = 0; i < 15 - strlen(playerName); i++)
-        {
-            write << ' ';
-        }
         write << " - " << time << endl;
     }
     write.close();
