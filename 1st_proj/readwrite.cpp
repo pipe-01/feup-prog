@@ -2,6 +2,8 @@
 #include <chrono>
 #include <sys/stat.h>
 #include <cstring>
+#include <stdio.h>
+#include <string.h>
 #include "readwrite.h"
 /**
  * @brief Checks if file exists
@@ -29,9 +31,10 @@ bool fileExists(const string &name)
  */
 void writeResults(string writeName, int time)
 {
-    char playerName[15];
-    cout << "\nWhat is your name?" << endl;
-    cin >> playerName;
+    char playerName[16];
+    printf("Enter name: ");
+    scanf ("%[^\n]s", playerName);
+    printf("%s", playerName);
     ofstream write;
     if (!fileExists(writeName))
     {
