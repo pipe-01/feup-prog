@@ -271,9 +271,18 @@ char checkCollision(vector<vector<char>> &tiles, struct Player &player)
         return '2';
     }
 }
+/**
+ * @brief Moves robots according to the players current position
+ * 
+ * @param robot 
+ * @param player 
+ * @return Robot 
+ */
 Robot moveRobots(Robot r, const Player p)
 {
-    int varX = r.x - p.x, varY = r.y - p.y;
+    int varX = r.x - p.x; 
+    int varY = r.y - p.y;
+
     if (varX > 0)
     {
         r.x--;
@@ -295,7 +304,7 @@ Robot moveRobots(Robot r, const Player p)
 /**
  * @param tiles
  * @param player
- * @brief
+ * @brief Moves robots one by one and checks any collisions
  */
 void attackRobots(vector<vector<char>> &tiles, struct Player &player)
 {
@@ -473,6 +482,7 @@ int main()
             if (player.isAlive)
             {
                 writeResults(writeName, chrono::duration_cast<chrono::seconds>(end - start).count(), scores);
+                printExit();
             }
         }
 

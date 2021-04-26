@@ -32,6 +32,24 @@ void vectorSort(vector<Score> &scores){
     sort(scores.begin(), scores.end(), compareTime);
 }
 
+void addScore(vector<Score> &scores, string line){
+    string name, del = "-"; int time;
+    int start = 0;
+    int end = line.find(del);
+    name = line.substr(start, end - start);
+    start = end + del.size();
+    end = line.find(del, start);
+    time = stoi(line.substr(start, end - start));
+    Score s = Score(name, time);
+    scores.push_back(s);
+}
+
+void writeScore(vector<Score> &scores, ofstream &write){
+    for(Score s: scores){
+        write << s.name << "-" << s.time << endl;
+    }
+}
+
 /**
  * @brief 
  * 
@@ -42,7 +60,7 @@ void vectorSort(vector<Score> &scores){
  */
 void writeResults(string writeName, int time, vector<Score> &scores)
 {
-    string playerName;
+    string playerName, line;
     cout << "Enter player name (Max size 15): " << endl;
     //clear buffer
     cin.ignore();
@@ -67,16 +85,27 @@ void writeResults(string writeName, int time, vector<Score> &scores)
         write << playerName;
         
         write << " - " << time << endl;
+        write.close();
     }
     else
     {
-        write.open(writeName, fstream::app);
-        write << playerName;
-        write << " - " << time << endl;
-    }
-    write.close();
+        ifstream read; 
+        read.open(writeName); 
+        getline(read,line);
+        while (getline(read,line))
+        {
+            addScore(scores,line);
+        }
+        vectorSort(scores);
+        read.close();
 
+        write.open(writeName, fstream::app);
+        writeScore(scores, write);
+        write.close();
+    }
+    /**
     for (int i = 0; i < scores.size(); i++){
         cout << "Name :" << scores[i].name << " Time " << scores[i].time << endl; 
     }
+    **/
 }
