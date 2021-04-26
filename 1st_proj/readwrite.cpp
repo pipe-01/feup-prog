@@ -90,16 +90,23 @@ void writeResults(string writeName, int time, vector<Score> &scores)
     else
     {
         ifstream read; 
-        read.open(writeName); 
-        getline(read,line);
+        read.open(writeName,fstream::beg); 
+        getline(read,line);// Line with Player - Time
+        getline(read,line);// Line with "-----"
         while (getline(read,line))
         {
             addScore(scores,line);
         }
         vectorSort(scores);
         read.close();
-
         write.open(writeName, fstream::app);
+        write << "Player\t\t "
+              << "- Time" << endl;
+        for (int i = 0; i < LIMIT; i++)
+        {
+            write << "-";
+        }
+        write << endl;
         writeScore(scores, write);
         write.close();
     }
