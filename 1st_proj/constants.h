@@ -7,3 +7,4 @@
 #define DEADHUMAN 'h'
 #define LIVEHUMAN 'H'
 #define LIMIT 19
+#define NAMESIZE 15

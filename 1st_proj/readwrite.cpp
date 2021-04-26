@@ -65,16 +65,15 @@ void writeResults(string writeName, int time, vector<Score> &scores)
     //clear buffer
     cin.ignore();
     getline(cin,playerName);
-    playerName.resize(15,' ');
+    playerName.resize(NAMESIZE,' ');
 
     Score p1 = Score(playerName, time);
     scores.push_back(p1);
     vectorSort(scores);
 
-    ofstream write;
     if (!fileExists(writeName))
     {
-        write.open(writeName, fstream::app);
+        ofstream write(writeName);
         write << "Player\t\t "
               << "- Time" << endl;
         for (int i = 0; i < LIMIT; i++)
@@ -90,16 +89,18 @@ void writeResults(string writeName, int time, vector<Score> &scores)
     else
     {
         ifstream read; 
-        read.open(writeName,fstream::beg); 
+        read.open(writeName); 
         getline(read,line);// Line with Player - Time
+        cout << line << endl;
         getline(read,line);// Line with "-----"
+        cout << line << endl;
         while (getline(read,line))
         {
             addScore(scores,line);
         }
         vectorSort(scores);
         read.close();
-        write.open(writeName, fstream::app);
+        ofstream write(writeName);
         write << "Player\t\t "
               << "- Time" << endl;
         for (int i = 0; i < LIMIT; i++)
