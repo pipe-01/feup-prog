@@ -6,5 +6,7 @@
 #define LIVEROBOT 'R'
 #define DEADHUMAN 'h'
 #define LIVEHUMAN 'H'
-#define LIMIT 19
+#define DASHLINE '-'
+#define SPACEBAR ' '
+#define LIMIT 26
 #define NAMESIZE 15

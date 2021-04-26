@@ -12,7 +12,6 @@
 
 using namespace std;
 
-unsigned robotCounterId = 1; //sequential identification number
 /**
  * @brief Stores player information
  * 
@@ -33,11 +32,11 @@ struct Robot
     int x, y;
     int id;
     bool alive = true;
-    Robot(int i, int j)
+    Robot(int i, int j, int n )
     {
         x = i;
         y = j;
-        id = robotCounterId++;
+        id = n; 
     };
 };
 
@@ -59,6 +58,18 @@ bool checkWin(Player p)
     return true;
 }
 /**
+ * @brief for debug initially but actually really useful to help player move
+ */
+void printRobotsPos()
+{
+    for (Robot r : robots)
+    {
+        cout << "\nRobot position : " << r.x << ' ' << r.y << " ID: " << r.id << endl;
+        string alive = r.alive ? "alive" : "dead";
+        cout << "This robot is " << alive << endl;
+    }
+}
+/**
  * @param file_name
  * @param tiles
  * @param player
@@ -71,6 +82,7 @@ void read_file(string &file_name, vector<vector<char>> &tiles, struct Player &pl
     char useless;
     string line;
     ifstream file(file_name);
+    unsigned robotCounterId = 1;
 
     if (!file)
     {
@@ -104,34 +116,23 @@ void read_file(string &file_name, vector<vector<char>> &tiles, struct Player &pl
                 }
                 else if (line[j] == LIVEROBOT)
                 {
-                    Robot r1 = Robot(j, i);
+                    Robot r1 = Robot(j, i, robotCounterId++);
                     robots.push_back(r1);
-                    cout << "Robot position :" << j << ' ' << i << endl;
                 }
                 else if (line[j] == DEADROBOT)
                 {
-                    Robot r1 = Robot(j, i);
+                    Robot r1 = Robot(j, i, robotCounterId++);
                     r1.alive = false;
                     robots.push_back(r1);
                 }
             }
         }
+        printRobotsPos();
     }
     file.close();
 }
 
-/**
- * @brief for debug initially but actually really useful to help player move
- */
-void printRobotsPos()
-{
-    for (Robot r : robots)
-    {
-        cout << "\nRobot position : " << r.x << ' ' << r.y << " ID: " << r.id << endl;
-        string alive = r.alive ? "alive" : "dead";
-        cout << "This robot is " << alive << endl;
-    }
-}
+
 /**
  * @param menu
  * @param tiles
@@ -324,6 +325,10 @@ void attackRobots(vector<vector<char>> &tiles, struct Player &player)
                 tiles[r.y][r.x] = DEADHUMAN;
                 player.isAlive = false;
             }
+            else if(tiles[prevY][prevX] == DEADROBOT){
+                r.alive = false;
+                continue;
+            }
             r = moveRobots(r, player);
             if (tiles[r.y][r.x] == ' ')
             {
@@ -478,10 +483,10 @@ int main()
             auto start = chrono::steady_clock::now();
             playGame(tiles, player);
             auto end = chrono::steady_clock::now();
-            player.time = chrono::duration_cast<chrono::seconds>(end - start).count();
+            player.time = chrono::duration_cast<chrono::milliseconds>(end - start).count();
             if (player.isAlive)
             {
-                writeResults(writeName, chrono::duration_cast<chrono::seconds>(end - start).count(), scores);
+                writeResults(writeName, chrono::duration_cast<chrono::milliseconds>(end - start).count(), scores);
                 printExit();
             }
         }

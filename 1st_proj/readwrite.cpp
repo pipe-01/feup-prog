@@ -52,13 +52,13 @@ void vectorSort(vector<Score> &scores)
  */
 void addScore(vector<Score> &scores, string line)
 {
-    string name, del = "-";
+    string name;
     int time;
     int start = 0;
-    int end = line.find(del);
+    int end = line.find(DASHLINE);
     name = line.substr(start, end - start);
-    start = end + del.size();
-    end = line.find(del, start);
+    start = end + 1;
+    end = line.find(DASHLINE, start);
     time = stoi(line.substr(start, end - start));
     Score s = Score(name, time);
     scores.push_back(s);
@@ -74,7 +74,7 @@ void writeScore(vector<Score> &scores, ofstream &write)
 {
     for (Score s : scores)
     {
-        write << s.name << "-" << s.time << endl;
+        write << s.name << DASHLINE << s.time << endl;
     }
 }
 
@@ -85,11 +85,10 @@ void writeScore(vector<Score> &scores, ofstream &write)
  */
 void writeHeader(ofstream &write)
 {
-    write << "Player\t\t "
-          << "- Time" << endl;
+    write << "Player\t\t" << DASHLINE << "Time(ms)" << endl;
     for (int i = 0; i < LIMIT; i++)
     {
-        write << "-";
+        write << DASHLINE;
     }
     write << endl;
 }
@@ -105,11 +104,15 @@ void writeHeader(ofstream &write)
 void writeResults(string writeName, int time, vector<Score> &scores)
 {
     string playerName, line;
-    cout << "Enter player name (Max size 15): " << endl;
-    //clear buffer
-    cin.ignore();
-    getline(cin, playerName);
-    playerName.resize(NAMESIZE, ' ');
+    do
+    {
+        cout << "Enter player name (Max size 15): " << endl;
+        //clear buffer
+        cin.ignore();
+        getline(cin, playerName);
+    } while (playerName.size() > 15);
+
+    playerName.resize(NAMESIZE, SPACEBAR);
 
     Score p1 = Score(playerName, time);
     scores.push_back(p1);
@@ -119,13 +122,13 @@ void writeResults(string writeName, int time, vector<Score> &scores)
     {
         ofstream write(writeName);
         writeHeader(write);
-        write << playerName << " - " << time << endl;
+        writeScore(scores, write);
         write.close();
     }
     else
     {
         ifstream read;
-        read.open(writeName);
+        read.open(writeName); //Opens to read
         getline(read, line); // Line with Player - Time
         getline(read, line); // Line with "-----"
         while (getline(read, line))
@@ -134,14 +137,10 @@ void writeResults(string writeName, int time, vector<Score> &scores)
         }
         vectorSort(scores);
         read.close();
-        ofstream write(writeName);
+
+        ofstream write(writeName); //Opens to write
         writeHeader(write);
         writeScore(scores, write);
         write.close();
     }
-    /**
-    for (int i = 0; i < scores.size(); i++){
-        cout << "Name :" << scores[i].name << " Time " << scores[i].time << endl; 
-    }
-    **/
 }
