@@ -1,6 +1,0 @@
-Player		-Time(ms)
-----------------------
-finalmente     -2238
-este tambem    -2264
-ste serve      -3008
-aaaaaaaaaaaaaa -3687
