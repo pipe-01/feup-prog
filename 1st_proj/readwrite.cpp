@@ -43,7 +43,7 @@ void vectorSort(vector<Score> &scores){
 void writeResults(string writeName, int time, vector<Score> &scores)
 {
     string playerName;
-    cout << "Enter player name: " << endl;
+    cout << "Enter player name (Max size 15): " << endl;
     //clear buffer
     cin.ignore();
     getline(cin,playerName);
