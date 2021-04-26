@@ -22,7 +22,14 @@ bool fileExists(const string &name)
     }
     return 1;
 }
-
+/**
+ * @brief Sorts Players by their time
+ * 
+ * @param Score a 
+ * @param Score b 
+ * @return true 
+ * @return false 
+ */
 bool compareTime(const Score &a, const Score &b){
     return a.time < b.time;
 }
@@ -31,7 +38,12 @@ void vectorSort(vector<Score> &scores){
 
     sort(scores.begin(), scores.end(), compareTime);
 }
-
+/**
+ * @brief Stores values of players in player vector
+ * 
+ * @param scores 
+ * @param line 
+ */
 void addScore(vector<Score> &scores, string line){
     string name, del = "-"; int time;
     int start = 0;
@@ -43,7 +55,12 @@ void addScore(vector<Score> &scores, string line){
     Score s = Score(name, time);
     scores.push_back(s);
 }
-
+/**
+ * @brief writes all saved stores previously collected from the file + current winner player on the same file
+ * 
+ * @param scores 
+ * @param write 
+ */
 void writeScore(vector<Score> &scores, ofstream &write){
     for(Score s: scores){
         write << s.name << "-" << s.time << endl;
@@ -89,11 +106,9 @@ void writeResults(string writeName, int time, vector<Score> &scores)
     else
     {
         ifstream read; 
-        read.open(writeName); 
+        read.open(writeName);
         getline(read,line);// Line with Player - Time
-        cout << line << endl;
         getline(read,line);// Line with "-----"
-        cout << line << endl;
         while (getline(read,line))
         {
             addScore(scores,line);
