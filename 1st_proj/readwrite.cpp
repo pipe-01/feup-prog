@@ -23,29 +23,37 @@ bool fileExists(const string &name)
     return 1;
 }
 /**
- * @brief Sorts Players by their time
+ * @brief Sorts Players by their time ( if time equal, then by name)
  * 
  * @param Score a 
  * @param Score b 
  * @return true 
  * @return false 
  */
-bool compareTime(const Score &a, const Score &b){
+bool compareTime(const Score &a, const Score &b)
+{
+    if (a.time == b.time)
+    {
+        return a.name < b.name;
+    }
     return a.time < b.time;
 }
 
-void vectorSort(vector<Score> &scores){
-
+void vectorSort(vector<Score> &scores)
+{
     sort(scores.begin(), scores.end(), compareTime);
 }
+
 /**
  * @brief Stores values of players in player vector
  * 
  * @param scores 
  * @param line 
  */
-void addScore(vector<Score> &scores, string line){
-    string name, del = "-"; int time;
+void addScore(vector<Score> &scores, string line)
+{
+    string name, del = "-";
+    int time;
     int start = 0;
     int end = line.find(del);
     name = line.substr(start, end - start);
@@ -55,16 +63,35 @@ void addScore(vector<Score> &scores, string line){
     Score s = Score(name, time);
     scores.push_back(s);
 }
+
 /**
  * @brief writes all saved stores previously collected from the file + current winner player on the same file
  * 
  * @param scores 
  * @param write 
  */
-void writeScore(vector<Score> &scores, ofstream &write){
-    for(Score s: scores){
+void writeScore(vector<Score> &scores, ofstream &write)
+{
+    for (Score s : scores)
+    {
         write << s.name << "-" << s.time << endl;
     }
+}
+
+/**
+ * @brief writes header of Winner file
+ * 
+ * @param write 
+ */
+void writeHeader(ofstream &write)
+{
+    write << "Player\t\t "
+          << "- Time" << endl;
+    for (int i = 0; i < LIMIT; i++)
+    {
+        write << "-";
+    }
+    write << endl;
 }
 
 /**
@@ -81,8 +108,8 @@ void writeResults(string writeName, int time, vector<Score> &scores)
     cout << "Enter player name (Max size 15): " << endl;
     //clear buffer
     cin.ignore();
-    getline(cin,playerName);
-    playerName.resize(NAMESIZE,' ');
+    getline(cin, playerName);
+    playerName.resize(NAMESIZE, ' ');
 
     Score p1 = Score(playerName, time);
     scores.push_back(p1);
@@ -91,38 +118,24 @@ void writeResults(string writeName, int time, vector<Score> &scores)
     if (!fileExists(writeName))
     {
         ofstream write(writeName);
-        write << "Player\t\t "
-              << "- Time" << endl;
-        for (int i = 0; i < LIMIT; i++)
-        {
-            write << "-";
-        }
-        write << endl;
-        write << playerName;
-        
-        write << " - " << time << endl;
+        writeHeader(write);
+        write << playerName << " - " << time << endl;
         write.close();
     }
     else
     {
-        ifstream read; 
+        ifstream read;
         read.open(writeName);
-        getline(read,line);// Line with Player - Time
-        getline(read,line);// Line with "-----"
-        while (getline(read,line))
+        getline(read, line); // Line with Player - Time
+        getline(read, line); // Line with "-----"
+        while (getline(read, line))
         {
-            addScore(scores,line);
+            addScore(scores, line);
         }
         vectorSort(scores);
         read.close();
         ofstream write(writeName);
-        write << "Player\t\t "
-              << "- Time" << endl;
-        for (int i = 0; i < LIMIT; i++)
-        {
-            write << "-";
-        }
-        write << endl;
+        writeHeader(write);
         writeScore(scores, write);
         write.close();
     }
