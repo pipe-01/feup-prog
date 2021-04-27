@@ -95,7 +95,7 @@ void read_file(string &file_name, vector<vector<char>> &tiles, struct Player &pl
         file.ignore(256, '\n');
 
         tiles.resize(rows);
-        for (int i = 0; i < tiles.size(); i++)
+        for (unsigned int i = 0; i < tiles.size(); i++)
         {
             tiles[i].resize(columns);
         }
@@ -467,7 +467,6 @@ int main()
     struct Player player;
     player.isAlive = true;
     string writeName, playerName;
-    float time;
     vector<Score> scores;
 
     while (menu)

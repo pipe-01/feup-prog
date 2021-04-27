@@ -42,7 +42,6 @@ void printRules()
     //clear terminal
     cout << "\033[2J\033[1;1H";
 
-    char any;
     cout << "                                ___       __      \n"
             "                               / _ \\__ __/ /__ ___\n"
             "                              / , _/ // / / -_|_-<\n"
