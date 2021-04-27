@@ -106,7 +106,7 @@ void writeResults(string writeName, int time, vector<Score> &scores)
     string playerName, line;
     do
     {
-        cout << "Enter player name (Max size 15): " << endl;
+        cout << "Enter player name (Max size 15): ";
         //clear buffer
         cin.ignore();
         getline(cin, playerName);

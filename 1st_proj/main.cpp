@@ -214,6 +214,7 @@ string read_game(bool &menu, vector<vector<char>> &tiles, struct Player &player)
             //clear terminal
             cout << "\033[2J\033[1;1H";
             menu = true;
+            player.isAlive = false;
             return write_name;
         }
         else
