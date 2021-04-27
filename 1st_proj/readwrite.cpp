@@ -74,7 +74,13 @@ void writeScore(vector<Score> &scores, ofstream &write)
 {
     for (Score s : scores)
     {
-        write << s.name << DASHLINE << s.time << endl;
+        int aux = LIMIT - s.name.size() - 5; //formatar output
+
+        write << s.name;
+        for (int i = 0; i < aux; i++){
+            write << SPACEBAR;
+        }
+        write << DASHLINE << s.time << endl;
     }
 }
 
