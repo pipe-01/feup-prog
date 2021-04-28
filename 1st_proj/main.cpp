@@ -141,7 +141,7 @@ string read_game(bool &menu, vector<vector<char>> &tiles, struct Player &player,
 {
 
     int maze_value;
-    string file_name = "MAZE_", write_name;
+    string file_name, write_name;
     string aux;
 
     //clear terminal
@@ -151,6 +151,8 @@ string read_game(bool &menu, vector<vector<char>> &tiles, struct Player &player,
     {
         cout << "Enter maze number: ";
         cin >> maze_value;
+
+        file_name = "MAZE_";
 
         if (cin.fail())
         {
@@ -179,13 +181,14 @@ string read_game(bool &menu, vector<vector<char>> &tiles, struct Player &player,
                 read_file(file_name, tiles, player,robots);
                 file_name.clear();
                 menu = false;
+                return write_name;
                 break;
             }
             else
             {
                 cout << "File doesn't exist" << endl;
+                continue;
             }
-            return write_name;
         }
         else if (maze_value == 0)
         {
