@@ -60,8 +60,20 @@ void addScore(vector<Score> &scores, string line)
     start = end + 1;
     end = line.find(DASHLINE, start);
     time = stoi(line.substr(start, end - start));
-    Score s = Score(name, time);
-    scores.push_back(s);
+    for (Score s_aux : scores)
+    {
+        if(s_aux.name != name){
+            Score s = Score(name, time);
+            scores.push_back(s);
+        }
+        else{
+            if(s_aux.time > time){
+                scores.pop_back();
+                Score s = Score(name, time);
+                scores.push_back(s);
+            }
+        }
+    }
 }
 
 /**
