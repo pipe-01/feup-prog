@@ -60,20 +60,8 @@ void addScore(vector<Score> &scores, string line)
     start = end + 1;
     end = line.find(DASHLINE, start);
     time = stoi(line.substr(start, end - start));
-    for (Score s_aux : scores)
-    {
-        if(s_aux.name != name){
-            Score s = Score(name, time);
-            scores.push_back(s);
-        }
-        else{
-            if(s_aux.time > time){
-                scores.pop_back();
-                Score s = Score(name, time);
-                scores.push_back(s);
-            }
-        }
-    }
+    Score s = Score(name, time);
+    scores.push_back(s);
 }
 
 /**
@@ -86,13 +74,8 @@ void writeScore(vector<Score> &scores, ofstream &write)
 {
     for (Score s : scores)
     {
-        int aux = LIMIT - s.name.size() - 2; //formatar output
-
-        write << s.name;
-        for (int i = 0; i < aux; i++){
-            write << SPACEBAR;
-        }
-        write << DASHLINE << s.time << endl;
+        s.name.resize(NAMESIZE,SPACEBAR);
+        write << s.name << DASHLINE << s.time << endl;
     }
 }
 
@@ -103,7 +86,7 @@ void writeScore(vector<Score> &scores, ofstream &write)
  */
 void writeHeader(ofstream &write)
 {
-    write << "Player\t\t" << DASHLINE << "Time(s)" << endl;
+    write << "Player\t\t" << DASHLINE << "Time(ms)" << endl;
     for (int i = 0; i < LIMIT; i++)
     {
         write << DASHLINE;
@@ -119,27 +102,26 @@ void writeHeader(ofstream &write)
  * @return true 
  * @return false 
  */
-void writeResults(string writeName, int time, vector<Score> &scores)
+void writeResults(string writeName, int time)
 {
+    vector<Score> scores;
     string playerName, line;
+    bool exists = false;
     do
     {
-        cout << "Enter player name (Max size 15): ";
+        cout << "Enter player name (Max size 15): " << endl;
         //clear buffer
         cin.ignore();
         getline(cin, playerName);
     } while (playerName.size() > 15);
 
-    playerName.resize(NAMESIZE, SPACEBAR);
-
     Score p1 = Score(playerName, time);
-    scores.push_back(p1);
-    vectorSort(scores);
 
     if (!fileExists(writeName))
     {
         ofstream write(writeName);
         writeHeader(write);
+        scores.push_back(p1);
         writeScore(scores, write);
         write.close();
     }
@@ -152,6 +134,24 @@ void writeResults(string writeName, int time, vector<Score> &scores)
         while (getline(read, line))
         {
             addScore(scores, line);
+        }
+        for(Score &s:scores){
+            for(int i = s.name.length()-1; i != 0; i--){
+                if(s.name[i]!= SPACEBAR){
+                    break;
+                }
+                s.name.erase(s.name.begin()+i);
+            }
+            cout << s.name << "-" << p1.name;
+            if(s.name == p1.name){
+                exists = true;
+                if(s.time>p1.time)
+                    s=p1;
+                break;    
+            }
+        }
+        if(!exists){
+            scores.push_back(p1);
         }
         vectorSort(scores);
         read.close();
