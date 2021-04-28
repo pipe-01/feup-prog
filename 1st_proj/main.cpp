@@ -143,7 +143,7 @@ string read_game(bool &menu, vector<vector<char>> &tiles, struct Player &player)
 {
 
     int maze_value;
-    string file_name, write_name;
+    string file_name = "MAZE_", write_name;
     string aux;
 
     //clear terminal
@@ -151,10 +151,7 @@ string read_game(bool &menu, vector<vector<char>> &tiles, struct Player &player)
 
     while (1)
     {
-
-        file_name = "MAZE_";
-
-        cout << "Enter the maze size: ";
+        cout << "Enter maze number: ";
         cin >> maze_value;
 
         if (cin.fail())
@@ -169,32 +166,14 @@ string read_game(bool &menu, vector<vector<char>> &tiles, struct Player &player)
                 exit(0);
             }
         }
-        else if (maze_value > 0 && maze_value <= 9)
+        else if (maze_value > 0 && maze_value <= 99)
         {
 
             aux = to_string(maze_value);
-            write_name = file_name + "0" + aux + "_WINNERS.TXT";
-            file_name = file_name + "0" + aux + ".TXT";
-
-            if (fileExists(file_name))
-            {
-                cout << "File exists" << endl;
-                read_file(file_name, tiles, player);
-                file_name.clear();
-                menu = false;
-                break;
-            }
-            else
-            {
-                cout << "File doesn't exist" << endl;
-            }
-        }
-        else if (maze_value >= 10 && maze_value <= 99)
-        {
-
-            aux = to_string(maze_value);
+            if(maze_value<10)
+    	        aux = "0" + aux;
             write_name = file_name + aux + "_WINNERS.TXT";
-            file_name = file_name + aux + ".TXT";
+            file_name = file_name  + aux + ".TXT";
 
             if (fileExists(file_name))
             {
