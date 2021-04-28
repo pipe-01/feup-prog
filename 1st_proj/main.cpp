@@ -95,7 +95,7 @@ void read_file(string &file_name, vector<vector<char>> &tiles, struct Player &pl
         file.ignore(256, '\n');
 
         tiles.resize(rows);
-        for (unsigned int i = 0; i < tiles.size(); i++)
+        for (int i = 0; i < tiles.size(); i++)
         {
             tiles[i].resize(columns);
         }
@@ -214,7 +214,6 @@ string read_game(bool &menu, vector<vector<char>> &tiles, struct Player &player)
             //clear terminal
             cout << "\033[2J\033[1;1H";
             menu = true;
-            player.isAlive = false;
             return write_name;
         }
         else
@@ -468,7 +467,7 @@ int main()
     struct Player player;
     player.isAlive = true;
     string writeName, playerName;
-    vector<Score> scores;
+    float time;
 
     while (menu)
     {
@@ -483,10 +482,10 @@ int main()
             auto start = chrono::steady_clock::now();
             playGame(tiles, player);
             auto end = chrono::steady_clock::now();
-            player.time = chrono::duration_cast<chrono::seconds>(end - start).count();
+            player.time = chrono::duration_cast<chrono::milliseconds>(end - start).count();
             if (player.isAlive)
             {
-                writeResults(writeName, chrono::duration_cast<chrono::seconds>(end - start).count(), scores);
+                writeResults(writeName, chrono::duration_cast<chrono::milliseconds>(end - start).count());
                 printExit();
             }
         }
