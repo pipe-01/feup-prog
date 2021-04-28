@@ -40,13 +40,11 @@ struct Robot
     };
 };
 
-vector<Robot> robots; //Accessed several times
-
 /**
  * @param Player
  * @return 0 if games has not ended, 1 if human won, 2 if robots won
  */
-bool checkWin(Player p)
+bool checkWin(vector<Robot> robots)
 {
     for (Robot r : robots)
     {
@@ -60,7 +58,7 @@ bool checkWin(Player p)
 /**
  * @brief for debug initially but actually really useful to help player move
  */
-void printRobotsPos()
+void printRobotsPos(vector<Robot> robots)
 {
     for (Robot r : robots)
     {
@@ -76,7 +74,7 @@ void printRobotsPos()
  * @brief Inserts values of file into a 2-D vector, in case of:
  * Robot - inserts it in robots. Player - changes it's values of x and y
  */
-void read_file(string &file_name, vector<vector<char>> &tiles, struct Player &player)
+void read_file(string &file_name, vector<vector<char>> &tiles, struct Player &player,vector<Robot> &robots)
 {
     int rows, columns;
     char useless;
@@ -127,7 +125,7 @@ void read_file(string &file_name, vector<vector<char>> &tiles, struct Player &pl
                 }
             }
         }
-        printRobotsPos();
+        printRobotsPos(robots);
     }
     file.close();
 }
@@ -139,7 +137,7 @@ void read_file(string &file_name, vector<vector<char>> &tiles, struct Player &pl
  * @param player
  * @brief Verifies if file exists and calls read_file function
  */
-string read_game(bool &menu, vector<vector<char>> &tiles, struct Player &player)
+string read_game(bool &menu, vector<vector<char>> &tiles, struct Player &player, vector<Robot> &robots)
 {
 
     int maze_value;
@@ -178,7 +176,7 @@ string read_game(bool &menu, vector<vector<char>> &tiles, struct Player &player)
             if (fileExists(file_name))
             {
                 cout << "File exists" << endl;
-                read_file(file_name, tiles, player);
+                read_file(file_name, tiles, player,robots);
                 file_name.clear();
                 menu = false;
                 break;
@@ -286,7 +284,7 @@ Robot moveRobots(Robot r, const Player p)
  * @param player
  * @brief Moves robots one by one and checks any collisions
  */
-void attackRobots(vector<vector<char>> &tiles, struct Player &player)
+void attackRobots(vector<vector<char>> &tiles, struct Player &player,vector<Robot> &robots)
 {
     int prevX, prevY;
     for (Robot &r : robots)
@@ -337,7 +335,7 @@ void attackRobots(vector<vector<char>> &tiles, struct Player &player)
  * @brief Receives a movement, verifies if valid, then alters the players position accordingly. Finally
  * moves the live robots according to the players movement.
  */
-void movePlayer(vector<vector<char>> &tiles, struct Player &player)
+void movePlayer(vector<vector<char>> &tiles, struct Player &player,vector<Robot> &robots)
 {
     int prevX = player.x, prevY = player.y;
     char move, coll;
@@ -413,8 +411,8 @@ void movePlayer(vector<vector<char>> &tiles, struct Player &player)
             printRobotVictory();
             break;
         }
-        attackRobots(tiles, player);
-        printRobotsPos();
+        attackRobots(tiles, player,robots);
+        printRobotsPos(robots);
         break;
     }
 }
@@ -425,22 +423,23 @@ void movePlayer(vector<vector<char>> &tiles, struct Player &player)
  * @param tiles 
  * @param player 
  */
-void playGame(vector<vector<char>> &tiles, struct Player &player)
+void playGame(vector<vector<char>> &tiles, struct Player &player, vector<Robot> &robots)
 {
     while (player.isAlive)
     {
         drawMaze(tiles);
-        if (checkWin(player))
+        if (checkWin(robots))
         {
             printHumanVictory();
             break;
         }
-        movePlayer(tiles, player);
+        movePlayer(tiles, player, robots);
     }
 }
 
 int main()
 {
+    vector<Robot> robots;
     bool menu = true, play = false, rules = false, exits = false;
     vector<vector<char>> tiles;
     struct Player player;
@@ -453,15 +452,15 @@ int main()
 
         if (play)
         {
+            play = false;
             printBeginGame();
             player.isAlive = true;
-            writeName = read_game(menu, tiles, player);
+            writeName = read_game(menu, tiles, player,robots);
             if(!player.isAlive){
                 continue;
             }
-            play = false;
             auto start = chrono::steady_clock::now();
-            playGame(tiles, player);
+            playGame(tiles, player,robots);
             auto end = chrono::steady_clock::now();
             player.time = chrono::duration_cast<chrono::milliseconds>(end - start).count();
             if (player.isAlive)
