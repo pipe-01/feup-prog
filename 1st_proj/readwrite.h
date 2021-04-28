@@ -18,4 +18,4 @@ struct Score{
 };
 
 bool fileExists(const string &file_name);
-void writeResults(string writeName,const int time, vector<Score> &scores);
+void writeResults(string writeName,const int time);
