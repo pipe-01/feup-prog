@@ -483,10 +483,10 @@ int main()
             auto start = chrono::steady_clock::now();
             playGame(tiles, player);
             auto end = chrono::steady_clock::now();
-            player.time = chrono::duration_cast<chrono::milliseconds>(end - start).count();
+            player.time = chrono::duration_cast<chrono::seconds>(end - start).count();
             if (player.isAlive)
             {
-                writeResults(writeName, chrono::duration_cast<chrono::milliseconds>(end - start).count(), scores);
+                writeResults(writeName, chrono::duration_cast<chrono::seconds>(end - start).count(), scores);
                 printExit();
             }
         }
