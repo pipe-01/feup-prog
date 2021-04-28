@@ -187,20 +187,20 @@ string read_game(bool &menu, vector<vector<char>> &tiles, struct Player &player)
             {
                 cout << "File doesn't exist" << endl;
             }
+            return write_name;
         }
         else if (maze_value == 0)
         {
-            //clear terminal
-            cout << "\033[2J\033[1;1H";
+            player.isAlive = false;
             menu = true;
-            return write_name;
+            break;
         }
         else
         {
             cout << "Enter a valid number between 0 and 99" << endl;
         }
     }
-    return write_name;
+    return " ";
 }
 
 /**
@@ -444,19 +444,21 @@ int main()
     bool menu = true, play = false, rules = false, exits = false;
     vector<vector<char>> tiles;
     struct Player player;
-    player.isAlive = true;
     string writeName, playerName;
     float time;
 
     while (menu)
     {
-
         draw_menu(rules, play, exits);
 
         if (play)
         {
             printBeginGame();
+            player.isAlive = true;
             writeName = read_game(menu, tiles, player);
+            if(!player.isAlive){
+                continue;
+            }
             play = false;
             auto start = chrono::steady_clock::now();
             playGame(tiles, player);
@@ -469,13 +471,13 @@ int main()
             }
         }
 
-        if (rules)
+        else if (rules)
         {
             printRules();
             rules = false;
         }
 
-        if (exits)
+        else if (exits)
         {
             exits = false;
             menu = false;

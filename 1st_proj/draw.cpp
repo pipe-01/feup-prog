@@ -137,6 +137,7 @@ void printHumanVictory()
 }
 int draw_menu(bool &rules, bool &play, bool &exits)
 {
+    cout << "\033[2J\033[1;1H";
     int cmenu;
 
     printMenuBanner();
