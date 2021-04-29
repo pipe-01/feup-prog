@@ -186,6 +186,7 @@ void drawMaze(std::vector<std::vector<char>> tiles)
 {
 
     //clear terminal
+    cout << "\033[2J\033[1;1H";
 
     for (size_t i = 0; i < tiles.size(); i++)
     {

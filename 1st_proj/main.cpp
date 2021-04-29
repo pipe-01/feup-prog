@@ -396,6 +396,7 @@ void movePlayer(vector<vector<char>> &tiles, struct Player &player,vector<Robot>
             player.isAlive = false;
             break;
         default:
+            drawMaze(tiles);
             printInvalidChar();
             continue;
         }
