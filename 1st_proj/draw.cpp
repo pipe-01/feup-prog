@@ -31,9 +31,11 @@ void printMenuBanner()
 
 void wait()
 {
-    cout << "\n\tPress ENTER key to continue....";
-    getchar();
-    getchar();
+    cin.ignore();
+    do 
+    {
+        cout << "\t\nPress a key to continue...";
+    } while (cin.get() != '\n');
 }
 
 void printRules()
