@@ -6,7 +6,7 @@ bool checkBuffer(){
     char c;
     while (std::cin.get(c) && '\n' != c) {
         if (!std::isspace(c)) {
-            return !clean;
+            clean = false;
         }
     }
     return clean;

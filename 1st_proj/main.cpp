@@ -348,6 +348,9 @@ void movePlayer(vector<vector<char>> &tiles, struct Player &player,vector<Robot>
     {
         cout << "\nEnter movement player: ";
         cin >> move;
+        if(!checkBuffer()){
+            continue;
+        }
         cout << NEWLINE;
 
         if (cin.fail())
