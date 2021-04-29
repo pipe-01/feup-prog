@@ -1,9 +1,12 @@
 T09_G01
+
 GROUP MEMBERS:
 - Filipe Pinto - up201907747
 - Juan Bellon - 201908142
+
 PROGRAM DEVELOPMENT STATE:
 - ALL THE OBJECTIVES WERE ACCOMPLISHED
+
 MAIN DIFFICULTIES:
 - Reading from files
 - Arranging the board

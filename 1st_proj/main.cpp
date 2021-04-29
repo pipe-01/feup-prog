@@ -362,43 +362,43 @@ void movePlayer(vector<vector<char>> &tiles, struct Player &player,vector<Robot>
         }
         switch (toupper(move))
         {
-        case 'A':
-            player.x--;
-            break;
-        case 'D':
-            player.x++;
-            break;
-        case 'W':
-            player.y--;
-            break;
-        case 'X':
-            player.y++;
-            break;
-        case 'Z':
-            player.x--;
-            player.y++;
-            break;
-        case 'Q':
-            player.x--;
-            player.y--;
-            break;
-        case 'E':
-            player.x++;
-            player.y--;
-            break;
-        case 'C':
-            player.x++;
-            player.y++;
-            break;
-        case 'S':
-            break;
-        case '0':
-            player.isAlive = false;
-            break;
-        default:
-            drawMaze(tiles);
-            printInvalidChar();
-            continue;
+            case 'A':
+                player.x--;
+                break;
+            case 'D':
+                player.x++;
+                break;
+            case 'W':
+                player.y--;
+                break;
+            case 'X':
+                player.y++;
+                break;
+            case 'Z':
+                player.x--;
+                player.y++;
+                break;
+            case 'Q':
+                player.x--;
+                player.y--;
+                break;
+            case 'E':
+                player.x++;
+                player.y--;
+                break;
+            case 'C':
+                player.x++;
+                player.y++;
+                break;
+            case 'S':
+                break;
+            case '0':
+                player.isAlive = false;
+                break;
+            default:
+                drawMaze(tiles);
+                printInvalidChar();
+                continue;
         }
         coll = checkCollision(tiles, player);
         if (coll == '2')
