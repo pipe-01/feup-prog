@@ -408,6 +408,7 @@ void movePlayer(vector<vector<char>> &tiles, struct Player &player,vector<Robot>
         {
             player.x = prevX;
             player.y = prevY;
+            break;
         }
         else
         {
