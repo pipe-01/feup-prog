@@ -53,7 +53,7 @@ void vectorSort(vector<Score> &scores)
 void addScore(vector<Score> &scores, string line)
 {
     string name;
-    int time;
+    unsigned time;
     int start = 0;
     int end = line.find(DASHLINE);
     name = line.substr(start, end - start);
@@ -86,7 +86,7 @@ void writeScore(vector<Score> &scores, ofstream &write)
  */
 void writeHeader(ofstream &write)
 {
-    write << "Player\t\t" << DASHLINE << "Time(s)" << endl;
+    write << "Player\t\t" << DASHLINE << "Time(ms)" << endl;
     for (unsigned int i = 0; i < LIMIT; i++)
     {
         write << DASHLINE;
@@ -95,14 +95,16 @@ void writeHeader(ofstream &write)
 }
 
 /**
- * @brief 
- * 
+ * @brief After getting name, checks if the file for that maze already exits, if it does not
+ *it creates one and adds that player, else opens the already existing file, reads it and adds
+ *the players into a vector, then compares them to the new player, if they match in name,
+ *the leaderboard keeps the one with the highest score
  * @param writeName 
  * @param time 
  * @return true 
  * @return false 
  */
-void writeResults(string writeName,const float time)
+void writeResults(string writeName,const unsigned time)
 {
     vector<Score> scores;
     string playerName, line;
@@ -110,7 +112,6 @@ void writeResults(string writeName,const float time)
     do
     {
         cout << "Enter player name (Max size 15): ";
-        //clear buffer
         cin.ignore();
         getline(cin, playerName);
     } while (playerName.size() > 15);
@@ -142,7 +143,7 @@ void writeResults(string writeName,const float time)
                 }
                 s.name.erase(s.name.begin()+i);
             }
-            cout << s.name << "-" << p1.name;
+            cout << s.name << DASHLINE << p1.name;
             if(s.name == p1.name){
                 exists = true;
                 if(s.time>p1.time)

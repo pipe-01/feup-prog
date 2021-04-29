@@ -20,7 +20,7 @@ struct Player
 {
     unsigned int x, y;
     bool isAlive = false;
-    float time;
+    unsigned time;
 };
 
 /**
@@ -459,22 +459,24 @@ int main()
         if (play)
         {
             play = false;
+
             printBeginGame();
             player.isAlive = true;
             writeName = read_game(menu, tiles, player,robots);
             if(!player.isAlive){
                 continue;
             }
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
             auto start = chrono::steady_clock::now();
             playGame(tiles, player,robots);
             auto end = chrono::steady_clock::now();
+
+            //Passes time from milliseconds to seconds
             player.time = chrono::duration_cast<chrono::milliseconds>(end - start).count();
-            player.time/=1000.0;
+
             if (player.isAlive)
             {
                 writeResults(writeName, player.time);
-                printExit();
             }
         }
 
@@ -486,11 +488,10 @@ int main()
 
         else if (exits)
         {
-            exits = false;
-            menu = false;
-            printExit();
-            exit(0);
+            break;
         }
+        menu = true;
     }
+    printExit();
     return 0;
 }

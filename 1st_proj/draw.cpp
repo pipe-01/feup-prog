@@ -1,6 +1,17 @@
 #include <vector>
 #include "draw.h"
 
+bool checkBuffer(){
+    bool clean = true;
+    char c;
+    while (std::cin.get(c) && '\n' != c) {
+        if (!std::isspace(c)) {
+            return !clean;
+        }
+    }
+    return clean;
+}
+
 void printMenuBanner()
 {
     cout << "                   ___       __        __    _____              \n"
@@ -31,11 +42,11 @@ void printMenuBanner()
 
 void wait()
 {
-    cin.ignore();
     do 
     {
         cout << "\t\nPress a key to continue...";
     } while (cin.get() != '\n');
+    
 }
 
 void printRules()
@@ -70,8 +81,6 @@ void printRules()
             "\tC/c = Down-right\n"
             "\t0 = Exit Game\n";
     wait();
-
-    //clear terminal
     cout << "\033[2J\033[1;1H";
 }
 
@@ -147,59 +156,32 @@ int draw_menu(bool &rules, bool &play, bool &exits)
     while (1)
     {
         cin >> cmenu;
-        char c;
-        clean = false;
-        while (std::cin.get(c) && '\n' != c) {
-            if (!std::isspace(c)) {
-                clean = true;
-            }
-        }
+        clean = checkBuffer();
 
-        if((cmenu < 0 || cmenu > 2) && !clean){
-            clean = true;
-        }
-
-        if (cin.fail())
-        {
-
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "You have entered an invalid input" << endl;
-
-            if (cin.eof())
+        if(clean){
+            if (cmenu == ONE)
             {
-                exit(0);
+                rules = true;
+                break;
+            }
+            else if (cmenu == TWO)
+            {
+                play = true;
+                break;
+            }
+            else if (cmenu == ZERO)
+            {
+                exits = true;
+                break;
             }
         }
-        else if (cmenu == 1 && !clean)
-        {
-            rules = true;
-            break;
-        }
-        else if (cmenu == 2 && !clean)
-        {
-            play = true;
-            break;
-        }
-        else if (cmenu == 0 && !clean)
-        {
-            exits = true;
-            break;
-        }
-        else
-        {
-            cout << "Enter a valid input! (0,1,2)" << endl;
-        }
+        cerr << "\nEnter a valid input! (0,1,2): " ;
     }
     return 0;
 }
 
 void drawMaze(std::vector<std::vector<char>> tiles)
 {
-
-    //clear terminal
-    //cout << "\033[2J\033[1;1H";
-
     for (size_t i = 0; i < tiles.size(); i++)
     {
         for (size_t j = 0; j < tiles[i].size(); j++)

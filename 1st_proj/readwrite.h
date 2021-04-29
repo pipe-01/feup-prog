@@ -9,13 +9,13 @@ using namespace std;
 
 struct Score{
     string name;
-    float time;
+    unsigned time;
 
-    Score(string playerName, float t){
+    Score(string playerName, unsigned t){
         name = playerName;
         time = t;
     };
 };
 
 bool fileExists(const string &file_name);
-void writeResults(string writeName,const float time);
+void writeResults(string writeName,const unsigned time);

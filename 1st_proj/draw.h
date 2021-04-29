@@ -1,5 +1,6 @@
 #include <iostream>
 #include <limits>
+#include "constants.h"
 
 using namespace std;
 
@@ -14,3 +15,4 @@ void printHumanVictory();
 int draw_menu(bool &rules, bool &play, bool &exits);
 void drawMaze(vector<vector<char>> tiles);
 void printBeginGame();
+bool checkBuffer();

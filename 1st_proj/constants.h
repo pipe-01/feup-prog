@@ -11,3 +11,6 @@
 #define LIMIT 20
 #define NAMESIZE 15
 #define NEWLINE '\n'
+#define ONE 1
+#define TWO 2
+#define ZERO 0
