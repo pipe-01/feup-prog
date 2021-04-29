@@ -140,12 +140,24 @@ void printHumanVictory()
 int draw_menu(bool &rules, bool &play, bool &exits)
 {
     cout << "\033[2J\033[1;1H";
-    int cmenu;
+    unsigned int cmenu;
+    bool clean;
 
     printMenuBanner();
     while (1)
     {
         cin >> cmenu;
+        char c;
+        clean = false;
+        while (std::cin.get(c) && '\n' != c) {
+            if (!std::isspace(c)) {
+                clean = true;
+            }
+        }
+
+        if((cmenu < 0 || cmenu > 2) && !clean){
+            clean = true;
+        }
 
         if (cin.fail())
         {
@@ -159,24 +171,24 @@ int draw_menu(bool &rules, bool &play, bool &exits)
                 exit(0);
             }
         }
-        else if (cmenu == 1)
+        else if (cmenu == 1 && !clean)
         {
             rules = true;
             break;
         }
-        else if (cmenu == 2)
+        else if (cmenu == 2 && !clean)
         {
             play = true;
             break;
         }
-        else if (cmenu == 0)
+        else if (cmenu == 0 && !clean)
         {
             exits = true;
             break;
         }
         else
         {
-            cout << "Enter a valid number! (0,1,2)" << endl;
+            cout << "Enter a valid input! (0,1,2)" << endl;
         }
     }
     return 0;
@@ -186,7 +198,7 @@ void drawMaze(std::vector<std::vector<char>> tiles)
 {
 
     //clear terminal
-    cout << "\033[2J\033[1;1H";
+    //cout << "\033[2J\033[1;1H";
 
     for (size_t i = 0; i < tiles.size(); i++)
     {

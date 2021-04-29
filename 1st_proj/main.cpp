@@ -18,9 +18,9 @@ using namespace std;
  */
 struct Player
 {
-    int x, y;
+    unsigned int x, y;
     bool isAlive = false;
-    int time;
+    float time;
 };
 
 /**
@@ -44,7 +44,7 @@ struct Robot
  * @param Player
  * @return 0 if games has not ended, 1 if human won, 2 if robots won
  */
-bool checkWin(vector<Robot> robots)
+bool checkWin(const vector<Robot> robots)
 {
     for (Robot r : robots)
     {
@@ -56,8 +56,9 @@ bool checkWin(vector<Robot> robots)
     return true;
 }
 /**
- * @brief for debug initially but actually really useful to help player move
+ * @brief for debug purposes, can be used to check robots movement
  */
+/**
 void printRobotsPos(vector<Robot> robots)
 {
     for (Robot r : robots)
@@ -67,6 +68,7 @@ void printRobotsPos(vector<Robot> robots)
         cout << "This robot is " << alive << endl;
     }
 }
+**/
 /**
  * @param file_name
  * @param tiles
@@ -76,7 +78,7 @@ void printRobotsPos(vector<Robot> robots)
  */
 void read_file(string &file_name, vector<vector<char>> &tiles, struct Player &player,vector<Robot> &robots)
 {
-    int rows, columns;
+    unsigned int rows, columns;
     char useless;
     string line;
     ifstream file(file_name);
@@ -98,10 +100,10 @@ void read_file(string &file_name, vector<vector<char>> &tiles, struct Player &pl
             tiles[i].resize(columns);
         }
         bool onePlayer = false;
-        for (int i = 0; i < rows; i++)
+        for (unsigned int i = 0; i < rows; i++)
         {
             getline(file, line);
-            for (int j = 0; j < columns; j++)
+            for (unsigned int j = 0; j < columns; j++)
             {
                 tiles[i][j] = line[j];
                 if (line[j] == LIVEHUMAN && !onePlayer)
@@ -109,7 +111,7 @@ void read_file(string &file_name, vector<vector<char>> &tiles, struct Player &pl
                     player.x = j;
                     player.y = i;
                     player.isAlive = true;
-                    cout << "Player position :" << player.x << ' ' << player.y << endl;
+                    //cout << "Player position :" << player.x << ' ' << player.y << endl;
                     onePlayer = true;
                 }
                 else if (line[j] == LIVEROBOT)
@@ -125,7 +127,7 @@ void read_file(string &file_name, vector<vector<char>> &tiles, struct Player &pl
                 }
             }
         }
-        printRobotsPos(robots);
+        //printRobotsPos(robots);
     }
     file.close();
 }
@@ -139,8 +141,7 @@ void read_file(string &file_name, vector<vector<char>> &tiles, struct Player &pl
  */
 string read_game(bool &menu, vector<vector<char>> &tiles, struct Player &player, vector<Robot> &robots)
 {
-
-    int maze_value;
+    unsigned int maze_value;
     string file_name, write_name;
     string aux;
 
@@ -150,8 +151,9 @@ string read_game(bool &menu, vector<vector<char>> &tiles, struct Player &player,
     while (1)
     {
         cout << "Enter maze number: ";
-        cin >> maze_value;
+        cin >> aux;
 
+        maze_value = stoi(aux);
         file_name = "MAZE_";
 
         if (cin.fail())
@@ -169,7 +171,6 @@ string read_game(bool &menu, vector<vector<char>> &tiles, struct Player &player,
         else if (maze_value > 0 && maze_value <= 99)
         {
 
-            aux = to_string(maze_value);
             if(maze_value<10)
     	        aux = "0" + aux;
             write_name = file_name + aux + "_WINNERS.TXT";
@@ -212,7 +213,7 @@ string read_game(bool &menu, vector<vector<char>> &tiles, struct Player &player,
  * @param prevX 
  * @param prevY 
  */
-void placePlayer(vector<vector<char>> &tiles, struct Player player, int prevX, int prevY)
+void placePlayer(vector<vector<char>> &tiles, const struct Player player, const unsigned prevX, const unsigned prevY)
 {
     tiles[player.y][player.x] = LIVEHUMAN;
     tiles[prevY][prevX] = ' ';
@@ -347,6 +348,7 @@ void movePlayer(vector<vector<char>> &tiles, struct Player &player,vector<Robot>
     {
         cout << "\nEnter movement player: ";
         cin >> move;
+        cout << NEWLINE;
 
         if (cin.fail())
         {
@@ -407,6 +409,7 @@ void movePlayer(vector<vector<char>> &tiles, struct Player &player,vector<Robot>
         }
         else if (coll == '1')
         {
+            printInvalidChar();
             player.x = prevX;
             player.y = prevY;
             break;
@@ -417,7 +420,7 @@ void movePlayer(vector<vector<char>> &tiles, struct Player &player,vector<Robot>
             break;
         }
         attackRobots(tiles, player,robots);
-        printRobotsPos(robots);
+        //printRobotsPos(robots);
         break;
     }
 }
@@ -453,7 +456,6 @@ int main()
     while (menu)
     {
         draw_menu(rules, play, exits);
-
         if (play)
         {
             play = false;
@@ -463,13 +465,15 @@ int main()
             if(!player.isAlive){
                 continue;
             }
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
             auto start = chrono::steady_clock::now();
             playGame(tiles, player,robots);
             auto end = chrono::steady_clock::now();
             player.time = chrono::duration_cast<chrono::milliseconds>(end - start).count();
+            player.time/=1000.0;
             if (player.isAlive)
             {
-                writeResults(writeName, chrono::duration_cast<chrono::milliseconds>(end - start).count());
+                writeResults(writeName, player.time);
                 printExit();
             }
         }

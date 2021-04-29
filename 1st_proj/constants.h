@@ -10,3 +10,4 @@
 #define SPACEBAR ' '
 #define LIMIT 20
 #define NAMESIZE 15
+#define NEWLINE '\n'

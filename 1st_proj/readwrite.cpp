@@ -86,8 +86,8 @@ void writeScore(vector<Score> &scores, ofstream &write)
  */
 void writeHeader(ofstream &write)
 {
-    write << "Player\t\t" << DASHLINE << "Time(ms)" << endl;
-    for (int i = 0; i < LIMIT; i++)
+    write << "Player\t\t" << DASHLINE << "Time(s)" << endl;
+    for (unsigned int i = 0; i < LIMIT; i++)
     {
         write << DASHLINE;
     }
@@ -102,7 +102,7 @@ void writeHeader(ofstream &write)
  * @return true 
  * @return false 
  */
-void writeResults(string writeName, int time)
+void writeResults(string writeName,const float time)
 {
     vector<Score> scores;
     string playerName, line;
