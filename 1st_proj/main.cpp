@@ -468,6 +468,8 @@ int main()
         {
             play = false;
 
+            robots.clear();
+
             printBeginGame();
             player.isAlive = true;
             writeName = read_game(menu, tiles, player,robots);
