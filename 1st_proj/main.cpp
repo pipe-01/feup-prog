@@ -403,6 +403,7 @@ void movePlayer(vector<vector<char>> &tiles, struct Player &player,vector<Robot>
                 player.isAlive = false;
                 break;
             default:
+                cout << "\033[2J\033[1;1H";
                 drawMaze(tiles);
                 printInvalidChar();
                 continue;
