@@ -1,12 +1,4 @@
 //T09_G01
-
-#include <fstream>
-#include <chrono>
-#include <sys/stat.h>
-#include <cstring>
-#include <stdio.h>
-#include <string.h>
-#include <algorithm>
 #include "readwrite.h"
 /**
  * @brief Checks if file exists
@@ -20,9 +12,9 @@ bool fileExists(const string &name)
     fstream file(name);
     if (!file)
     {
-        return 0;
+        return false;
     }
-    return 1;
+    return true;
 }
 /**
  * @brief Sorts Players by their time ( if time equal, then by name)
@@ -56,8 +48,8 @@ void addScore(vector<Score> &scores, string line)
 {
     string name;
     unsigned time;
-    int start = 0;
-    int end = line.find(DASHLINE);
+    unsigned start = 0;
+    unsigned end = line.find(DASHLINE);
     name = line.substr(start, end - start);
     start = end + 1;
     end = line.find(DASHLINE, start);
@@ -76,7 +68,7 @@ void writeScore(vector<Score> &scores, ofstream &write)
 {
     for (Score s : scores)
     {
-        s.name.resize(NAMESIZE,SPACEBAR);
+        s.name.resize(NAMESIZE, SPACEBAR);
         write << s.name << DASHLINE << s.time << endl;
     }
 }
@@ -106,7 +98,7 @@ void writeHeader(ofstream &write)
  * @return true 
  * @return false 
  */
-void writeResults(string writeName,const unsigned time)
+void writeResults(string writeName, const unsigned time)
 {
     vector<Score> scores;
     string playerName, line;
@@ -132,28 +124,33 @@ void writeResults(string writeName,const unsigned time)
     {
         ifstream read;
         read.open(writeName); //Opens to read
-        getline(read, line); // Line with Player - Time
-        getline(read, line); // Line with "-----"
+        getline(read, line);  // Line with Player - Time
+        getline(read, line);  // Line with "-----"
         while (getline(read, line))
         {
             addScore(scores, line);
         }
-        for(Score &s:scores){
-            for(int i = s.name.length()-1; i != 0; i--){
-                if(s.name[i]!= SPACEBAR){
+        for (Score &s : scores)
+        {
+            for (int i = s.name.length() - 1; i != 0; i--)
+            {
+                if (s.name[i] != SPACEBAR)
+                {
                     break;
                 }
-                s.name.erase(s.name.begin()+i);
+                s.name.erase(s.name.begin() + i);
             }
             cout << s.name << DASHLINE << p1.name;
-            if(s.name == p1.name){
+            if (s.name == p1.name)
+            {
                 exists = true;
-                if(s.time>p1.time)
-                    s=p1;
-                break;    
+                if (s.time > p1.time)
+                    s = p1;
+                break;
             }
         }
-        if(!exists){
+        if (!exists)
+        {
             scores.push_back(p1);
         }
         vectorSort(scores);

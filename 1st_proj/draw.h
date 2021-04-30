@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <limits>
+#include <vector>
 #include "constants.h"
 
 using namespace std;

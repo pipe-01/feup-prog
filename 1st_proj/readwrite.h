@@ -3,6 +3,13 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <fstream>
+#include <chrono>
+#include <sys/stat.h>
+#include <cstring>
+#include <stdio.h>
+#include <string.h>
+#include <algorithm>
 #include "constants.h"
 
 using namespace std;
