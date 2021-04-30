@@ -217,8 +217,8 @@ string read_game(bool &menu, vector<vector<char>> &tiles, struct Player &player,
  */
 void placePlayer(vector<vector<char>> &tiles, const struct Player player, const unsigned prevX, const unsigned prevY)
 {
-    tiles[player.y][player.x] = LIVEHUMAN;
     tiles[prevY][prevX] = ' ';
+    tiles[player.y][player.x] = LIVEHUMAN;
 }
 
 /**
@@ -229,7 +229,10 @@ void placePlayer(vector<vector<char>> &tiles, const struct Player player, const 
  */
 char checkCollision(vector<vector<char>> &tiles, struct Player &player)
 {
-    if (tiles[player.y][player.x] != ' ')
+    if(tiles[player.y][player.x] == LIVEHUMAN){
+        return '2';
+    }
+    else if (tiles[player.y][player.x] != ' ')
     {
         if (tiles[player.y][player.x] == '*' || tiles[player.y][player.x] == LIVEROBOT)
         {
