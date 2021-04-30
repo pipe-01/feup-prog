@@ -460,7 +460,6 @@ int main()
     vector<vector<char>> tiles;
     struct Player player;
     string writeName, playerName;
-
     while (menu)
     {
         draw_menu(rules, play, exits);
