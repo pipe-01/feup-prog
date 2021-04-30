@@ -422,6 +422,7 @@ void movePlayer(vector<vector<char>> &tiles, struct Player &player,vector<Robot>
         else
         {
             printRobotVictory();
+            wait();
             break;
         }
         attackRobots(tiles, player,robots);
