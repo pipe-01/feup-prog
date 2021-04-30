@@ -181,7 +181,7 @@ int draw_menu(bool &rules, bool &play, bool &exits)
     return 0;
 }
 
-void drawMaze(std::vector<std::vector<char>> tiles)
+void drawMaze(vector<std::vector<char>> tiles)
 {
     for (size_t i = 0; i < tiles.size(); i++)
     {

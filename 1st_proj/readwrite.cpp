@@ -48,8 +48,8 @@ void addScore(vector<Score> &scores, string line)
 {
     string name;
     unsigned time;
-    int start = 0;
-    int end = line.find(DASHLINE);
+    unsigned start = 0;
+    unsigned end = line.find(DASHLINE);
     name = line.substr(start, end - start);
     start = end + 1;
     end = line.find(DASHLINE, start);

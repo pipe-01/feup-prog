@@ -16,6 +16,6 @@ void printInvalidChar();
 void printRobotVictory();
 void printHumanVictory();
 int draw_menu(bool &rules, bool &play, bool &exits);
-void drawMaze(vector<vector<char>> tiles);
+void drawMaze(const vector<vector<char>> tiles);
 void printBeginGame();
 bool checkBuffer();
