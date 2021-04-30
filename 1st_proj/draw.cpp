@@ -46,7 +46,7 @@ void wait()
 {
     do 
     {
-        cout << "\t\nPress a key to continue...";
+        cout << "\t\nPress enter to continue...";
     } while (cin.get() != '\n');
     
 }

@@ -84,7 +84,7 @@ void read_file(string &file_name, vector<vector<char>> &tiles, struct Player &pl
     char useless;
     string line;
     ifstream file(file_name);
-    unsigned robotCounterId = 1;
+    unsigned robotCounterId = ONE;
 
     if (!file)
     {
@@ -267,19 +267,19 @@ Robot moveRobots(Robot r, const Player p)
     int varX = r.x - p.x; 
     int varY = r.y - p.y;
 
-    if (varX > 0)
+    if (varX > ZERO)
     {
         r.x--;
     }
-    else if (varX < 0)
+    else if (varX < ZERO)
     {
         r.x++;
     }
-    if (varY > 0)
+    if (varY > ZERO)
     {
         r.y--;
     }
-    else if (varY < 0)
+    else if (varY < ZERO)
     {
         r.y++;
     }
