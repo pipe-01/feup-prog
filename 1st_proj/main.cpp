@@ -482,7 +482,7 @@ int main()
             auto end = chrono::steady_clock::now();
 
             //Passes time from milliseconds to seconds
-            player.time = chrono::duration_cast<chrono::milliseconds>(end - start).count();
+            player.time = chrono::duration_cast<chrono::seconds>(end - start).count();
 
             if (player.isAlive)
             {

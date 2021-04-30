@@ -54,7 +54,7 @@ void addScore(vector<Score> &scores, string line)
     start = end + 1;
     end = line.find(DASHLINE, start);
     time = stoi(line.substr(start, end - start));
-    cout << "Name in AddScore: "<<name << endl;
+    cout << "Name in AddScore: "<< name << endl;
     Score s = Score(name, time);
     scores.push_back(s);
 }
@@ -70,8 +70,8 @@ void writeScore(vector<Score> &scores, ofstream &write)
     for (Score s : scores)
     {
         s.name.resize(NAMESIZE, SPACEBAR);
-        cout << "Name in writeScore:" << s.name << endl;
-        write << s.name << DASHLINE << s.time << endl;
+        //cout << "Name in writeScore:" << s.name << endl;
+        write << s.name << DASHLINE << SPACEBAR << s.time << endl;
     }
 }
 
@@ -82,7 +82,7 @@ void writeScore(vector<Score> &scores, ofstream &write)
  */
 void writeHeader(ofstream &write)
 {
-    write << "Player\t\t" << DASHLINE << "Time(ms)" << endl;
+    write << "Player\t\t" << DASHLINE << "Time(s)" << endl;
     for (unsigned int i = 0; i < LIMIT; i++)
     {
         write << DASHLINE;

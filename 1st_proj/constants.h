@@ -8,7 +8,7 @@
 #define LIVEHUMAN 'H'
 #define DASHLINE '-'
 #define SPACEBAR ' '
-#define LIMIT 20
+#define LIMIT 19
 #define NAMESIZE 15
 #define NEWLINE '\n'
 #define ONE 1
