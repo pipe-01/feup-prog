@@ -329,6 +329,7 @@ void attackRobots(vector<vector<char>> &tiles, struct Player &player,vector<Robo
                 tiles[prevY][prevX] = LIVEROBOT;
                 tiles[r.y][r.x] = DEADHUMAN;
                 printRobotVictory();
+                wait();
                 player.isAlive = false;
             }
         }
