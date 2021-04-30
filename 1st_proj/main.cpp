@@ -440,6 +440,7 @@ void playGame(vector<vector<char>> &tiles, struct Player &player, vector<Robot> 
 {
     while (player.isAlive)
     {
+        cout << "\033[2J\033[1;1H";
         drawMaze(tiles);
         if (checkWin(robots))
         {

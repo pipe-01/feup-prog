@@ -48,12 +48,13 @@ void addScore(vector<Score> &scores, string line)
 {
     string name;
     unsigned time;
-    unsigned start = 0;
-    unsigned end = line.find(DASHLINE);
+    int start = 0;
+    int end = line.find(DASHLINE);
     name = line.substr(start, end - start);
     start = end + 1;
     end = line.find(DASHLINE, start);
     time = stoi(line.substr(start, end - start));
+    cout << "Name in AddScore: "<<name << endl;
     Score s = Score(name, time);
     scores.push_back(s);
 }
@@ -69,6 +70,7 @@ void writeScore(vector<Score> &scores, ofstream &write)
     for (Score s : scores)
     {
         s.name.resize(NAMESIZE, SPACEBAR);
+        cout << "Name in writeScore:" << s.name << endl;
         write << s.name << DASHLINE << s.time << endl;
     }
 }
@@ -106,11 +108,11 @@ void writeResults(string writeName, const unsigned time)
     do
     {
         cout << "Enter player name (Max size 15): ";
-        cin.ignore();
         getline(cin, playerName);
     } while (playerName.size() > 15);
 
     Score p1 = Score(playerName, time);
+    cout << "name in p1: "<< p1.name << endl;
 
     if (!fileExists(writeName))
     {
