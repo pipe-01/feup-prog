@@ -14,16 +14,27 @@
 
 using namespace std;
 
-
-
-struct Score{
+class Score{
+private:    
     string name;
     unsigned time;
-
-    Score(string playerName, unsigned t){
-        name = playerName;
-        time = t;
+public:
+    Score(string name, unsigned time){
+        this.name = name;
+        this.time = time;
     };
+    unsigned getTime(){
+        return this.time;
+    }
+    string getName(){
+        return this.name
+    }
+    void setName(string name){
+        this.name = name;
+    }
+    void setTime(unsigned time){
+        this.time = time;
+    }
 };
 
 bool fileExists(const string &file_name);

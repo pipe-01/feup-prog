@@ -26,11 +26,11 @@ bool fileExists(const string &name)
  */
 bool compareTime(const Score &a, const Score &b)
 {
-    if (a.time == b.time)
+    if (a.getTime() == b.getTime())
     {
-        return a.name < b.name;
+        return a.getName() < b.getName();
     }
-    return a.time < b.time;
+    return a.getTime() < b.getTime();
 }
 
 void vectorSort(vector<Score> &scores)
@@ -69,9 +69,10 @@ void writeScore(vector<Score> &scores, ofstream &write)
 {
     for (Score s : scores)
     {
-        s.name.resize(NAMESIZE, SPACEBAR);
+        
+        s.setName(s.getName().resize(NAMESIZE, SPACEBAR));
         //cout << "Name in writeScore:" << s.name << endl;
-        write << s.name << DASHLINE << SPACEBAR << s.time << endl;
+        write << s.getName() << DASHLINE << SPACEBAR << s.getTime() << endl;
     }
 }
 
@@ -112,7 +113,7 @@ void writeResults(string writeName, const unsigned time)
     } while (playerName.size() > 15);
 
     Score p1 = Score(playerName, time);
-    cout << "name in p1: "<< p1.name << endl;
+    cout << "name in p1: "<< p1.getName() << endl;
 
     if (!fileExists(writeName))
     {
@@ -134,19 +135,22 @@ void writeResults(string writeName, const unsigned time)
         }
         for (Score &s : scores)
         {
-            for (int i = s.name.length() - 1; i != 0; i--)
+            string tempName = s.getName();
+            for (int i = s.getName().length() - 1; i != 0; i--)
             {
-                if (s.name[i] != SPACEBAR)
+                if (s.getName()[i] != SPACEBAR)
                 {
                     break;
                 }
-                s.name.erase(s.name.begin() + i);
+                
+                tempName.erase(tempName.begin() + i);
             }
-            cout << s.name << DASHLINE << p1.name;
-            if (s.name == p1.name)
+            s.setName(tempName);
+            cout << s.getName() << DASHLINE << p1.getName();
+            if (s.getName() == p1.getName())
             {
                 exists = true;
-                if (s.time > p1.time)
+                if (s.getTime() > p1.getTime())
                     s = p1;
                 break;
             }
