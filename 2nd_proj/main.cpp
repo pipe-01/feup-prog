@@ -12,6 +12,7 @@
 #include "readwrite.h"
 #include "constants.h"
 #include "movable.h"
+#include "txtread.h"
 
 using namespace std;
 
@@ -459,6 +460,7 @@ int main()
     vector<vector<char>> tiles;
     Player player;
     string writeName, playerName;
+    Txtread rulesFile("RULES.TXT");
     while (menu)
     {
         draw_menu(rules, play, exits);
@@ -490,7 +492,8 @@ int main()
 
         else if (rules)
         {
-            printRules();
+            rulesFile.printFile();
+            wait();
             rules = false;
         }
 

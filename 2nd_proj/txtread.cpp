@@ -1,4 +1,4 @@
-#include "Txtread.h"
+#include "txtread.h"
 
 void Txtread::printFile(){
     string line;
