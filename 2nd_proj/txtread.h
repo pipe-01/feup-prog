@@ -2,6 +2,7 @@
 #define TXTREAD_H
 #include <iostream>
 #include <fstream>
+#include "constants.h"
 
 using namespace std;
 

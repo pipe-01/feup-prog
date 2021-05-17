@@ -87,6 +87,7 @@ void printRules()
 
 void printDeadRobotCollision()
 {
+    cout << GREEN;
     cout << "  ___     _ _ _    _                           _         _   \n"
             " / __|___| | (_)__(_)___ _ _    __ _ __ _ __ _(_)_ _  __| |_ \n"
             "| (__/ _ \\ | | (_-< / _ \\ ' \\  / _` / _` / _` | | ' \\(_-<  _|\n"
@@ -103,6 +104,7 @@ void printDeadRobotCollision()
             "\\__,_\\__, \\__,_|_|_||_|\n"
             "     |___/            "
          << endl;
+    cout << NO_COLOR;     
 }
 
 void printExit()
