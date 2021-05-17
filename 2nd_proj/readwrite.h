@@ -20,20 +20,20 @@ private:
     unsigned time;
 public:
     Score(string name, unsigned time){
-        this.name = name;
-        this.time = time;
+        this->name = name;
+        this->time = time;
     };
     unsigned getTime(){
-        return this.time;
+        return this->time;
     }
     string getName(){
-        return this.name
+        return name;
     }
     void setName(string name){
-        this.name = name;
+        this->name = name;
     }
     void setTime(unsigned time){
-        this.time = time;
+        this->time = time;
     }
 };
 

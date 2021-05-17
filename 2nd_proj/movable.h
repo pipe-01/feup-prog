@@ -19,7 +19,7 @@ public:
     void moveRight();
     bool getState();
     void killObj();
-}
+};
 
 class Robot: public Movable
 {
@@ -39,4 +39,4 @@ public:
     void setTime(unsigned t);
     unsigned getTime();
     ~Player();
-}
+};

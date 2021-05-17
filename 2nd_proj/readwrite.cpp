@@ -24,7 +24,7 @@ bool fileExists(const string &name)
  * @return true 
  * @return false 
  */
-bool compareTime(const Score &a, const Score &b)
+bool compareTime(Score a, Score b)
 {
     if (a.getTime() == b.getTime())
     {
@@ -67,10 +67,12 @@ void addScore(vector<Score> &scores, string line)
  */
 void writeScore(vector<Score> &scores, ofstream &write)
 {
+    string aux;
     for (Score s : scores)
     {
-        
-        s.setName(s.getName().resize(NAMESIZE, SPACEBAR));
+        aux = s.getName();
+        aux.resize(NAMESIZE, SPACEBAR);
+        s.setName(aux);
         //cout << "Name in writeScore:" << s.name << endl;
         write << s.getName() << DASHLINE << SPACEBAR << s.getTime() << endl;
     }

@@ -1,24 +1,24 @@
-"                                ___       __      \n"
-"                               / _ \\__ __/ /__ ___\n"
-"                              / , _/ // / / -_|_-<\n"
-"                             /_/|_|\\_,_/_/\\__/___/\n"
-"                                                  "
-"H = human, R = Robot, * = Fence/Post\n"
-"1) Main Goal of the Game: Survive the Robots & Electrical Posts/Fences\n"
-"2) Win is achieved if no robots are alive\n"
-"3) Dead robots remain in their last position (thus can not move through them)\n"
-"4) For every move, robots move one tile closer to your character (H)\n"
-"5) Death can be by collision with robots or fences/posts\n"
-"6) Robots also die from collisions between each other (only one robot is placed in the place of death)\n"
-"7) Times are recorded and stored in a text file\n"
-"Controls are as follows: \n"
-"\tA/a = Left\n"
-"\tW/w = Up\n"
-"\tD/d = Right\n"
-"\tX/x = Down\n"
-"\tS/s = No movement\n"
-"\tQ/q = Up-left\n"
-"\tE/e = Up-right\n"
-"\tZ/z = Down-left\n"
-"\tC/c = Down-right\n"
-"\t0 = Exit Game\n";
+                                ___       __      
+                               / _ \\__ __/ /__ ___
+                              / , _/ //  / / -_|_-<
+                             /_/|_|\\_,_/_/\\__/___/
+                                                  
+H = human, R = Robot, * = Fence/Post
+1) Main Goal of the Game: Survive the Robots & Electrical Posts/Fences
+2) Win is achieved if no robots are alive
+3) Dead robots remain in their last position (thus can not move through them)
+4) For every move, robots move one tile closer to your character (H)
+5) Death can be by collision with robots or fences/posts
+6) Robots also die from collisions between each other (only one robot is placed in the place of death)
+7) Times are recorded and stored in a text file
+Controls are as follows: 
+    A/a = Left 
+    W/w = Up 
+    D/d = Right 
+    X/x = Down 
+    S/s = No movement
+    Q/q = Up-left
+    E/e = Up-right
+    Z/z = Down-left
+    C/c = Down-right
+    0 = Exit Game

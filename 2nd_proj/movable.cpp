@@ -5,57 +5,65 @@ Robot::Robot(unsigned int x,unsigned int y, unsigned int n )
 
 Robot::~Robot()
 {
-    state = NULL;
+    state = false;
 }
 
-Movable::getState()
+bool Movable::getState()
 {
-    return this.state;
+    return state;
 }
 
-Movable::killObj()
+void Movable::killObj()
 {
-    this.state = false;
+    state = false;
 }
 
-Movable::getX()
+int Movable::getX()
 {
-    return this.x;
+    return x;
 }
 
-Movable::setX(int i)
+void Movable::setX(unsigned int i)
 {
-    this.x = i;
+    x = i;
 }
 
-Movable::getY()
+int Movable::getY()
 {
-    return this.y;
+    return y;
 }
 
-Movable::setY(int j)
+void Movable::setY(unsigned int j)
 {
-    this.y = j;
+    y = j;
 }
 
-Movable::moveUp()
+void Movable::moveUp()
 {
-    this.y--;
+    y--;
 }
 
-Movable::moveDown()
+void Movable::moveDown()
 {
-    this.y++;
+    y++;
 }
 
-Movable::moveRight()
+void Movable::moveRight()
 {
-    this.x++;
+    x++;
 }
 
-Movable::moveLeft()
+void Movable::moveLeft()
 {
-    this.x--;
+    x--;
+}
+
+void Player::setTime(unsigned i){
+    time = i;
+}
+
+unsigned Player::getTime(){
+    return time;
 }
 
 Player::Player(unsigned int x, unsigned int y)
@@ -63,5 +71,5 @@ Player::Player(unsigned int x, unsigned int y)
 
 Player::~Player()
 {
-    state = NULL;
+    state = false;
 }

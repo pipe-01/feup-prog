@@ -14,5 +14,5 @@ public:
         fileName = name;
     }
     void printFile();    
-}
+};
 #endif

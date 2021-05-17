@@ -44,7 +44,7 @@ struct Robot
  * @param Player
  * @return 0 if games has not ended, 1 if human won, 2 if robots won
  */
-bool checkWin(const vector<Robot> robots)
+bool checkWin(vector<Robot> robots)
 {
     for (Robot r : robots)
     {
@@ -108,7 +108,8 @@ void read_file(string &file_name, vector<vector<char>> &tiles, Player &player,ve
                 tiles[i][j] = line[j];
                 if (line[j] == LIVEHUMAN && !onePlayer)
                 {
-                    player = Player(j,i);
+                    player.setX(j);
+                    player.setY(i);
                     //cout << "Player position :" << player.getX() << ' ' << player.getY() << endl;
                     onePlayer = true;
                 }
@@ -211,10 +212,10 @@ string read_game(bool &menu, vector<vector<char>> &tiles, Player &player, vector
  * @param prevX 
  * @param prevY 
  */
-void placePlayer(vector<vector<char>> &tiles, const Player player, const unsigned prevX, const unsigned prevY)
+void placePlayer(vector<vector<char>> &tiles, Player player, const unsigned prevX, const unsigned prevY)
 {
     tiles[prevY][prevX] = ' ';
-    tiles[player.getY][player.getX] = LIVEHUMAN;
+    tiles[player.getY()][player.getX()] = LIVEHUMAN;
 }
 
 /**
@@ -237,7 +238,7 @@ char checkCollision(vector<vector<char>> &tiles, Player &player)
         }
         else
         {
-            if (tiles[player.getY][player.getX] == DEADROBOT)
+            if (tiles[player.getY()][player.getX()] == DEADROBOT)
             {
                 printDeadRobotCollision();
                 return '1';
@@ -261,7 +262,7 @@ char checkCollision(vector<vector<char>> &tiles, Player &player)
  * @param player 
  * @return Robot 
  */
-Robot moveRobots(Robot r, const Player p)
+Robot moveRobots(Robot r, Player p)
 {
     int varX = r.getX() - p.getX(); 
     int varY = r.getY() - p.getY();
@@ -458,7 +459,7 @@ int main()
     vector<Robot> robots;
     bool menu = true, play = false, rules = false, exits = false;
     vector<vector<char>> tiles;
-    Player player;
+    Player player(0,0);
     string writeName, playerName;
     Txtread rulesFile("RULES.TXT");
     while (menu)
