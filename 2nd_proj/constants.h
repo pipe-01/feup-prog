@@ -2,6 +2,8 @@
 // Created by juan on 20/04/21.
 //
 #define FENCE '*'
+#define NONELECPOST '+'
+#define EXITDOOR 'O'
 #define DEADROBOT 'r'
 #define LIVEROBOT 'R'
 #define DEADHUMAN 'h'

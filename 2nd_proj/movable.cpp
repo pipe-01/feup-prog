@@ -1,7 +1,7 @@
 #include "movable.h"
 
-Robot::Robot(unsigned int x,unsigned int y, unsigned int n )
-:id(n),Movable(x,y){}
+Robot::Robot(unsigned int x, unsigned int y, unsigned int n)
+    : id(n), Movable(x, y) {}
 
 Robot::~Robot()
 {
@@ -58,18 +58,30 @@ void Movable::moveLeft()
     x--;
 }
 
-void Player::setTime(unsigned i){
+void Player::setTime(unsigned i)
+{
     time = i;
 }
 
-unsigned Player::getTime(){
+unsigned Player::getTime()
+{
     return time;
 }
 
 Player::Player(unsigned int x, unsigned int y)
-:Movable(x,y){}
+    : Movable(x, y) , out(false){}
 
 Player::~Player()
 {
     state = false;
+}
+
+bool Player::isOut()
+{
+    return out;
+}
+
+void Player::gotOut()
+{
+    out = true;
 }

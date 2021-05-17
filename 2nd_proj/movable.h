@@ -34,8 +34,11 @@ class Player: public Movable
 {
 private:
     unsigned time;
+    bool out;
 public:
     Player(unsigned int x, unsigned int y);
+    void gotOut();
+    bool isOut();
     void setTime(unsigned t);
     unsigned getTime();
     ~Player();

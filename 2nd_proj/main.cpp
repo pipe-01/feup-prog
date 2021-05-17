@@ -41,21 +41,6 @@ struct Robot
 **/
 
 /**
- * @param Player
- * @return 0 if games has not ended, 1 if human won, 2 if robots won
- */
-bool checkWin(vector<Robot> robots)
-{
-    for (Robot r : robots)
-    {
-        if (r.getState())
-        {
-            return false;
-        }
-    }
-    return true;
-}
-/**
  * @brief for debug purposes, can be used to check robots movement
  */
 /**
@@ -231,14 +216,18 @@ char checkCollision(vector<vector<char>> &tiles, Player &player)
     }
     else if (tiles[player.getY()][player.getX()] != ' ')
     {
-        if (tiles[player.getY()][player.getX()] == '*' || tiles[player.getY()][player.getX()] == LIVEROBOT)
+        if (tiles[player.getY()][player.getX()]==EXITDOOR){
+            player.gotOut();
+            return '4';
+        }
+        else if (tiles[player.getY()][player.getX()] == '*' || tiles[player.getY()][player.getX()] == LIVEROBOT)
         {
             player.killObj();
             return '0';
         }
         else
         {
-            if (tiles[player.getY()][player.getX()] == DEADROBOT)
+            if (tiles[player.getY()][player.getX()] == DEADROBOT || tiles[player.getY()][player.getX()] == NONELECPOST)
             {
                 printDeadRobotCollision();
                 return '1';
@@ -295,7 +284,7 @@ void attackRobots(vector<vector<char>> &tiles, struct Player &player,vector<Robo
     int prevX, prevY;
     for (Robot &r : robots)
     {
-        if (!r.getState())
+        if (!r.getState() )
         {
             continue;
         }
@@ -318,7 +307,7 @@ void attackRobots(vector<vector<char>> &tiles, struct Player &player,vector<Robo
                 tiles[prevY][prevX] = ' ';
                 tiles[r.getY()][r.getX()] = LIVEROBOT;
             }
-            else if (tiles[r.getY()][r.getX()] == FENCE || tiles[r.getY()][r.getX()] == LIVEROBOT || tiles[r.getY()][r.getX()] == DEADROBOT)
+            else if ( tiles[r.getY()][r.getX()] == LIVEROBOT || tiles[r.getY()][r.getX()] == DEADROBOT)
             {
                 tiles[r.getY()][r.getX()] = DEADROBOT;
                 tiles[prevY][prevX] = ' ';
@@ -331,6 +320,18 @@ void attackRobots(vector<vector<char>> &tiles, struct Player &player,vector<Robo
                 printRobotVictory();
                 wait();
                 player.killObj();
+            }
+            else if (tiles[r.getY()][r.getX()] == NONELECPOST)
+            {
+                tiles[prevY][prevX] = ' ';
+                tiles[r.getY()][r.getX()] = DEADROBOT;
+                r.killObj();
+            }
+            else if (tiles[r.getY()][r.getX()] == FENCE){
+                tiles[prevY][prevX] = DEADROBOT;
+                r.setX(prevX);
+                r.setY(prevY);
+                r.killObj();
             }
         }
     }
@@ -421,6 +422,11 @@ void movePlayer(vector<vector<char>> &tiles, struct Player &player,vector<Robot>
             player.setY(prevY);
             break;
         }
+        else if (coll == '4')
+        {
+            placePlayer(tiles, player, prevX, prevY);
+            break;
+        }
         else
         {
             printRobotVictory();
@@ -445,7 +451,7 @@ void playGame(vector<vector<char>> &tiles, struct Player &player, vector<Robot> 
     {
         cout << "\033[2J\033[1;1H";
         drawMaze(tiles);
-        if (checkWin(robots))
+        if (player.isOut())
         {
             printHumanVictory();
             break;
