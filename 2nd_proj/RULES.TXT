@@ -5,20 +5,17 @@
                                                   
 H = human, R = Robot, * = Fence/Post
 1) Main Goal of the Game: Survive the Robots & Electrical Posts/Fences
-2) Win is achieved if no robots are alive
+2) Win is achieved if Player Exits through door
 3) Dead robots remain in their last position (thus can not move through them)
 4) For every move, robots move one tile closer to your character (H)
 5) Death can be by collision with robots or fences/posts
-6) Robots also die from collisions between each other (only one robot is placed in the place of death)
+6) Robots also die from collisions between each other and non-electrical posts 
+(only one robot is placed in the place of death if two robots collide)
 7) Times are recorded and stored in a text file
-Controls are as follows: 
-    A/a = Left 
-    W/w = Up 
-    D/d = Right 
-    X/x = Down 
-    S/s = No movement
-    Q/q = Up-left
-    E/e = Up-right
-    Z/z = Down-left
-    C/c = Down-right
-    0 = Exit Game
+            Controls are as follows: 
+Q/q = Up-left    W/w = Up            E/e = Up-right
+A/a = Left       S/s = No movement   D/d = Right 
+Z/z = Down-left  X/x = Down          C/c = Down-right
+
+[0 = Exit Game]
+    

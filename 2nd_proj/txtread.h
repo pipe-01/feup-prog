@@ -14,6 +14,7 @@ public:
     Txtread(string name){
         fileName = name;
     }
+    void clearScreen();
     void printFile();    
 };
 #endif

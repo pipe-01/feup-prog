@@ -9,3 +9,7 @@ void Txtread::printFile(){
     }
     cout << NO_COLOR;
 }
+
+void Txtread::clearScreen(){
+    cout << "\033[2J\033[1;1H";
+}
