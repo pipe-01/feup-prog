@@ -2,7 +2,7 @@
 
 #include "draw.h"
 
-bool checkBuffer(){
+Menu::checkBuffer(){
     bool clean = true;
     char c;
     while (std::cin.get(c) && '\n' != c) {
@@ -13,7 +13,7 @@ bool checkBuffer(){
     return clean;
 }
 
-void printMenuBanner()
+Menu::printMenuBanner()
 {
     cout << "                   ___       __        __    _____              \n"
             "                  / _ \\___  / /  ___  / /_  / ___/__ ___ _  ___ \n"
@@ -41,7 +41,7 @@ void printMenuBanner()
          << endl;
 }
 
-void wait()
+Menu::wait()
 {
     do 
     {
@@ -49,43 +49,8 @@ void wait()
     } while (cin.get() != '\n');
     
 }
-/**
-void printRules()
-{
 
-    //clear terminal
-    cout << "\033[2J\033[1;1H";
-
-    cout << "                                ___       __      \n"
-            "                               / _ \\__ __/ /__ ___\n"
-            "                              / , _/ // / / -_|_-<\n"
-            "                             /_/|_|\\_,_/_/\\__/___/\n"
-            "                                                  "
-         << endl;
-    cout << "H = human, R = Robot, * = Fence/Post\n"
-            "1) Main Goal of the Game: Survive the Robots & Electrical Posts/Fences\n"
-            "2) Win is achieved if no robots are alive\n"
-            "3) Dead robots remain in their last position (thus can not move through them)\n"
-            "4) For every move, robots move one tile closer to your character (H)\n"
-            "5) Death can be by collision with robots or fences/posts\n"
-            "6) Robots also die from collisions between each other (only one robot is placed in the place of death)\n"
-            "7) Times are recorded and stored in a text file\n"
-            "Controls are as follows: \n"
-            "\tA/a = Left\n"
-            "\tW/w = Up\n"
-            "\tD/d = Right\n"
-            "\tX/x = Down\n"
-            "\tS/s = No movement\n"
-            "\tQ/q = Up-left\n"
-            "\tE/e = Up-right\n"
-            "\tZ/z = Down-left\n"
-            "\tC/c = Down-right\n"
-            "\t0 = Exit Game\n";
-    wait();
-    cout << "\033[2J\033[1;1H";
-}
-**/
-void printDeadRobotCollision()
+Menu::printDeadRobotCollision()
 {
     cout << GREEN;
     cout << "  ___     _ _ _    _                           _         _   \n"
@@ -107,7 +72,7 @@ void printDeadRobotCollision()
     cout << NO_COLOR;     
 }
 
-void printExit()
+Menu::printExit()
 {
 
     //clear terminal
@@ -122,7 +87,7 @@ void printExit()
          << endl;
 }
 
-void printInvalidChar()
+Menu::printInvalidChar()
 {
     cout << " ___     _                             _ _    _   _                _   _ \n"
             "| __|_ _| |_ ___ _ _   __ _  __ ____ _| (_)__| | (_)_ _  _ __ _  _| |_| |\n"
@@ -132,7 +97,7 @@ void printInvalidChar()
          << endl;
 }
 
-void printRobotVictory()
+Menu::printRobotVictory()
 {
     cout << WARNING;
     cout << " ___     _         _        _                  __      __        \n"
@@ -143,7 +108,7 @@ void printRobotVictory()
     cout << NO_COLOR;        
 }
 
-void printHumanVictory()
+Menu::printHumanVictory()
 {
     cout << GREEN;
     cout << "__   __          _                  __      __        \n"
@@ -153,32 +118,32 @@ void printHumanVictory()
             "                                                      "<< endl;
     cout << NO_COLOR;        
 }
-int draw_menu(bool &rules, bool &play, bool &exits)
+int draw_menu()
 {
     cout << "\033[2J\033[1;1H";
     unsigned int cmenu;
     bool clean;
 
-    printMenuBanner();
+    this->printMenuBanner();
     while (1)
     {
         cin >> cmenu;
-        clean = checkBuffer();
+        clean = this->checkBuffer();
 
         if(clean){
             if (cmenu == ONE)
             {
-                rules = true;
+                this->rules = true;
                 break;
             }
             else if (cmenu == TWO)
             {
-                play = true;
+                this->play = true;
                 break;
             }
             else if (cmenu == ZERO)
             {
-                exits = true;
+                this->exits = true;
                 break;
             }
         }
@@ -188,7 +153,7 @@ int draw_menu(bool &rules, bool &play, bool &exits)
     cout << NO_COLOR;
 }
 
-void drawMaze(std::vector<std::vector<char>> tiles)
+Menu::drawMaze(std::vector<std::vector<char>> tiles)
 {
     for (size_t i = 0; i < tiles.size(); i++)
     {
@@ -200,7 +165,7 @@ void drawMaze(std::vector<std::vector<char>> tiles)
     }
 }
 
-void printBeginGame()
+Menu::printBeginGame()
 {
     cout << "\033[2J\033[1;1H";
     cout << "      __       __    __  __         _____                 __            _    \n"
@@ -209,4 +174,25 @@ void printBeginGame()
             "   /____/\\__/\\__/  \\__/_//_/\\__/  \\___/\\_,_/_/_/_/\\__/ /_.__/\\__/\\_, /_/_//_/\n"
             "                                                                /___/        "
          << endl;
+}
+
+Menu::setFalse(bool sentence){
+    sentence = false;
+}
+
+Menu::getState(){
+    return this->menu;
+}
+
+Menu::getRules(){
+    return this->rules;
+}
+Menu::getPlay(){
+    return this->play;
+}
+Menu::getWinners(){
+    return this->winners;
+}
+Menu::getExit(){
+    return this->exit;
 }
