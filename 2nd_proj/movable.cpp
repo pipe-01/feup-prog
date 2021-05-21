@@ -74,6 +74,8 @@ Player::Player(unsigned int x, unsigned int y)
 Player::~Player()
 {
     state = false;
+    x = 0;
+    y = 0;
 }
 
 bool Player::isOut()

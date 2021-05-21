@@ -477,6 +477,8 @@ int main()
 
             robots.clear();
 
+            Player player(0,0);
+
             printBeginGame();
 
             writeName = read_game(menu, tiles, player,robots);
