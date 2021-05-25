@@ -2,7 +2,7 @@
 
 #include "draw.h"
 
-Menu::checkBuffer(){
+bool Menu::checkBuffer(){
     bool clean = true;
     char c;
     while (std::cin.get(c) && '\n' != c) {
@@ -13,7 +13,7 @@ Menu::checkBuffer(){
     return clean;
 }
 
-Menu::printMenuBanner()
+void Menu::printMenuBanner()
 {
     cout << "                   ___       __        __    _____              \n"
             "                  / _ \\___  / /  ___  / /_  / ___/__ ___ _  ___ \n"
@@ -41,7 +41,7 @@ Menu::printMenuBanner()
          << endl;
 }
 
-Menu::wait()
+void Menu::wait()
 {
     do 
     {
@@ -50,7 +50,7 @@ Menu::wait()
     
 }
 
-Menu::printDeadRobotCollision()
+void Menu::printDeadRobotCollision()
 {
     cout << GREEN;
     cout << "  ___     _ _ _    _                           _         _   \n"
@@ -72,7 +72,7 @@ Menu::printDeadRobotCollision()
     cout << NO_COLOR;     
 }
 
-Menu::printExit()
+void Menu::printExit()
 {
 
     //clear terminal
@@ -87,7 +87,7 @@ Menu::printExit()
          << endl;
 }
 
-Menu::printInvalidChar()
+void Menu::printInvalidChar()
 {
     cout << " ___     _                             _ _    _   _                _   _ \n"
             "| __|_ _| |_ ___ _ _   __ _  __ ____ _| (_)__| | (_)_ _  _ __ _  _| |_| |\n"
@@ -97,7 +97,7 @@ Menu::printInvalidChar()
          << endl;
 }
 
-Menu::printRobotVictory()
+void Menu::printRobotVictory()
 {
     cout << WARNING;
     cout << " ___     _         _        _                  __      __        \n"
@@ -108,7 +108,7 @@ Menu::printRobotVictory()
     cout << NO_COLOR;        
 }
 
-Menu::printHumanVictory()
+void Menu::printHumanVictory()
 {
     cout << GREEN;
     cout << "__   __          _                  __      __        \n"
@@ -118,7 +118,7 @@ Menu::printHumanVictory()
             "                                                      "<< endl;
     cout << NO_COLOR;        
 }
-int draw_menu()
+int Menu::draw_menu()
 {
     cout << "\033[2J\033[1;1H";
     unsigned int cmenu;
@@ -143,7 +143,7 @@ int draw_menu()
             }
             else if (cmenu == ZERO)
             {
-                this->exits = true;
+                this->exit = true;
                 break;
             }
         }
@@ -153,7 +153,7 @@ int draw_menu()
     cout << NO_COLOR;
 }
 
-Menu::drawMaze(std::vector<std::vector<char>> tiles)
+void Menu::drawMaze(std::vector<std::vector<char>> tiles)
 {
     for (size_t i = 0; i < tiles.size(); i++)
     {
@@ -165,7 +165,7 @@ Menu::drawMaze(std::vector<std::vector<char>> tiles)
     }
 }
 
-Menu::printBeginGame()
+void Menu::printBeginGame()
 {
     cout << "\033[2J\033[1;1H";
     cout << "      __       __    __  __         _____                 __            _    \n"
@@ -176,23 +176,37 @@ Menu::printBeginGame()
          << endl;
 }
 
-Menu::setFalse(bool sentence){
-    sentence = false;
+void Menu::setRules(bool state){
+    this->rules = false;
 }
 
-Menu::getState(){
+void Menu::setPlay(bool state){
+    this->play = false;
+}
+void Menu::setExit(bool state){
+    this->exit = false;
+}
+void Menu::setWinners(bool state){
+    this->winners = false;
+}
+
+void Menu::setState(bool state){
+    this->menu = state;
+}
+
+bool Menu::getState(){
     return this->menu;
 }
 
-Menu::getRules(){
+bool Menu::getRules(){
     return this->rules;
 }
-Menu::getPlay(){
+bool Menu::getPlay(){
     return this->play;
 }
-Menu::getWinners(){
+bool Menu::getWinners(){
     return this->winners;
 }
-Menu::getExit(){
+bool Menu::getExit(){
     return this->exit;
 }

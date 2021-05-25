@@ -209,7 +209,7 @@ void placePlayer(vector<vector<char>> &tiles, Player player, const unsigned prev
  * @param player 
  * @return 0 if Collides and Kills player, 1 if Collides against dead robot (survives), 2 if Valid
  */
-char checkCollision(vector<vector<char>> &tiles, Player &player)
+char checkCollision(vector<vector<char>> &tiles, Player &player, Menu &menu)
 {
     if(tiles[player.getY()][player.getX()] == LIVEHUMAN){
         return '2';
@@ -229,7 +229,7 @@ char checkCollision(vector<vector<char>> &tiles, Player &player)
         {
             if (tiles[player.getY()][player.getX()] == DEADROBOT || tiles[player.getY()][player.getX()] == NONELECPOST)
             {
-                printDeadRobotCollision();
+                menu.printDeadRobotCollision();
                 return '1';
             }
             else
@@ -279,7 +279,7 @@ Robot moveRobots(Robot r, Player p)
  * @param player
  * @brief Moves robots one by one and checks any collisions
  */
-void attackRobots(vector<vector<char>> &tiles, struct Player &player,vector<Robot> &robots)
+void attackRobots(vector<vector<char>> &tiles, struct Player &player,vector<Robot> &robots, Menu &menu)
 {
     int prevX, prevY;
     for (Robot &r : robots)
@@ -317,8 +317,8 @@ void attackRobots(vector<vector<char>> &tiles, struct Player &player,vector<Robo
             {
                 tiles[prevY][prevX] = LIVEROBOT;
                 tiles[r.getY()][r.getX()] = DEADHUMAN;
-                printRobotVictory();
-                wait();
+                menu.printRobotVictory();
+                menu.wait();
                 player.killObj();
             }
             else if (tiles[r.getY()][r.getX()] == NONELECPOST)
@@ -343,7 +343,7 @@ void attackRobots(vector<vector<char>> &tiles, struct Player &player,vector<Robo
  * @brief Receives a movement, verifies if valid, then alters the players position accordingly. Finally
  * moves the live robots according to the players movement.
  */
-void movePlayer(vector<vector<char>> &tiles, struct Player &player,vector<Robot> &robots)
+void movePlayer(vector<vector<char>> &tiles, struct Player &player,vector<Robot> &robots, Menu &menu)
 {
     int prevX = player.getX(), prevY = player.getY();
     char move, coll;
@@ -352,7 +352,7 @@ void movePlayer(vector<vector<char>> &tiles, struct Player &player,vector<Robot>
     {
         cout << "\nEnter movement player: ";
         cin >> move;
-        if(!checkBuffer()){
+        if(!menu.checkBuffer()){
             continue;
         }
         cout << NEWLINE;
@@ -406,18 +406,18 @@ void movePlayer(vector<vector<char>> &tiles, struct Player &player,vector<Robot>
                 break;
             default:
                 cout << "\033[2J\033[1;1H";
-                drawMaze(tiles);
-                printInvalidChar();
+                menu.drawMaze(tiles);
+                menu.printInvalidChar();
                 continue;
         }
-        coll = checkCollision(tiles, player);
+        coll = checkCollision(tiles, player, menu);
         if (coll == '2')
         {
             placePlayer(tiles, player, prevX, prevY);
         }
         else if (coll == '1')
         {
-            printInvalidChar();
+            menu.printInvalidChar();
             player.setX(prevX);
             player.setY(prevY);
             break;
@@ -429,11 +429,11 @@ void movePlayer(vector<vector<char>> &tiles, struct Player &player,vector<Robot>
         }
         else
         {
-            printRobotVictory();
-            wait();
+            menu.printRobotVictory();
+            menu.wait();
             break;
         }
-        attackRobots(tiles, player,robots);
+        attackRobots(tiles, player,robots, menu);
         //printRobotsPos(robots);
         break;
     }
@@ -445,49 +445,49 @@ void movePlayer(vector<vector<char>> &tiles, struct Player &player,vector<Robot>
  * @param tiles 
  * @param player 
  */
-void playGame(vector<vector<char>> &tiles, struct Player &player, vector<Robot> &robots)
+void playGame(vector<vector<char>> &tiles, struct Player &player, vector<Robot> &robots, Menu &menu)
 {
     while (player.getState())
     {
         cout << "\033[2J\033[1;1H";
-        drawMaze(tiles);
+        menu.drawMaze(tiles);
         if (player.isOut())
         {
-            printHumanVictory();
+            menu.printHumanVictory();
             break;
         }
-        movePlayer(tiles, player, robots);
+        movePlayer(tiles, player, robots, menu);
     }
 }
 
 int main()
 {
     vector<Robot> robots;
-    bool menu = true, play = false, rules = false, exits = false;
+    Menu menu(false, false, false, false);
     vector<vector<char>> tiles;
     Player player(0,0);
     string writeName, playerName;
     Txtread rulesFile("RULES.TXT");
-    while (menu)
+    while (menu.getState())
     {
-        draw_menu(rules, play, exits);
-        if (play)
+        menu.draw_menu();
+        if (menu.getPlay())
         {
-            play = false;
+            menu.setPlay(false);
 
             robots.clear();
 
             Player player(0,0);
 
-            printBeginGame();
-
-            writeName = read_game(menu, tiles, player,robots);
+            menu.printBeginGame();
+            bool menu_aux = menu.getState();
+            writeName = read_game(menu_aux, tiles, player,robots);
             if(!player.getState()){
                 continue;
             }
 
             auto start = chrono::steady_clock::now();
-            playGame(tiles, player,robots);
+            playGame(tiles, player,robots, menu);
             auto end = chrono::steady_clock::now();
 
             //Passes time from milliseconds to seconds
@@ -499,19 +499,20 @@ int main()
             }
         }
 
-        else if (rules)
+        else if (menu.getRules())
         {
             rulesFile.printFile();
-            wait();
-            rules = false;
+            menu.wait();
+            menu.setPlay(false);
         }
 
-        else if (exits)
+        else if (menu.getExit())
         {
             break;
+            return 0;
         }
-        menu = true;
+        //menu.setState(true);
     }
-    printExit();
+    menu.printExit();
     return 0;
 }

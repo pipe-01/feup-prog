@@ -34,11 +34,15 @@ class Menu{
         void drawMaze(vector<vector<char>> tiles);
         void printBeginGame();
         bool checkBuffer();
-        void setFalse(bool sentence);
+        void setRules(bool sentence);
+        void setPlay(bool sentence);
+        void setExit(bool sentence);
+        void setWinners(bool sentence);
         bool getState();
         bool getRules();
         bool getPlay();
         bool getWinners();
         bool getExit();
+        void setState(bool sentence);
 
-}
+};

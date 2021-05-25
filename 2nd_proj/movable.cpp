@@ -1,7 +1,8 @@
 #include "movable.h"
 
 Robot::Robot(unsigned int x, unsigned int y, unsigned int n)
-    : id(n), Movable(x, y) {}
+: Movable(x, y), id(n) {}
+
 
 Robot::~Robot()
 {
