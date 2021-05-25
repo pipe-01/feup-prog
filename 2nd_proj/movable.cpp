@@ -8,6 +8,28 @@ Robot::~Robot()
     state = false;
 }
 
+void Robot::placeObj(vector<vector<char>> &tiles, const unsigned playerX, const unsigned playerY){
+    int varX = x - playerX; 
+    int varY = y - playerY;
+
+    if (varX > ZERO)
+    {
+        moveLeft();
+    }
+    else if (varX < ZERO)
+    {
+        moveRight();
+    }
+    if (varY > ZERO)
+    {
+        moveUp();
+    }
+    else if (varY < ZERO)
+    {
+        moveDown();
+    }
+}
+
 bool Movable::getState()
 {
     return state;
@@ -86,4 +108,46 @@ bool Player::isOut()
 void Player::gotOut()
 {
     out = true;
+}
+
+char Player::checkCollision(vector<vector<char>> &tiles)
+{
+    if(tiles[getY()][getX()] == LIVEHUMAN){
+        return '2';
+    }
+    else if (tiles[getY()][getX()] != ' ')
+    {
+        if (tiles[getY()][getX()]==EXITDOOR){
+            gotOut();
+            return '4';
+        }
+        else if (tiles[getY()][getX()] == '*' || tiles[getY()][getX()] == LIVEROBOT)
+        {
+            killObj();
+            return '0';
+        }
+        else
+        {
+            if (tiles[getY()][getX()] == DEADROBOT || tiles[getY()][getX()] == NONELECPOST)
+            {
+                printDeadRobotCollision();
+                return '1';
+            }
+            else
+            {
+                killObj();
+                return '0';
+            }
+        }
+    }
+    else
+    {
+        return '2';
+    }
+}
+
+void Player::placePlayer(vector<vector<char>> &tiles, const unsigned prevX, const unsigned prevY)
+{
+    tiles[prevY][prevX] = ' ';
+    tiles[getY()][getX()] = LIVEHUMAN;
 }

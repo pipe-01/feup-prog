@@ -11,34 +11,12 @@
 #include "draw.h"
 #include "readwrite.h"
 #include "constants.h"
-#include "movable.h"
+#include "game.h"
 #include "txtread.h"
 
 using namespace std;
 
-/**
- * @brief Stores player information
- * 
- */
 
-/**
- * @brief Stores robots main information which is accessed frequently
- * 
- */
-/**
-struct Robot
-{
-    int x, y;
-    int id;
-    bool alive = true;
-    Robot(int i, int j, int n )
-    {
-        x = i;
-        y = j;
-        id = n; 
-    };
-};
-**/
 
 /**
  * @brief for debug purposes, can be used to check robots movement
@@ -188,69 +166,13 @@ string read_game(bool &menu, vector<vector<char>> &tiles, Player &player, vector
     }
     return " ";
 }
-
 /**
- * @brief Places the player in its new position and changes its old position to empty (space).
- * 
- * @param tiles 
- * @param player 
- * @param prevX 
- * @param prevY 
- */
-void placePlayer(vector<vector<char>> &tiles, Player player, const unsigned prevX, const unsigned prevY)
-{
-    tiles[prevY][prevX] = ' ';
-    tiles[player.getY()][player.getX()] = LIVEHUMAN;
-}
-
-/**
- * @brief Checks if the player has collided against something
- * @param tiles 
- * @param player 
- * @return 0 if Collides and Kills player, 1 if Collides against dead robot (survives), 2 if Valid
- */
-char checkCollision(vector<vector<char>> &tiles, Player &player)
-{
-    if(tiles[player.getY()][player.getX()] == LIVEHUMAN){
-        return '2';
-    }
-    else if (tiles[player.getY()][player.getX()] != ' ')
-    {
-        if (tiles[player.getY()][player.getX()]==EXITDOOR){
-            player.gotOut();
-            return '4';
-        }
-        else if (tiles[player.getY()][player.getX()] == '*' || tiles[player.getY()][player.getX()] == LIVEROBOT)
-        {
-            player.killObj();
-            return '0';
-        }
-        else
-        {
-            if (tiles[player.getY()][player.getX()] == DEADROBOT || tiles[player.getY()][player.getX()] == NONELECPOST)
-            {
-                printDeadRobotCollision();
-                return '1';
-            }
-            else
-            {
-                player.killObj();
-                return '0';
-            }
-        }
-    }
-    else
-    {
-        return '2';
-    }
-}
 /**
  * @brief Moves robots according to the players current position
  * 
  * @param robot 
  * @param player 
- * @return Robot 
- */
+ * @return Robot
 Robot moveRobots(Robot r, Player p)
 {
     int varX = r.getX() - p.getX(); 
@@ -274,12 +196,13 @@ Robot moveRobots(Robot r, Player p)
     }
     return r;
 }
+**/
 /**
  * @param tiles
  * @param player
  * @brief Moves robots one by one and checks any collisions
  */
-void attackRobots(vector<vector<char>> &tiles, struct Player &player,vector<Robot> &robots)
+void attackRobots(vector<vector<char>> &tiles, Player &player,vector<Robot> &robots)
 {
     int prevX, prevY;
     for (Robot &r : robots)
@@ -343,7 +266,7 @@ void attackRobots(vector<vector<char>> &tiles, struct Player &player,vector<Robo
  * @brief Receives a movement, verifies if valid, then alters the players position accordingly. Finally
  * moves the live robots according to the players movement.
  */
-void movePlayer(vector<vector<char>> &tiles, struct Player &player,vector<Robot> &robots)
+void movePlayer(vector<vector<char>> &tiles, Player &player,vector<Robot> &robots)
 {
     int prevX = player.getX(), prevY = player.getY();
     char move, coll;
@@ -410,10 +333,10 @@ void movePlayer(vector<vector<char>> &tiles, struct Player &player,vector<Robot>
                 printInvalidChar();
                 continue;
         }
-        coll = checkCollision(tiles, player);
+        coll = player.checkCollision(tiles);
         if (coll == '2')
         {
-            placePlayer(tiles, player, prevX, prevY);
+            player.placeObj(tiles, prevX, prevY);
         }
         else if (coll == '1')
         {
@@ -424,7 +347,7 @@ void movePlayer(vector<vector<char>> &tiles, struct Player &player,vector<Robot>
         }
         else if (coll == '4')
         {
-            placePlayer(tiles, player, prevX, prevY);
+            player.placeObj(tiles, prevX, prevY);
             break;
         }
         else
@@ -445,7 +368,7 @@ void movePlayer(vector<vector<char>> &tiles, struct Player &player,vector<Robot>
  * @param tiles 
  * @param player 
  */
-void playGame(vector<vector<char>> &tiles, struct Player &player, vector<Robot> &robots)
+void playGame(vector<vector<char>> &tiles, Player &player, vector<Robot> &robots)
 {
     while (player.getState())
     {
