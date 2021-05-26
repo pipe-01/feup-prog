@@ -197,68 +197,7 @@ Robot moveRobots(Robot r, Player p)
     return r;
 }
 **/
-/**
- * @param tiles
- * @param player
- * @brief Moves robots one by one and checks any collisions
- */
-void attackRobots(vector<vector<char>> &tiles, Player &player,vector<Robot> &robots)
-{
-    int prevX, prevY;
-    for (Robot &r : robots)
-    {
-        if (!r.getState() )
-        {
-            continue;
-        }
-        else
-        {
-            prevX = r.getX(), prevY = r.getY();
-            if (tiles[prevY][prevX] == LIVEHUMAN)
-            {
-                tiles[prevY][prevX] = LIVEROBOT;
-                tiles[r.getY()][r.getX()] = DEADHUMAN;
-                player.killObj();;
-            }
-            else if(tiles[prevY][prevX] == DEADROBOT){
-                r.killObj();;
-                continue;
-            }
-            r = moveRobots(r, player);
-            if (tiles[r.getY()][r.getX()] == ' ')
-            {
-                tiles[prevY][prevX] = ' ';
-                tiles[r.getY()][r.getX()] = LIVEROBOT;
-            }
-            else if ( tiles[r.getY()][r.getX()] == LIVEROBOT || tiles[r.getY()][r.getX()] == DEADROBOT)
-            {
-                tiles[r.getY()][r.getX()] = DEADROBOT;
-                tiles[prevY][prevX] = ' ';
-                r.killObj();
-            }
-            else if (tiles[r.getY()][r.getX()] == LIVEHUMAN)
-            {
-                tiles[prevY][prevX] = LIVEROBOT;
-                tiles[r.getY()][r.getX()] = DEADHUMAN;
-                printRobotVictory();
-                wait();
-                player.killObj();
-            }
-            else if (tiles[r.getY()][r.getX()] == NONELECPOST)
-            {
-                tiles[prevY][prevX] = ' ';
-                tiles[r.getY()][r.getX()] = DEADROBOT;
-                r.killObj();
-            }
-            else if (tiles[r.getY()][r.getX()] == FENCE){
-                tiles[prevY][prevX] = DEADROBOT;
-                r.setX(prevX);
-                r.setY(prevY);
-                r.killObj();
-            }
-        }
-    }
-}
+
 /**
  *
  * @param tiles
@@ -385,10 +324,8 @@ void playGame(vector<vector<char>> &tiles, Player &player, vector<Robot> &robots
 
 int main()
 {
-    vector<Robot> robots;
     bool menu = true, play = false, rules = false, exits = false;
     vector<vector<char>> tiles;
-    Player player(0,0);
     string writeName, playerName;
     Txtread rulesFile("RULES.TXT");
     while (menu)
@@ -396,15 +333,20 @@ int main()
         draw_menu(rules, play, exits);
         if (play)
         {
+            /**
             play = false;
 
             robots.clear();
 
             Player player(0,0);
+            **/
 
             printBeginGame();
 
             writeName = read_game(menu, tiles, player,robots);
+
+            Game game(writeName);
+            
             if(!player.getState()){
                 continue;
             }

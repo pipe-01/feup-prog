@@ -49,45 +49,9 @@ void wait()
     } while (cin.get() != '\n');
     
 }
-/**
-void printRules()
-{
 
-    //clear terminal
-    cout << "\033[2J\033[1;1H";
-
-    cout << "                                ___       __      \n"
-            "                               / _ \\__ __/ /__ ___\n"
-            "                              / , _/ // / / -_|_-<\n"
-            "                             /_/|_|\\_,_/_/\\__/___/\n"
-            "                                                  "
-         << endl;
-    cout << "H = human, R = Robot, * = Fence/Post\n"
-            "1) Main Goal of the Game: Survive the Robots & Electrical Posts/Fences\n"
-            "2) Win is achieved if no robots are alive\n"
-            "3) Dead robots remain in their last position (thus can not move through them)\n"
-            "4) For every move, robots move one tile closer to your character (H)\n"
-            "5) Death can be by collision with robots or fences/posts\n"
-            "6) Robots also die from collisions between each other (only one robot is placed in the place of death)\n"
-            "7) Times are recorded and stored in a text file\n"
-            "Controls are as follows: \n"
-            "\tA/a = Left\n"
-            "\tW/w = Up\n"
-            "\tD/d = Right\n"
-            "\tX/x = Down\n"
-            "\tS/s = No movement\n"
-            "\tQ/q = Up-left\n"
-            "\tE/e = Up-right\n"
-            "\tZ/z = Down-left\n"
-            "\tC/c = Down-right\n"
-            "\t0 = Exit Game\n";
-    wait();
-    cout << "\033[2J\033[1;1H";
-}
-**/
 void printDeadRobotCollision()
 {
-    cout << GREEN;
     cout << "  ___     _ _ _    _                           _         _   \n"
             " / __|___| | (_)__(_)___ _ _    __ _ __ _ __ _(_)_ _  __| |_ \n"
             "| (__/ _ \\ | | (_-< / _ \\ ' \\  / _` / _` / _` | | ' \\(_-<  _|\n"
@@ -103,8 +67,7 @@ void printDeadRobotCollision()
             "/ _` / _` / _` | | ' \\ \n"
             "\\__,_\\__, \\__,_|_|_||_|\n"
             "     |___/            "
-         << endl;
-    cout << NO_COLOR;     
+         << endl;   
 }
 
 void printExit()
@@ -112,7 +75,6 @@ void printExit()
 
     //clear terminal
     cout << "\033[2J\033[1;1H";
-    cout << ORANGE;
     cout << " ____                                  _       _            _ \n"
             "/ ___|  ___  ___   _   _  ___  _   _  | | __ _| |_ ___ _ __| |\n"
             "\\___ \\ / _ \\/ _ \\ | | | |/ _ \\| | | | | |/ _` | __/ _ \\ '__| |\n"
@@ -134,24 +96,21 @@ void printInvalidChar()
 
 void printRobotVictory()
 {
-    cout << WARNING;
     cout << " ___     _         _        _                  __      __        \n"
             "| _ \\___| |__  ___| |_ ___ | |_  __ ___ _____  \\ \\    / /__ _ _  \n"
             "|   / _ \\ '_ \\/ _ \\  _(_-< | ' \\/ _` \\ V / -_)  \\ \\/\\/ / _ \\ ' \\ \n"
             "|_|_\\___/_.__/\\___/\\__/__/ |_||_\\__,_|\\_/\\___|   \\_/\\_/\\___/_||_|\n"
             "                                                                 ";
-    cout << NO_COLOR;        
+       
 }
 
 void printHumanVictory()
 {
-    cout << GREEN;
     cout << "__   __          _                  __      __        \n"
             "\\ \\ / /__ _  _  | |_  __ ___ _____  \\ \\    / /__ _ _  \n"
             " \\ V / _ \\ || | | ' \\/ _` \\ V / -_)  \\ \\/\\/ / _ \\ ' \\ \n"
             "  |_|\\___/\\_,_| |_||_\\__,_|\\_/\\___|   \\_/\\_/\\___/_||_|\n"
-            "                                                      "<< endl;
-    cout << NO_COLOR;        
+            "                                                      "<< endl;        
 }
 int draw_menu(bool &rules, bool &play, bool &exits)
 {
