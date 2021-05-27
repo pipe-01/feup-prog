@@ -1,5 +1,3 @@
-#include "movable.h"
-
 class Player: public Movable
 {
 private:
@@ -16,6 +14,5 @@ public:
     * @param tiles 
     * @return 0 if Collides and Kills player, 1 if Collides against dead robot (survives), 2 if Valid
     */
-    char checkCollision(vector<vector<char>> &tiles);
     ~Player();
 };

@@ -1,5 +1,3 @@
-#include "movable.h"
-
 class Robot: public Movable
 {
 private:
@@ -8,4 +6,5 @@ public:
     Robot(unsigned int x,unsigned int y);
     ~Robot();
     int getId();
+    void moveRobot(Position pos);
 };

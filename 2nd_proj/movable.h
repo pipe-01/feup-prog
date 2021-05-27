@@ -4,7 +4,7 @@
 class Movable
 {
 protected:
-    Position p;
+    struct Position p;
     bool state;
 public:
     Movable(unsigned int i, unsigned int j){
@@ -12,8 +12,8 @@ public:
         p.y = j;
         state = true;
     }
-    int getX();
-    int getY();
+    int getX() const;
+    int getY() const;
     int getPosition();
     void setX(unsigned int i);
     void setY(unsigned int j);

@@ -32,6 +32,7 @@ void printRobotsPos(vector<Robot> robots)
     }
 }
 **/
+
 /**
  * @param file_name
  * @param tiles
@@ -39,6 +40,7 @@ void printRobotsPos(vector<Robot> robots)
  * @brief Inserts values of file into a 2-D vector, in case of:
  * Robot - inserts it in robots. Player - changes it's values of x and y
  */
+/**
 void read_file(string &file_name, vector<vector<char>> &tiles, Player &player,vector<Robot> &robots)
 {
     unsigned int rows, columns;
@@ -93,7 +95,7 @@ void read_file(string &file_name, vector<vector<char>> &tiles, Player &player,ve
     }
     file.close();
 }
-
+**/
 
 /**
  * @param menu
@@ -205,7 +207,7 @@ Robot moveRobots(Robot r, Player p)
  * @brief Receives a movement, verifies if valid, then alters the players position accordingly. Finally
  * moves the live robots according to the players movement.
  */
-void movePlayer(vector<vector<char>> &tiles, Player &player,vector<Robot> &robots)
+void movePlayer()
 {
     int prevX = player.getX(), prevY = player.getY();
     char move, coll;
