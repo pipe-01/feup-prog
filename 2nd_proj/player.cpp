@@ -47,22 +47,22 @@ void Player::setY(unsigned int j)
 
 void Player::moveUp()
 {
-    p.x--;
+    p.y--;
 }
 
 void Player::moveDown()
 {
-    p.x++;
+    p.y++;
 }
 
 void Player::moveRight()
 {
-    p.y++;
+    p.x++;
 }
 
 void Player::moveLeft()
 {
-    p.y--;
+    p.x--;
 }
 
 Position Player::getPosition()

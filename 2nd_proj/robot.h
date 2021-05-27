@@ -3,10 +3,10 @@
 class Robot
 {
 private:
-    static int staticId;
-    const int id;
     struct Position p;
     bool state;
+    const int id;
+    static int staticId;
 public:
     Robot(unsigned int x,unsigned int y);
     ~Robot();
