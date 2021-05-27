@@ -184,6 +184,7 @@ void Game::movePlayer()
                 break;
             case 'D':
                 player.moveRight();
+                break;
             case 'W':
                 player.moveUp();
                 break;
