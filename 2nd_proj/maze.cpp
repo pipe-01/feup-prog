@@ -1,4 +1,5 @@
 #include "maze.h"
+#include <iostream>
 
 void Maze::addPost(Position pos, Post p){
     postMap.insert(pair<Position,Post>(pos,p));
@@ -13,13 +14,14 @@ char Maze::hasPost(Position pos){
     return '0';
 }
 
-vector<vector<char>> Maze::getBoard() const
+vector<vector<char>> Maze::getBoard()
 {
     return board;
 }
 
-char Maze::getObjAt(Position pos) const{
-    return board[pos.x][pos.y];
+char Maze::getObjAt(Position pos){
+    //cout << "\n\nInside GOA: " <<pos.x << " " << pos.y << endl;
+    return board[pos.y][pos.x];
 }
 
 void Maze::setCol(int c){
@@ -31,11 +33,15 @@ void Maze::setRow(int r){
 }
 
 void Maze::setObjAt(Position pos, char obj){
+    cout << "Should be empt"<< board[pos.x][pos.y] << "y\n";
     board[pos.x][pos.y] = obj;
+    cout << board[pos.x][pos.y] << " Object at (pos) " << pos.y << " " << pos.x<< "\n";
 }
 
 void Maze::setObjAt(int x, int y, char obj){
+    //cout << "Previous on board (should be R)" << board[x][y];
     board[x][y] = obj;
+    cout << obj << "Object at (x, y) " << x << "  "<< y<< "\n";
 }
 
 void Maze::resizeBoard()

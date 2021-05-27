@@ -16,9 +16,8 @@ int Robot::getId(){
 }
 
 void Robot::moveRobot(struct Position pos){
-    int varX = p.x - pos.x; 
-    int varY = p.y - pos.y;
-    std::cout << varX << varY;
+    int varY = p.x - pos.x; 
+    int varX = p.y - pos.y;
     if (varX > ZERO)
     {
         moveLeft();
@@ -69,22 +68,22 @@ void Robot::setY(unsigned int j)
 
 void Robot::moveUp()
 {
-    p.y--;
+    p.x--;
 }
 
 void Robot::moveDown()
 {
-    p.y++;
+    p.x++;
 }
 
 void Robot::moveRight()
 {
-    p.x++;
+    p.y++;
 }
 
 void Robot::moveLeft()
 {
-    p.x--;
+    p.y--;
 }
 
 Position Robot::getPosition()

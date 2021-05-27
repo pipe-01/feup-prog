@@ -15,8 +15,8 @@ public:
     Maze() = default;
     void setRow(int r);
     void setCol(int c);
-    vector<vector<char>> getBoard() const;
-    char getObjAt(Position pos) const;
+    vector<vector<char>> getBoard();
+    char getObjAt(Position pos);
     void setObjAt(Position pos, char obj); 
     void setObjAt(int x, int y, char obj);
     void addPost(Position, Post p);

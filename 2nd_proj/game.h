@@ -13,7 +13,7 @@ class Game
 private:
     string fileName;
     Player player;
-    vector<Robot* > robots;
+    vector<Robot> robots;
     Maze maze;
     Draw draw;
 public:
