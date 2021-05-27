@@ -13,6 +13,7 @@
 #include "constants.h"
 #include "game.h"
 #include "txtread.h"
+#include "draw.h"
 
 using namespace std;
 
@@ -326,24 +327,15 @@ void playGame(vector<vector<char>> &tiles, Player &player, vector<Robot> &robots
 
 int main()
 {
-    bool menu = true, play = false, rules = false, exits = false;
-    vector<vector<char>> tiles;
+    Menu menu = Menu(false, false, false, false);
     string writeName, playerName;
     Txtread rulesFile("RULES.TXT");
-    while (menu)
+    while (menu.getState())
     {
-        draw_menu(rules, play, exits);
-        if (play)
+        menu.draw_menu(rules, play, exits);
+        if (menu.getPlay())
         {
-            /**
-            play = false;
-
-            robots.clear();
-
-            Player player(0,0);
-            **/
-
-            printBeginGame();
+            menu.printBeginGame();
 
             writeName = read_game(menu, tiles, player,robots);
 
@@ -354,7 +346,7 @@ int main()
             }
 
             auto start = chrono::steady_clock::now();
-            playGame(tiles, player,robots);
+            // playGame(tiles, player,robots);
             auto end = chrono::steady_clock::now();
 
             //Passes time from milliseconds to seconds
@@ -366,19 +358,23 @@ int main()
             }
         }
 
-        else if (rules)
+        else if (menu.getRules())
         {
             rulesFile.printFile();
-            wait();
-            rules = false;
+            menu.wait();
+            menu.setRules(false);
         }
 
-        else if (exits)
+        else if(menu.getWinners){
+            printf("Mostrar winners\n");
+        }
+
+        else if (menu.getExit)
         {
             break;
         }
-        menu = true;
+        menu.setState(true);
     }
-    printExit();
+    menu.printExit();
     return 0;
 }

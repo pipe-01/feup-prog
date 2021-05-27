@@ -260,4 +260,78 @@ void Game::placePlayer(int prevX, int prevY){
 
 }
 
+bool Game::fileExists(const string &file_name){
+    fstream file(name);
+    if (!file)
+    {
+        return false;
+    }
+    return true;
+}
+
+string Game::read_game(bool &menu, vector<vector<char>> &tiles, Player &player, vector<Robot> &robots){
+    unsigned int maze_value;
+    string file_name, write_name;
+    string aux;
+
+    //clear terminal
+    cout << "\033[2J\033[1;1H";
+
+    while (1)
+    {
+        cout << "Enter maze number: ";
+        cin >> aux;
+
+        maze_value = stoi(aux);
+        file_name = "MAZE_";
+
+        if (cin.fail())
+        {
+
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "You have entered wrong input" << endl;
+
+            if (cin.eof())
+            {
+                exit(0);
+            }
+        }
+        else if (maze_value > 0 && maze_value <= 99)
+        {
+
+            if(maze_value<10)
+    	        aux = "0" + aux;
+            write_name = file_name + aux + "_WINNERS.TXT";
+            file_name = file_name  + aux + ".TXT";
+
+            if (fileExists(file_name))
+            {
+                cout << "File exists" << endl;
+                readFile();
+                file_name.clear();
+                menu = false;
+                return write_name;
+                break;
+            }
+            else
+            {
+                cout << "File doesn't exist" << endl;
+                continue;
+            }
+        }
+        else if (maze_value == 0)
+        {
+            player.killObj();
+            menu = true;
+            break;
+        }
+        else
+        {
+            cout << "Enter a valid number between 0 and 99" << endl;
+        }
+    }
+    return " ";
+}
+
 

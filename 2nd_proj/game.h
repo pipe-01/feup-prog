@@ -3,6 +3,7 @@
 #include "robot.h"
 #include "player.h"
 #include "maze.h"
+#include "readwrite.h"
 
 using namespace std;
 
@@ -22,4 +23,6 @@ public:
     char checkPlayerCollision();
     void movePlayer();
     void placePlayer();
+    string read_game(bool &menu, vector<vector<char>> &tiles, Player &player, vector<Robot> &robots);
+    bool fileExists(const string &file_name);
 };

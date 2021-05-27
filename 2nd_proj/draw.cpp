@@ -2,7 +2,7 @@
 
 #include "draw.h"
 
-bool checkBuffer(){
+bool Menu::checkBuffer(){
     bool clean = true;
     char c;
     while (std::cin.get(c) && '\n' != c) {
@@ -13,7 +13,7 @@ bool checkBuffer(){
     return clean;
 }
 
-void printMenuBanner()
+void Menu::printMenuBanner()
 {
     cout << "                   ___       __        __    _____              \n"
             "                  / _ \\___  / /  ___  / /_  / ___/__ ___ _  ___ \n"
@@ -41,7 +41,7 @@ void printMenuBanner()
          << endl;
 }
 
-void wait()
+void Menu::wait()
 {
     do 
     {
@@ -50,8 +50,9 @@ void wait()
     
 }
 
-void printDeadRobotCollision()
+void Menu::printDeadRobotCollision()
 {
+    cout << GREEN;
     cout << "  ___     _ _ _    _                           _         _   \n"
             " / __|___| | (_)__(_)___ _ _    __ _ __ _ __ _(_)_ _  __| |_ \n"
             "| (__/ _ \\ | | (_-< / _ \\ ' \\  / _` / _` / _` | | ' \\(_-<  _|\n"
@@ -67,14 +68,16 @@ void printDeadRobotCollision()
             "/ _` / _` / _` | | ' \\ \n"
             "\\__,_\\__, \\__,_|_|_||_|\n"
             "     |___/            "
-         << endl;   
+         << endl;
+    cout << NO_COLOR;     
 }
 
-void printExit()
+void Menu::printExit()
 {
 
     //clear terminal
     cout << "\033[2J\033[1;1H";
+    cout << ORANGE;
     cout << " ____                                  _       _            _ \n"
             "/ ___|  ___  ___   _   _  ___  _   _  | | __ _| |_ ___ _ __| |\n"
             "\\___ \\ / _ \\/ _ \\ | | | |/ _ \\| | | | | |/ _` | __/ _ \\ '__| |\n"
@@ -84,7 +87,7 @@ void printExit()
          << endl;
 }
 
-void printInvalidChar()
+void Menu::printInvalidChar()
 {
     cout << " ___     _                             _ _    _   _                _   _ \n"
             "| __|_ _| |_ ___ _ _   __ _  __ ____ _| (_)__| | (_)_ _  _ __ _  _| |_| |\n"
@@ -94,50 +97,53 @@ void printInvalidChar()
          << endl;
 }
 
-void printRobotVictory()
+void Menu::printRobotVictory()
 {
+    cout << WARNING;
     cout << " ___     _         _        _                  __      __        \n"
             "| _ \\___| |__  ___| |_ ___ | |_  __ ___ _____  \\ \\    / /__ _ _  \n"
             "|   / _ \\ '_ \\/ _ \\  _(_-< | ' \\/ _` \\ V / -_)  \\ \\/\\/ / _ \\ ' \\ \n"
             "|_|_\\___/_.__/\\___/\\__/__/ |_||_\\__,_|\\_/\\___|   \\_/\\_/\\___/_||_|\n"
             "                                                                 ";
-       
+    cout << NO_COLOR;        
 }
 
-void printHumanVictory()
+void Menu::printHumanVictory()
 {
+    cout << GREEN;
     cout << "__   __          _                  __      __        \n"
             "\\ \\ / /__ _  _  | |_  __ ___ _____  \\ \\    / /__ _ _  \n"
             " \\ V / _ \\ || | | ' \\/ _` \\ V / -_)  \\ \\/\\/ / _ \\ ' \\ \n"
             "  |_|\\___/\\_,_| |_||_\\__,_|\\_/\\___|   \\_/\\_/\\___/_||_|\n"
-            "                                                      "<< endl;        
+            "                                                      "<< endl;
+    cout << NO_COLOR;        
 }
-int draw_menu(bool &rules, bool &play, bool &exits)
+int Menu::draw_menu()
 {
     cout << "\033[2J\033[1;1H";
     unsigned int cmenu;
     bool clean;
 
-    printMenuBanner();
+    this->printMenuBanner();
     while (1)
     {
         cin >> cmenu;
-        clean = checkBuffer();
+        clean = this->checkBuffer();
 
         if(clean){
             if (cmenu == ONE)
             {
-                rules = true;
+                this->rules = true;
                 break;
             }
             else if (cmenu == TWO)
             {
-                play = true;
+                this->play = true;
                 break;
             }
             else if (cmenu == ZERO)
             {
-                exits = true;
+                this->exit = true;
                 break;
             }
         }
@@ -147,7 +153,7 @@ int draw_menu(bool &rules, bool &play, bool &exits)
     cout << NO_COLOR;
 }
 
-void drawMaze(std::vector<std::vector<char>> tiles)
+void Menu::drawMaze(std::vector<std::vector<char>> tiles)
 {
     for (size_t i = 0; i < tiles.size(); i++)
     {
@@ -159,7 +165,7 @@ void drawMaze(std::vector<std::vector<char>> tiles)
     }
 }
 
-void printBeginGame()
+void Menu::printBeginGame()
 {
     cout << "\033[2J\033[1;1H";
     cout << "      __       __    __  __         _____                 __            _    \n"
@@ -168,4 +174,39 @@ void printBeginGame()
             "   /____/\\__/\\__/  \\__/_//_/\\__/  \\___/\\_,_/_/_/_/\\__/ /_.__/\\__/\\_, /_/_//_/\n"
             "                                                                /___/        "
          << endl;
+}
+
+void Menu::setRules(bool state){
+    this->rules = false;
+}
+
+void Menu::setPlay(bool state){
+    this->play = false;
+}
+void Menu::setExit(bool state){
+    this->exit = false;
+}
+void Menu::setWinners(bool state){
+    this->winners = false;
+}
+
+void Menu::setState(bool state){
+    this->menu = state;
+}
+
+bool Menu::getState(){
+    return this->menu;
+}
+
+bool Menu::getRules(){
+    return this->rules;
+}
+bool Menu::getPlay(){
+    return this->play;
+}
+bool Menu::getWinners(){
+    return this->winners;
+}
+bool Menu::getExit(){
+    return this->exit;
 }
