@@ -32,6 +32,7 @@ public:
     void printHumanVictory();
     void draw_menu();
     void printBeginGame();
+    void printFile(string fileName);
     bool checkBuffer();
     void setRules(bool sentence);
     void setPlay(bool sentence);
@@ -45,6 +46,7 @@ public:
     bool getExit();
     void setState(bool sentence);
     bool readGame();
+    void printWinnersBanner();
     std::string getMazeFile();
     std::string getWinnersFile();
 

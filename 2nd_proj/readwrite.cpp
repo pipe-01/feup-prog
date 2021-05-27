@@ -110,12 +110,13 @@ void writeResults(string writeName, const unsigned time)
     bool exists = false;
     do
     {
-        cout << "Enter player name (Max size 15): ";
+        cout << "\033[2J\033[1;1H";
+        cout << "Enter player name (Max size 15): " << endl;
         getline(cin, playerName);
     } while (playerName.size() > 15);
 
     Score p1 = Score(playerName, time);
-    cout << "name in p1: "<< p1.getName() << endl;
+    //cout << "name in p1: "<< p1.getName() << endl;
 
     if (!fileExists(writeName))
     {

@@ -31,6 +31,12 @@ void Menu::printMenuBanner()
             "/___|| | |_| |_\\__,_|\\_, |\n"
             "    /_/              |__/ "
          << endl;
+    cout << " ______   __      ___                      \n"
+            "|__ /\\ \\  \\ \\    / (_)_ _  _ _  ___ _ _ ___\n"
+            " |_ \\ | |  \\ \\/\\/ /| | ' \\| ' \\/ -_) '_(_-<\n"
+            "|___/ | |   \\_/\\_/ |_|_||_|_||_\\___|_| /__/\n"
+            "     /_/ "
+         << endl;
     cout << "  ____    ___     _ _   \n"
             " /  \\ \\  | __|_ _(_) |_ \n"
             "| () | | | _|\\ \\ / |  _|\n"
@@ -110,6 +116,10 @@ void Menu::draw_menu()
             else if (cmenu == TWO)
             {
                 play = true;
+                break;
+            }
+            else if(cmenu == THREE){
+                winners = true;
                 break;
             }
             else if (cmenu == ZERO)
@@ -237,4 +247,23 @@ bool Menu::readGame()
 bool Menu::fileExists(const string &f){
     ifstream ifile(f);
     return ifile.good();
+}
+
+void Menu::printFile(string fileName){
+    string line;
+    ifstream file(fileName);
+    while(getline(file,line)){
+        cout << line << "\n";
+    }
+}
+
+void Menu::printWinnersBanner(){
+    cout << "\033[2J\033[1;1H";
+    cout << "                               _                           \n"
+            "                     _      __(_)___  ____  ___  __________\n"
+            "                    | | /| / / / __ \\/ __ \\/ _ \\/ ___/ ___/\n"
+            "                    | |/ |/ / / / / / / / /  __/ /  (__  ) \n"
+            "                    |__/|__/_/_/ /_/_/ /_/\\___/_/  /____/  \n"
+            "                                                           "
+         << endl;   
 }

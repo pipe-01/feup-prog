@@ -16,6 +16,8 @@
 #define ONE 1
 #define TWO 2
 #define ZERO 0
+#define THREE 3
+#define RULES "RULES.TXT"
 
 /**
 void setTextColor(const std::string &color)

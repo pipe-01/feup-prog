@@ -22,7 +22,6 @@ int main()
     Menu menu(0,0,0,0);
     string writeName, playerName;
     bool win;
-    Txtread rulesFile("RULES.TXT");
     while (menu.getState())
     {
         menu.draw_menu();
@@ -32,11 +31,9 @@ int main()
             menu.printBeginGame();
 
             if(!menu.readGame()){
-                cout << "menu.readGame()False";
                 continue;
             }
             
-            cout << "gets here\n";
             Game game(menu.getMazeFile());
 
             game.readFile();
@@ -44,23 +41,31 @@ int main()
             auto start = chrono::steady_clock::now();
             win = game.play();
             auto end = chrono::steady_clock::now();
-            cout << "then here\n" << "Who won? = " << win << endl;
 
             if (win){
-                writeResults(writeName, chrono::duration_cast<chrono::seconds>(end - start).count());
+                menu.printHumanVictory();
+                menu.wait();
+                writeResults(menu.getWinnersFile(), chrono::duration_cast<chrono::seconds>(end - start).count());
+            }
+            else{
+                menu.printRobotVictory();
+                menu.wait();
             }
 
         }
 
         else if (menu.getRules())
         {
-            rulesFile.printFile();
+            menu.printFile(RULES);
             menu.wait();
             menu.setRules(false);
         }
 
         else if(menu.getWinners()){
-            printf("Mostrar winners\n");
+            menu.printWinnersBanner();
+            menu.printFile(menu.getWinnersFile());
+            menu.wait();
+            menu.setWinners(false);
         }
 
         else if (menu.getExit())
