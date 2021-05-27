@@ -1,65 +1,79 @@
 #include "game.h"
 
-Player Game::player = Player(0,0);
 
 Game::Game(string fileName){
     this->fileName = fileName;
 }
 
-void Game::attackRobot(Robot &r)
+void Game::attackRobot()
 {
-    int prevX, prevY;
-    char newPos;
-    if (!r.getState() )
-    {
-        return;
-    }
-    else
-    {
-        prevX = r.getX(), prevY = r.getY();
-        if (r.getPosition() == player.getPosition())
+    for(size_t i = 0; i < robots.size(); i++){
+        int prevX, prevY;
+        char newPos;
+        if (!robots[i]->getState() )
         {
-            maze.setObjAt(prevY,prevX,LIVEROBOT);
-            maze.setObjAt(r.getPosition(),DEADHUMAN);
-            player.killObj();
-        }
-        else if(maze.getObjAt(r.getPosition()) == DEADROBOT){
-            r.killObj();
+            cout << "Robot is dead" << endl;
             return;
         }
-        r.moveRobot(player.getPosition());
-        newPos = maze.getObjAt(r.getPosition());
+        else
+        {
+            prevX = robots[i]->getX(), prevY = robots[i]->getY();
 
-        if (newPos == SPACEBAR)
-        {
-            maze.setObjAt(prevY,prevX,SPACEBAR);
-            maze.setObjAt(r.getPosition(),LIVEROBOT);
+            cout << "\nRobot: " << robots[i]->getState() << " X: " << robots[i]->getX() << " Y: "<<robots[i]->getY() << endl;
+            cout << "\nPlayer: " << player.getState() << " X: " << player.getX() << " Y: "<<player.getY() << endl;
+            cout << "\nObject in current position: "<< maze.getObjAt(robots[i]->getPosition()) << endl;
+
+            if (robots[i]->getX() == player.getX() && robots[i]->getY() == player.getY())
+            {
+                cout << "got here3\n";
+                maze.setObjAt(prevY,prevX,LIVEROBOT);
+                maze.setObjAt(robots[i]->getPosition(),DEADHUMAN);
+                player.killObj();
+                cout << "got here2\n";
+            }
+            else if(maze.getObjAt(robots[i]->getPosition()) == DEADROBOT){
+                cout << "got here1\n";
+                robots[i]->killObj();
+                return;
+            }
+            cout << "\nbefore move\n";
+            robots[i]->moveRobot(player.getPosition());
+            newPos = maze.getObjAt(robots[i]->getPosition());
+            cout << "\nafter move\n";
+            if (newPos == SPACEBAR)
+            {
+                maze.setObjAt(prevY,prevX,SPACEBAR);
+                maze.setObjAt(robots[i]->getPosition(),LIVEROBOT);
+            }
+            else if (newPos == LIVEROBOT || newPos == DEADROBOT)
+            {
+                maze.setObjAt(robots[i]->getPosition(),DEADROBOT);
+                maze.setObjAt(prevY,prevX,SPACEBAR);
+                robots[i]->killObj();
+            }
+            else if (robots[i]->getPosition() == player.getPosition())
+            {
+                maze.setObjAt(prevY,prevX,LIVEROBOT);
+                maze.setObjAt(robots[i]->getPosition(),DEADHUMAN);
+                player.killObj();
+            }
+            else if (maze.hasPost(robots[i]->getPosition()) == '1')
+            {
+                maze.setObjAt(prevY,prevX,SPACEBAR);
+                maze.setObjAt(robots[i]->getPosition(),DEADROBOT);
+                robots[i]->killObj();
+            }
+            else if (maze.hasPost(robots[i]->getPosition()) == '2'){
+                maze.setObjAt(prevY,prevX,DEADROBOT);
+                robots[i]->setX(prevX);
+                robots[i]->setY(prevY);
+                robots[i]->killObj();
+            }
+            cout << robots[i]->getState() << " X: " << robots[i]->getX() << " Y: "<<robots[i]->getY() << endl;
+            cout << "\nObject in final position: "<< maze.getObjAt(robots[i]->getPosition()) << endl;
+            cout << "\nendfunction\n";
         }
-        else if (newPos == LIVEROBOT || newPos == DEADROBOT)
-        {
-            maze.setObjAt(r.getPosition(),DEADROBOT);
-            maze.setObjAt(prevY,prevX,SPACEBAR);
-            r.killObj();
-        }
-        else if (r.getPosition() == player.getPosition())
-        {
-            maze.setObjAt(prevY,prevX,LIVEROBOT);
-            maze.setObjAt(r.getPosition(),DEADHUMAN);
-            player.killObj();
-        }
-        else if (maze.hasPost(r.getPosition()) == '1')
-        {
-            maze.setObjAt(prevY,prevX,SPACEBAR);
-            maze.setObjAt(r.getPosition(),DEADROBOT);
-            r.killObj();
-        }
-        else if (maze.hasPost(r.getPosition()) == '2'){
-            maze.setObjAt(prevY,prevX,DEADROBOT);
-            r.setX(prevX);
-            r.setY(prevY);
-            r.killObj();
-        }
-    }
+    }    
 
 }
 
@@ -95,18 +109,18 @@ void Game::readFile()
                 {
                     player.setX(j);
                     player.setY(i);
-                    //cout << "Player position :" << player.getX() << ' ' << player.getY() << endl;
+                    cout << "Player position :" << player.getX() << ' ' << player.getY() << endl;
                     onePlayer = true;
                 }
                 else if (line[j] == LIVEROBOT)
                 {
-                    Robot r1 = Robot(j,i);
+                    Robot* r1 = new Robot(j,i);
                     robots.push_back(r1);
                 }
                 else if (line[j] == DEADROBOT)
                 {
-                    Robot r1 = Robot(j, i);
-                    r1.killObj();
+                    Robot* r1 = new Robot(j, i);
+                    r1->killObj();
                     robots.push_back(r1);
                 }
                 else if(line[j] == FENCE){
@@ -117,7 +131,7 @@ void Game::readFile()
                 }
             }
         }
-        //printRobotsPos(robots);
+        printRobotsTester();
     }
     file.close();
 }
@@ -210,11 +224,7 @@ void Game::movePlayer()
         {
             break;
         }
-
-        for(Robot &r: robots){
-            cout << r.getId() << endl;
-            attackRobot(r);
-        }
+        attackRobot();
         break;
     }
 }
@@ -259,6 +269,7 @@ char Game::checkPlayerCollision()
 }
 
 bool Game::play(){
+
     while (player.getState())
     {
         cout << "\033[2J\033[1;1H";
@@ -273,3 +284,9 @@ bool Game::play(){
 }
 
 
+void Game::printRobotsTester(){
+    for(int i = 0; i < robots.size(); i++){
+        cout << "\nId: " << robots[i]->getId() << " State: " << robots[i]->getState() << " X:"<< robots[i]->getX() << " Y: " <<robots[i]->getY();
+        cout << "\n";
+    }
+}

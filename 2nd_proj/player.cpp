@@ -25,7 +25,7 @@ void Player::killObj()
     state = false;
 }
 
-int Player::getX() const
+int Player::getX()
 {
     return p.x;
 }
@@ -35,7 +35,7 @@ void Player::setX(unsigned int i)
     p.x = i;
 }
 
-int Player::getY() const
+int Player::getY()
 {
     return p.y;
 }
@@ -65,7 +65,7 @@ void Player::moveLeft()
     p.x--;
 }
 
-Position Player::getPosition() const
+Position Player::getPosition()
 {
     return p;
 }

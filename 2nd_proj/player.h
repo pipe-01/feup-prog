@@ -2,16 +2,17 @@
 class Player
 {
 private:
-    bool out;
+    bool out = false;
     struct Position p;
-    bool state;
+    bool state = true;
 public:
     Player(unsigned int x, unsigned int y);
+    Player(): p(Position(0,0)) {}
     void gotOut();
     bool isOut();
-    int getX() const;
-    int getY() const;
-    Position getPosition() const;
+    int getX();
+    int getY();
+    Position getPosition();
     void setX(unsigned int i);
     void setY(unsigned int j);
     void moveUp();

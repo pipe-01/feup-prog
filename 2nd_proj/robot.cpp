@@ -1,16 +1,15 @@
 #include "robot.h"
+#include <iostream>
 
-Robot::Robot(unsigned int x, unsigned int y){
-    p = Position(x,y);
-    state = true;
-}
+Robot::Robot(unsigned int x, unsigned int y)
+    : p(Position(x,y)),state(true), id(++staticId){}
 
 Robot::~Robot()
 {
     state = false;
 }
 
-int Robot::id = 0;
+int Robot::staticId = 0;
 
 int Robot::getId(){
     return id;
@@ -19,7 +18,7 @@ int Robot::getId(){
 void Robot::moveRobot(struct Position pos){
     int varX = p.x - pos.x; 
     int varY = p.y - pos.y;
-
+    std::cout << varX << varY;
     if (varX > ZERO)
     {
         moveLeft();
@@ -50,7 +49,7 @@ void Robot::killObj()
 
 int Robot::getX() const
 {
-    return p.x;
+    return this->p.x;
 }
 
 void Robot::setX(unsigned int i)
@@ -88,7 +87,7 @@ void Robot::moveLeft()
     p.x--;
 }
 
-Position Robot::getPosition() const
+Position Robot::getPosition()
 {
     return p;
 }

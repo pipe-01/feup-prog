@@ -28,22 +28,28 @@ int main()
         menu.draw_menu();
         if (menu.getPlay())
         {
+            menu.setPlay(false);
             menu.printBeginGame();
 
             if(!menu.readGame()){
+                cout << "menu.readGame()False";
                 continue;
             }
-
+            
+            cout << "gets here\n";
             Game game(menu.getMazeFile());
+
+            game.readFile();
 
             auto start = chrono::steady_clock::now();
             win = game.play();
             auto end = chrono::steady_clock::now();
-            
+            cout << "then here\n" << "Who won? = " << win << endl;
 
             if (win){
                 writeResults(writeName, chrono::duration_cast<chrono::seconds>(end - start).count());
             }
+
         }
 
         else if (menu.getRules())

@@ -12,8 +12,8 @@ class Game
 {
 private:
     string fileName;
-    static Player player;
-    vector<Robot> robots;
+    Player player;
+    vector<Robot* > robots;
     Maze maze;
     Draw draw;
 public:
@@ -21,8 +21,9 @@ public:
     Game(string fileName);
     bool play();
     void readFile();
-    void attackRobot(Robot &r);
+    void attackRobot();
     char checkPlayerCollision();
     void movePlayer();
     bool fileExists(const string &file_name);
+    void printRobotsTester(); //tester function
 };

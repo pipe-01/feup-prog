@@ -3,7 +3,8 @@
 class Robot
 {
 private:
-    static int id;
+    static int staticId;
+    const int id;
     struct Position p;
     bool state;
 public:
@@ -13,7 +14,7 @@ public:
     void moveRobot(Position);
     int getX() const;
     int getY() const;
-    Position getPosition() const;
+    Position getPosition();
     void setX(unsigned int i);
     void setY(unsigned int j);
     void moveUp();

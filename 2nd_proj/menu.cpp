@@ -95,26 +95,26 @@ void Menu::draw_menu()
     unsigned int cmenu;
     bool clean;
 
-    this->printMenuBanner();
+    printMenuBanner();
     while (1)
     {
         cin >> cmenu;
-        clean = this->checkBuffer();
+        clean = checkBuffer();
 
         if(clean){
             if (cmenu == ONE)
             {
-                this->rules = true;
+                rules = true;
                 break;
             }
             else if (cmenu == TWO)
             {
-                this->play = true;
+                play = true;
                 break;
             }
             else if (cmenu == ZERO)
             {
-                this->leave = true;
+                leave = true;
                 break;
             }
         }
@@ -213,7 +213,7 @@ bool Menu::readGame()
             if (fileExists(mazeFile))
             {
                 cout << "File exists" << endl;
-                menu = false;
+                setState(false);
                 return true;
             }
             else
@@ -224,7 +224,7 @@ bool Menu::readGame()
         }
         else if (mazeNum == 0)
         {
-            menu = true;
+            setState(true);
             return false;
         }
         else
