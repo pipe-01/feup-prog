@@ -4,6 +4,7 @@
 #include "player.h"
 #include "maze.h"
 #include "draw.h"
+#include "position.h"
 
 using namespace std;
 

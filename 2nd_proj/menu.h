@@ -1,3 +1,8 @@
+#include "constants.h"
+#include <iostream>
+#include <fstream>
+#include <limits>
+
 using namespace std;
 
 class Menu
@@ -8,8 +13,8 @@ private:
     bool play;
     bool winners;
     bool leave;
-    string mazeFile;
-    string winnersFile;
+    std::string mazeFile;
+    std::string winnersFile;
 public:
     Menu(bool rule, bool playgame, bool win, bool exits)
     {
@@ -36,11 +41,11 @@ public:
     bool getRules();
     bool getPlay();
     bool getWinners();
-    bool fileExists(const string &f);
+    bool fileExists(const std::string &f);
     bool getExit();
     void setState(bool sentence);
     bool readGame();
-    string getMazeFile();
-    string getWinnersFile();
+    std::string getMazeFile();
+    std::string getWinnersFile();
 
 };

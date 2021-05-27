@@ -41,7 +41,7 @@ void Maze::setObjAt(int x, int y, char obj){
 void Maze::resizeBoard()
 {
     board.resize(row);
-    for (unsigned int i = 0; i < row; i++)
+    for (size_t i = 0; i < board.size(); i++)
     {
         board[i].resize(col);
     }

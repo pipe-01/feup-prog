@@ -19,7 +19,7 @@ using namespace std;
 
 int main()
 {
-    Menu menu = Menu(false, false, false, false);
+    Menu menu(0,0,0,0);
     string writeName, playerName;
     bool win;
     Txtread rulesFile("RULES.TXT");
