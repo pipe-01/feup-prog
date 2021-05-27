@@ -1,16 +1,13 @@
 #include "maze.h"
 
 void Maze::addPost(Position pos, Post p){
-    postMap.insert(std::make_pair(pos,p));
+    postMap.insert(pair<Position,Post>(pos,p));
 }
 
 char Maze::hasPost(Position pos){
-    if(postMap.find(pos) != postMap.end()){
-        if(postMap.at(pos).isElectric()){
-            return '2';
-        }
-        else{
-            return '1';
+    for(auto x: postMap){
+        if(x.first == pos){
+            return x.second.isElectric()?'2':'1';
         }
     }
     return '0';
@@ -49,3 +46,5 @@ void Maze::resizeBoard()
         board[i].resize(col);
     }
 }
+
+map<Position, Post> Maze::postMap;

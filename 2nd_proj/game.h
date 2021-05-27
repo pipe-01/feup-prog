@@ -11,13 +11,13 @@ class Game
 {
 private:
     string fileName;
-    Player player;
+    static Player player;
     vector<Robot> robots;
     Maze maze;
     Draw draw;
 public:
     //void showGameDisplay();
-    Game(const string & filename);
+    Game(string fileName);
     bool play();
     void readFile();
     void attackRobot(Robot &r);

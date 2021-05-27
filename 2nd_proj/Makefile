@@ -1,4 +1,4 @@
 all:
-	g++ -Wall main.cpp draw.cpp readwrite.cpp game.cpp robot.cpp player.cpp post.cpp maze.cpp txtread.cpp -o game
+	g++ -Wall draw.cpp game.cpp main.cpp maze.cpp player.cpp post.cpp readwrite.cpp robot.cpp txtread.cpp -o game
 clean:
 	rm game

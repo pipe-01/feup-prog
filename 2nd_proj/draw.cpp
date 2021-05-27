@@ -12,6 +12,16 @@ bool Menu::checkBuffer(){
     }
     return clean;
 }
+bool Draw::checkBuffer(){
+    bool clean = true;
+    char c;
+    while (std::cin.get(c) && '\n' != c) {
+        if (!std::isspace(c)) {
+            clean = false;
+        }
+    }
+    return clean;
+}
 
 void Menu::printMenuBanner()
 {
@@ -276,4 +286,9 @@ bool Menu::readGame()
             cout << "Enter a valid number between 0 and 99" << endl;
         }
     }
+}
+
+bool Menu::fileExists(const string &f){
+    ifstream ifile(f);
+    return ifile.good();
 }

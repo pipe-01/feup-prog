@@ -1,8 +1,7 @@
 #include "player.h"
 
 Player::Player(unsigned int x, unsigned int y){
-    p.x = x;
-    p.y = y;
+    p = Position(x,y);
     state = true;
 }
 

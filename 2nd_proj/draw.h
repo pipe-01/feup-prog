@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <limits>
+#include <fstream>
 #include <vector>
 #include "constants.h"
 
@@ -41,6 +42,7 @@ public:
     bool getRules();
     bool getPlay();
     bool getWinners();
+    bool fileExists(const string &f);
     bool getExit();
     void setState(bool sentence);
     bool readGame();
@@ -56,4 +58,5 @@ public:
     void drawMaze(vector<vector<char>> tiles);
     void printDeadRobotCollision();
     void printInvalidChar();
+    bool checkBuffer();
 };

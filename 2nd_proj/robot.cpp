@@ -1,8 +1,7 @@
 #include "robot.h"
 
 Robot::Robot(unsigned int x, unsigned int y){
-    p.x = x;
-    p.y = y;
+    p = Position(x,y);
     state = true;
 }
 

@@ -1,6 +1,6 @@
 #include "post.h"
 #include "position.h"
-#include <unordered_map>
+#include <map>
 #include <vector>
 using namespace std; 
 
@@ -8,7 +8,7 @@ class Maze
 {
 private:
     int row, col;
-    unordered_map<Position,Post> postMap;
+    static map<Position,Post> postMap;
     vector<vector<char>> board;
 public:
     Maze() = default;

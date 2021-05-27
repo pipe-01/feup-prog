@@ -1,7 +1,9 @@
 #include "game.h"
 
-Game::Game(const string& filename){
-    fileName = fileName;
+Player Game::player = Player(0,0);
+
+Game::Game(string fileName){
+    this->fileName = fileName;
 }
 
 void Game::attackRobot(Robot &r)
@@ -10,20 +12,20 @@ void Game::attackRobot(Robot &r)
     char newPos;
     if (!r.getState() )
     {
-        return false;
+        return;
     }
     else
     {
         prevX = r.getX(), prevY = r.getY();
-        if (r.getPosition() = player.getPosition())
+        if (r.getPosition() == player.getPosition())
         {
             maze.setObjAt(prevY,prevX,LIVEROBOT);
             maze.setObjAt(r.getPosition(),DEADHUMAN);
             player.killObj();
         }
         else if(maze.getObjAt(r.getPosition()) == DEADROBOT){
-            r.killObj();;
-            return
+            r.killObj();
+            return;
         }
         r.moveRobot(player.getPosition());
         newPos = maze.getObjAt(r.getPosition());
@@ -91,7 +93,8 @@ void Game::readFile()
                 maze.setObjAt(i,j, line[j]);
                 if (line[j] == LIVEHUMAN && !onePlayer)
                 {
-                    player = Player(j,i);
+                    player.setX(j);
+                    player.setY(i);
                     //cout << "Player position :" << player.getX() << ' ' << player.getY() << endl;
                     onePlayer = true;
                 }
@@ -128,7 +131,7 @@ void Game::movePlayer()
     {
         cout << "\nEnter movement player: ";
         cin >> move;
-        if(!checkBuffer()){
+        if(!draw.checkBuffer()){
             continue;
         }
         cout << NEWLINE;
@@ -186,7 +189,7 @@ void Game::movePlayer()
                 draw.printInvalidChar();
                 continue;
         }
-        coll = checkCollision();
+        coll = checkPlayerCollision();
         if (coll == '2')
         {
             maze.setObjAt(prevPos,' ');
@@ -195,8 +198,8 @@ void Game::movePlayer()
         else if (coll == '1')
         {
             draw.printInvalidChar();
-            player.setX(prevX);
-            player.setY(prevY);
+            player.setX(prevPos.x);
+            player.setY(prevPos.y);
         }
         else if (coll == '4')
         {
