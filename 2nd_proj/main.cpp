@@ -12,6 +12,7 @@
 #include "constants.h"
 #include "game.h"
 #include "txtread.h"
+#include "menu.h"
 
 using namespace std;
 
