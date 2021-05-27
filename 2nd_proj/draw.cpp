@@ -50,9 +50,8 @@ void Menu::wait()
     
 }
 
-void Menu::printDeadRobotCollision()
+void Draw::printDeadRobotCollision()
 {
-    cout << GREEN;
     cout << "  ___     _ _ _    _                           _         _   \n"
             " / __|___| | (_)__(_)___ _ _    __ _ __ _ __ _(_)_ _  __| |_ \n"
             "| (__/ _ \\ | | (_-< / _ \\ ' \\  / _` / _` / _` | | ' \\(_-<  _|\n"
@@ -68,8 +67,7 @@ void Menu::printDeadRobotCollision()
             "/ _` / _` / _` | | ' \\ \n"
             "\\__,_\\__, \\__,_|_|_||_|\n"
             "     |___/            "
-         << endl;
-    cout << NO_COLOR;     
+         << endl;  
 }
 
 void Menu::printExit()
@@ -77,7 +75,6 @@ void Menu::printExit()
 
     //clear terminal
     cout << "\033[2J\033[1;1H";
-    cout << ORANGE;
     cout << " ____                                  _       _            _ \n"
             "/ ___|  ___  ___   _   _  ___  _   _  | | __ _| |_ ___ _ __| |\n"
             "\\___ \\ / _ \\/ _ \\ | | | |/ _ \\| | | | | |/ _` | __/ _ \\ '__| |\n"
@@ -97,28 +94,34 @@ void Menu::printInvalidChar()
          << endl;
 }
 
+void Draw::printInvalidChar()
+{
+    cout << " ___     _                             _ _    _   _                _   _ \n"
+            "| __|_ _| |_ ___ _ _   __ _  __ ____ _| (_)__| | (_)_ _  _ __ _  _| |_| |\n"
+            "| _|| ' \\  _/ -_) '_| / _` | \\ V / _` | | / _` | | | ' \\| '_ \\ || |  _|_|\n"
+            "|___|_||_\\__\\___|_|   \\__,_|  \\_/\\__,_|_|_\\__,_| |_|_||_| .__/\\_,_|\\__(_)\n"
+            "                                                        |_|              "
+         << endl;
+}
+
 void Menu::printRobotVictory()
 {
-    cout << WARNING;
     cout << " ___     _         _        _                  __      __        \n"
             "| _ \\___| |__  ___| |_ ___ | |_  __ ___ _____  \\ \\    / /__ _ _  \n"
             "|   / _ \\ '_ \\/ _ \\  _(_-< | ' \\/ _` \\ V / -_)  \\ \\/\\/ / _ \\ ' \\ \n"
             "|_|_\\___/_.__/\\___/\\__/__/ |_||_\\__,_|\\_/\\___|   \\_/\\_/\\___/_||_|\n"
-            "                                                                 ";
-    cout << NO_COLOR;        
+            "                                                                 ";     
 }
 
 void Menu::printHumanVictory()
 {
-    cout << GREEN;
     cout << "__   __          _                  __      __        \n"
             "\\ \\ / /__ _  _  | |_  __ ___ _____  \\ \\    / /__ _ _  \n"
             " \\ V / _ \\ || | | ' \\/ _` \\ V / -_)  \\ \\/\\/ / _ \\ ' \\ \n"
             "  |_|\\___/\\_,_| |_||_\\__,_|\\_/\\___|   \\_/\\_/\\___/_||_|\n"
-            "                                                      "<< endl;
-    cout << NO_COLOR;        
+            "                                                      "<< endl;     
 }
-int Menu::draw_menu()
+void Menu::draw_menu()
 {
     cout << "\033[2J\033[1;1H";
     unsigned int cmenu;
@@ -143,17 +146,15 @@ int Menu::draw_menu()
             }
             else if (cmenu == ZERO)
             {
-                this->exit = true;
+                this->leave = true;
                 break;
             }
         }
         cerr << "\nEnter a valid input! (0,1,2): " ;
     }
-    return 0;
-    cout << NO_COLOR;
 }
 
-void Menu::drawMaze(std::vector<std::vector<char>> tiles)
+void Draw::drawMaze(std::vector<std::vector<char>> tiles)
 {
     for (size_t i = 0; i < tiles.size(); i++)
     {
@@ -184,7 +185,7 @@ void Menu::setPlay(bool state){
     this->play = false;
 }
 void Menu::setExit(bool state){
-    this->exit = false;
+    this->leave = false;
 }
 void Menu::setWinners(bool state){
     this->winners = false;
@@ -208,5 +209,71 @@ bool Menu::getWinners(){
     return this->winners;
 }
 bool Menu::getExit(){
-    return this->exit;
+    return this->leave;
+}
+string Menu::getMazeFile(){
+    return mazeFile;
+}
+string Menu::getWinnersFile(){
+    return winnersFile;
+}
+
+bool Menu::readGame()
+{
+    unsigned int mazeNum;
+    string mazeNumString, auxFileName;
+
+    //clear terminal
+    cout << "\033[2J\033[1;1H";
+
+    while (1)
+    {
+        cout << "Enter maze number: ";
+        cin >> mazeNumString;
+
+        mazeNum = stoi(mazeNumString);
+        auxFileName = "MAZE_";
+
+        if (cin.fail())
+        {
+
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "You have entered wrong input" << endl;
+
+            if (cin.eof())
+            {
+                exit(0);
+            }
+        }
+        else if (mazeNum > 0 && mazeNum <= 99)
+        {
+
+            if(mazeNum<10)
+    	        mazeNumString = "0" + mazeNumString;
+            winnersFile = auxFileName + mazeNumString + "_WINNERS.TXT";
+            mazeFile = auxFileName  + mazeNumString + ".TXT";
+
+            if (fileExists(mazeFile))
+            {
+                cout << "File exists" << endl;
+                menu = false;
+                return true;
+            }
+            else
+            {
+                cout << "File doesn't exist" << endl;
+                continue;
+            }
+        }
+        else if (mazeNum == 0)
+        {
+            menu = true;
+            return false;
+        }
+        else
+        {
+            cout << "Enter a valid number between 0 and 99" << endl;
+        }
+    }
 }

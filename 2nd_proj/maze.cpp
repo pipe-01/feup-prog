@@ -1,12 +1,12 @@
 #include "maze.h"
 
 void Maze::addPost(Position pos, Post p){
-    postMap.insert(pos,p);
+    postMap.insert(std::make_pair(pos,p));
 }
 
 char Maze::hasPost(Position pos){
     if(postMap.find(pos) != postMap.end()){
-        if(postMap.at(Pos).isElectric()){
+        if(postMap.at(pos).isElectric()){
             return '2';
         }
         else{
@@ -16,12 +16,12 @@ char Maze::hasPost(Position pos){
     return '0';
 }
 
-vector<vector<char>> Maze::getBoard()
+vector<vector<char>> Maze::getBoard() const
 {
     return board;
 }
 
-char Maze::getObjAt(Position pos){
+char Maze::getObjAt(Position pos) const{
     return board[pos.x][pos.y];
 }
 

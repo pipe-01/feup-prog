@@ -1,18 +1,23 @@
-class Player: public Movable
+#include "position.h"
+class Player
 {
 private:
-    unsigned time;
     bool out;
+    struct Position p;
+    bool state;
 public:
     Player(unsigned int x, unsigned int y);
     void gotOut();
     bool isOut();
-    void setTime(unsigned t);
-    unsigned getTime();
-    /**
-    * @brief Checks if the player has collided against something
-    * @param tiles 
-    * @return 0 if Collides and Kills player, 1 if Collides against dead robot (survives), 2 if Valid
-    */
-    ~Player();
+    int getX() const;
+    int getY() const;
+    Position getPosition() const;
+    void setX(unsigned int i);
+    void setY(unsigned int j);
+    void moveUp();
+    void moveDown();
+    void moveLeft();
+    void moveRight();
+    bool getState();
+    void killObj();
 };

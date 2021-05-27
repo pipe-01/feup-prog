@@ -1,7 +1,7 @@
 #include "post.h"
+#include "position.h"
 #include <unordered_map>
 #include <vector>
-
 using namespace std; 
 
 class Maze
@@ -15,10 +15,10 @@ public:
     void setRow(int r);
     void setCol(int c);
     vector<vector<char>> getBoard() const;
-    char getObjAt(Position pos) const;
-    void setObjAt(Position pos, char obj); 
+    char getObjAt(Position) const;
+    void setObjAt(Position, char obj); 
     void setObjAt(int x, int y, char obj);
-    void addPost(Position pos, Post p);
-    char hasPost(Position pos);
+    void addPost(Position, Post p);
+    char hasPost(Position);
     void resizeBoard();
 };

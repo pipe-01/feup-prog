@@ -44,8 +44,6 @@ void Game::attackRobot(Robot &r)
             maze.setObjAt(prevY,prevX,LIVEROBOT);
             maze.setObjAt(r.getPosition(),DEADHUMAN);
             player.killObj();
-            printRobotVictory();
-            wait();
         }
         else if (maze.hasPost(r.getPosition()) == '1')
         {
@@ -123,7 +121,7 @@ void Game::readFile()
 
 void Game::movePlayer()
 {
-    int prevX = player.getX(), prevY = player.getY();
+    Position prevPos = player.getPosition();
     char move, coll;
 
     while (1)
@@ -184,68 +182,69 @@ void Game::movePlayer()
                 break;
             default:
                 cout << "\033[2J\033[1;1H";
-                drawMaze(tiles);
-                printInvalidChar();
+                draw.drawMaze(maze.getBoard());
+                draw.printInvalidChar();
                 continue;
         }
         coll = checkCollision();
         if (coll == '2')
         {
-            player.placeObj(tiles, prevX, prevY);
-            player.gotOut();
+            maze.setObjAt(prevPos,' ');
+            maze.setObjAt(player.getPosition(), LIVEHUMAN);
         }
         else if (coll == '1')
         {
-            printInvalidChar();
+            draw.printInvalidChar();
             player.setX(prevX);
             player.setY(prevY);
-            break;
         }
         else if (coll == '4')
         {
-            player.placeObj(tiles, prevX, prevY);
+            maze.setObjAt(player.getPosition(),LIVEHUMAN);
             break;
         }
         else
         {
-            printRobotVictory();
-            wait();
             break;
         }
-        attackRobots(tiles, player,robots);
-        //printRobotsPos(robots);
+
+        for(Robot &r: robots){
+            cout << r.getId() << endl;
+            attackRobot(r);
+        }
         break;
     }
 }
 
 char Game::checkPlayerCollision()
 {
-    if (tiles[getY()][getX()] == LIVEHUMAN)
+    
+    if (maze.getObjAt(player.getPosition()) == LIVEHUMAN)
     {
         return '2';
     }
-    else if (tiles[getY()][getX()] != ' ')
+    else if (maze.getObjAt(player.getPosition()) != ' ')
     {
-        if (tiles[getY()][getX()] == EXITDOOR)
+        if (maze.getObjAt(player.getPosition()) == EXITDOOR)
         {
-            gotOut();
+            player.gotOut();
             return '4';
         }
-        else if (tiles[getY()][getX()] == '*' || tiles[getY()][getX()] == LIVEROBOT)
+        else if (maze.getObjAt(player.getPosition()) == '*' || maze.getObjAt(player.getPosition()) == LIVEROBOT)
         {
-            killObj();
+            player.killObj();
             return '0';
         }
         else
         {
-            if (tiles[getY()][getX()] == DEADROBOT || tiles[getY()][getX()] == NONELECPOST)
+            if (maze.getObjAt(player.getPosition()) == DEADROBOT || maze.getObjAt(player.getPosition()) == NONELECPOST)
             {
-                printDeadRobotCollision();
+                draw.printDeadRobotCollision();
                 return '1';
             }
             else
             {
-                killObj();
+                player.killObj();
                 return '0';
             }
         }
@@ -256,82 +255,18 @@ char Game::checkPlayerCollision()
     }
 }
 
-void Game::placePlayer(int prevX, int prevY){
-
-}
-
-bool Game::fileExists(const string &file_name){
-    fstream file(name);
-    if (!file)
+bool Game::play(){
+    while (player.getState())
     {
-        return false;
+        cout << "\033[2J\033[1;1H";
+        draw.drawMaze(maze.getBoard());
+        if (player.isOut())
+        {
+            return true;
+        }
+        movePlayer();
     }
-    return true;
-}
-
-string Game::read_game(bool &menu, vector<vector<char>> &tiles, Player &player, vector<Robot> &robots){
-    unsigned int maze_value;
-    string file_name, write_name;
-    string aux;
-
-    //clear terminal
-    cout << "\033[2J\033[1;1H";
-
-    while (1)
-    {
-        cout << "Enter maze number: ";
-        cin >> aux;
-
-        maze_value = stoi(aux);
-        file_name = "MAZE_";
-
-        if (cin.fail())
-        {
-
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "You have entered wrong input" << endl;
-
-            if (cin.eof())
-            {
-                exit(0);
-            }
-        }
-        else if (maze_value > 0 && maze_value <= 99)
-        {
-
-            if(maze_value<10)
-    	        aux = "0" + aux;
-            write_name = file_name + aux + "_WINNERS.TXT";
-            file_name = file_name  + aux + ".TXT";
-
-            if (fileExists(file_name))
-            {
-                cout << "File exists" << endl;
-                readFile();
-                file_name.clear();
-                menu = false;
-                return write_name;
-                break;
-            }
-            else
-            {
-                cout << "File doesn't exist" << endl;
-                continue;
-            }
-        }
-        else if (maze_value == 0)
-        {
-            player.killObj();
-            menu = true;
-            break;
-        }
-        else
-        {
-            cout << "Enter a valid number between 0 and 99" << endl;
-        }
-    }
-    return " ";
+    return false;
 }
 
 

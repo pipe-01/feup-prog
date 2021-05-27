@@ -1,9 +1,9 @@
-#include "movable.h"
+
 #include "iostream"
 #include "robot.h"
 #include "player.h"
 #include "maze.h"
-#include "readwrite.h"
+#include "draw.h"
 
 using namespace std;
 
@@ -14,6 +14,7 @@ private:
     Player player;
     vector<Robot> robots;
     Maze maze;
+    Draw draw;
 public:
     //void showGameDisplay();
     Game(const string & filename);
@@ -22,7 +23,5 @@ public:
     void attackRobot(Robot &r);
     char checkPlayerCollision();
     void movePlayer();
-    void placePlayer();
-    string read_game(bool &menu, vector<vector<char>> &tiles, Player &player, vector<Robot> &robots);
     bool fileExists(const string &file_name);
 };

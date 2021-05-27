@@ -1,23 +1,9 @@
 #include "player.h"
 
-void Player::setTime(unsigned i)
-{
-    time = i;
-}
-
-unsigned Player::getTime()
-{
-    return time;
-}
-
-Player::Player(unsigned int x, unsigned int y)
-    : Movable(x, y), out(false) {}
-
-Player::~Player()
-{
-    state = false;
-    x = 0;
-    y = 0;
+Player::Player(unsigned int x, unsigned int y){
+    p.x = x;
+    p.y = y;
+    state = true;
 }
 
 bool Player::isOut()
@@ -28,5 +14,60 @@ bool Player::isOut()
 void Player::gotOut()
 {
     out = true;
+}
+
+bool Player::getState()
+{
+    return state;
+}
+
+void Player::killObj()
+{
+    state = false;
+}
+
+int Player::getX() const
+{
+    return p.x;
+}
+
+void Player::setX(unsigned int i)
+{
+    p.x = i;
+}
+
+int Player::getY() const
+{
+    return p.y;
+}
+
+void Player::setY(unsigned int j)
+{
+    p.y = j;
+}
+
+void Player::moveUp()
+{
+    p.y--;
+}
+
+void Player::moveDown()
+{
+    p.y++;
+}
+
+void Player::moveRight()
+{
+    p.x++;
+}
+
+void Player::moveLeft()
+{
+    p.x--;
+}
+
+Position Player::getPosition() const
+{
+    return p;
 }
 
