@@ -9,6 +9,7 @@ void Game::attackRobots()
 {
     for(Robot &r : robots){
         int prevX, prevY;
+        struct Position prev;
         char newPos;
         if (!r.getState())
         {
@@ -18,38 +19,30 @@ void Game::attackRobots()
         {
             prevX = r.getX(), prevY = r.getY();
 
-            if (r.getX() == player.getX() && r.getY() == player.getY())
+            if (maze.getObjAt(r.getPosition()) == LIVEHUMAN)
             {
                 maze.setObjAt(prevY,prevX,LIVEROBOT);
                 maze.setObjAt(r.getPosition(),DEADHUMAN);
                 player.killObj();
             }
-            else if(maze.getObjAt(r.getPosition()) == DEADROBOT && maze.getObjAt(r.getPosition()) == LIVEROBOT){
+            else if(maze.getObjAt(r.getPosition()) == DEADROBOT){
                 r.killObj();
                 continue;
             }
 
             r.moveRobot(player.getPosition());
             newPos = maze.getObjAt(r.getPosition());
-            //printRobotsTester();
 
             
             if (newPos == SPACEBAR)
             {
-                if(r.getId() == 1){
-                    cout << "should not prin\n";
-                }
-                maze.setObjAt(prevY,prevX, ' ');
+                maze.setObjAt(prevY,prevX, SPACEBAR);
                 maze.setObjAt(r.getPosition(), LIVEROBOT);
             }
-            else if (newPos == LIVEROBOT || newPos == DEADROBOT)
+            else if (newPos == LIVEROBOT || newPos == DEADROBOT || newPos == FENCE)
             {
-                if(r.getId() == 1){
-                    cout << "should print1\n";
-                }
                 maze.setObjAt(prevY,prevX,SPACEBAR);
                 maze.setObjAt(r.getPosition(),DEADROBOT);
-                //maze.setObjAt(prevY,prevX,SPACEBAR);
                 r.killObj();
             }
             else if (r.getPosition() == player.getPosition())

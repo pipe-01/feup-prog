@@ -41,7 +41,7 @@ void Maze::setObjAt(Position pos, char obj){
 void Maze::setObjAt(int x, int y, char obj){
     //cout << "Previous on board (should be R)" << board[x][y];
     board[x][y] = obj;
-    cout << obj << "Object at (x, y) " << x << "  "<< y << "\n";
+    //cout << obj << "Object at (x, y) " << x << "  "<< y << "\n";
 }
 
 void Maze::resizeBoard()
