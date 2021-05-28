@@ -18,22 +18,3 @@
 #define ZERO 0
 #define THREE 3
 #define RULES "RULES.TXT"
-
-/**
-void setTextColor(const std::string &color)
-{
-	std::cout << color;
-}
-
-
-void writeColoredText(const std::string &color, const std::string &text) {
-	setTextColor(color);
-	if (WARNING == color) {
-		std::cerr << text;
-	}
-	else {
-		std::cout << text;
-	}
-	setTextColor(NO_COLOR);
-}
-**/
