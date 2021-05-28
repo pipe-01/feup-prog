@@ -33,9 +33,9 @@ void Maze::setRow(int r){
 }
 
 void Maze::setObjAt(Position pos, char obj){
-    cout << "Should be empt"<< board[pos.y][pos.x] << "y\n";
+    //cout << "Should be empt"<< board[pos.y][pos.x] << "y\n";
     board[pos.y][pos.x] = obj;
-    cout << board[pos.y][pos.x] << " Object at (pos) " << pos.y << " " << pos.x<< "\n";
+    //cout << board[pos.y][pos.x] << " Object at (pos) " << pos.y << " " << pos.x<< "\n";
 }
 
 void Maze::setObjAt(int x, int y, char obj){

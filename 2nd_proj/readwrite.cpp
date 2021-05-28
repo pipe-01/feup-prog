@@ -111,7 +111,7 @@ void writeResults(string writeName, const unsigned time)
     do
     {
         cout << "\033[2J\033[1;1H";
-        cout << "Enter player name (Max size 15): " << endl;
+        cout << "Enter player name (Max size 15): ";
         getline(cin, playerName);
     } while (playerName.size() > 15);
 
