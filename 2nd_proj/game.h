@@ -35,7 +35,7 @@ public:
      * @brief Moves robot by robot (in order of there ID) closer to the player and checks for collisions
      * 
      */
-    void attackRobot();
+    void attackRobots();
     /**
      * @brief checks player collisions
      * 
