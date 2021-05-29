@@ -129,7 +129,7 @@ void Game::movePlayer()
 
     while (1)
     {
-        cout << "\nEnter movement player: ";
+        cout << "\nEnter movement player -> ";
         cin >> move;
         if(!draw.checkBuffer()){
             continue;
