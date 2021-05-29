@@ -8,7 +8,7 @@ Game::Game(string fileName){
 void Game::attackRobots()
 {
     for(Robot &r : robots){
-        int prevX, prevY;
+        struct Position prev = Position(r.getX(), r.getY());
         char newPos;
         if (!r.getState())
         {
@@ -16,11 +16,9 @@ void Game::attackRobots()
         }
         else
         {
-            prevX = r.getX(), prevY = r.getY();
-
-            if (r.getX() == player.getX() && r.getY() == player.getY())
+            if (maze.getObjAt(r.getPosition()) == LIVEHUMAN)
             {
-                maze.setObjAt(prevY,prevX,LIVEROBOT);
+                maze.setObjAt(prev, LIVEROBOT);
                 maze.setObjAt(r.getPosition(),DEADHUMAN);
                 player.killObj();
             }
@@ -31,37 +29,35 @@ void Game::attackRobots()
 
             r.moveRobot(player.getPosition());
             newPos = maze.getObjAt(r.getPosition());
-            //printRobotsTester();
 
             
             if (newPos == SPACEBAR)
             {
-                maze.setObjAt(prevY,prevX, ' ');
+                maze.setObjAt(prev, ' ');
                 maze.setObjAt(r.getPosition(), LIVEROBOT);
             }
-            else if (newPos == LIVEROBOT || newPos == DEADROBOT)
+            else if (newPos == LIVEROBOT || newPos == DEADROBOT || newPos == FENCE)
             {
-                maze.setObjAt(prevY,prevX,SPACEBAR);
+                maze.setObjAt(prev, SPACEBAR);
                 maze.setObjAt(r.getPosition(),DEADROBOT);
-                //maze.setObjAt(prevY,prevX,SPACEBAR);
                 r.killObj();
             }
             else if (r.getPosition() == player.getPosition())
             {
-                maze.setObjAt(prevY,prevX,LIVEROBOT);
+                maze.setObjAt(prev, LIVEROBOT);
                 maze.setObjAt(r.getPosition(),DEADHUMAN);
                 player.killObj();
             }
             else if (maze.hasPost(r.getPosition()) == '1')
             {
-                maze.setObjAt(prevY,prevX,SPACEBAR);
+                maze.setObjAt(prev, SPACEBAR);
                 maze.setObjAt(r.getPosition(),DEADROBOT);
                 r.killObj();
             }
             else if (maze.hasPost(r.getPosition()) == '2'){
-                maze.setObjAt(prevY,prevX,DEADROBOT);
-                r.setX(prevX);
-                r.setY(prevY);
+                maze.setObjAt(prev, DEADROBOT);
+                r.setX(prev.x);
+                r.setY(prev.y);
                 r.killObj();
             }
         }
@@ -101,7 +97,6 @@ void Game::readFile()
                 {
                     player.setX(j);
                     player.setY(i);
-                    //cout << "Player position :" << player.getX() << ' ' << player.getY() << endl;
                     onePlayer = true;
                 }
                 else if (line[j] == LIVEROBOT)
@@ -123,7 +118,6 @@ void Game::readFile()
                 }          
             }
         }
-        //printRobotsTester();
     }
     file.close();
 }
@@ -198,7 +192,7 @@ void Game::movePlayer()
         coll = checkPlayerCollision();
         if (coll == '2')
         {
-            maze.setObjAt(prevPos,' ');
+            maze.setObjAt(prevPos, SPACEBAR);
             maze.setObjAt(player.getPosition(), LIVEHUMAN);
         }
         else if (coll == '1')
@@ -210,7 +204,7 @@ void Game::movePlayer()
         }
         else if (coll == '4')
         {
-            maze.setObjAt(prevPos,' ');
+            maze.setObjAt(prevPos, SPACEBAR);
             maze.setObjAt(player.getPosition(),LIVEHUMAN);
             break;
         }
