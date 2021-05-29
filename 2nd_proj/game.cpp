@@ -24,7 +24,7 @@ void Game::attackRobots()
                 maze.setObjAt(r.getPosition(),DEADHUMAN);
                 player.killObj();
             }
-            else if(maze.getObjAt(r.getPosition()) == DEADROBOT && maze.getObjAt(r.getPosition()) == LIVEROBOT){
+            else if(maze.getObjAt(r.getPosition()) == DEADROBOT){
                 r.killObj();
                 continue;
             }
@@ -36,17 +36,11 @@ void Game::attackRobots()
             
             if (newPos == SPACEBAR)
             {
-                if(r.getId() == 1){
-                    cout << "should not prin\n";
-                }
                 maze.setObjAt(prevY,prevX, ' ');
                 maze.setObjAt(r.getPosition(), LIVEROBOT);
             }
             else if (newPos == LIVEROBOT || newPos == DEADROBOT)
             {
-                if(r.getId() == 1){
-                    cout << "should print1\n";
-                }
                 maze.setObjAt(prevY,prevX,SPACEBAR);
                 maze.setObjAt(r.getPosition(),DEADROBOT);
                 //maze.setObjAt(prevY,prevX,SPACEBAR);

@@ -189,9 +189,6 @@ bool Menu::readGame()
     unsigned int mazeNum;
     string mazeNumString, auxFileName;
 
-    //clear terminal
-    cout << "\033[2J\033[1;1H";
-
     while (1)
     {
         cout << "Enter maze number: ";
