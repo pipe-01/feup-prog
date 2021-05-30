@@ -11,7 +11,6 @@
 #include "readwrite.h"
 #include "constants.h"
 #include "game.h"
-#include "txtread.h"
 #include "menu.h"
 
 using namespace std;
@@ -33,11 +32,10 @@ int main()
             if(!menu.readGame()){
                 continue;
             }
-            
+            //Create game and open file
             Game game(menu.getMazeFile());
-
             game.readFile();
-
+            //Play game
             auto start = chrono::steady_clock::now();
             win = game.play();
             auto end = chrono::steady_clock::now();
@@ -56,12 +54,14 @@ int main()
 
         else if (menu.getRules())
         {
+            cout << "\033[2J\033[1;1H";
             menu.printFile(RULES);
             menu.wait();
             menu.setRules(false);
         }
 
         else if(menu.getWinners()){
+            cout << "\033[2J\033[1;1H";
             menu.printWinnersBanner();
             menu.printFile(menu.getWinnersFile());
             menu.wait();

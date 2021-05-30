@@ -36,7 +36,7 @@ void Game::attackRobots()
                 maze.setObjAt(prev, ' ');
                 maze.setObjAt(r.getPosition(), LIVEROBOT);
             }
-            else if (newPos == LIVEROBOT || newPos == DEADROBOT || newPos == FENCE)
+            else if (newPos == LIVEROBOT || newPos == DEADROBOT)
             {
                 maze.setObjAt(prev, SPACEBAR);
                 maze.setObjAt(r.getPosition(),DEADROBOT);
